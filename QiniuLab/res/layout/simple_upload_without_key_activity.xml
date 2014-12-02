@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:onClick="getUploadToken"
             android:text="@string/qiniu_get_upload_token" >
         </Button>
     </RelativeLayout>
@@ -35,7 +36,10 @@
         android:id="@+id/simple_upload_without_key_upload_token"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eee" >
+        android:layout_marginLeft="@dimen/textview_horizontal_margin"
+        android:layout_marginRight="@dimen/textview_horizontal_margin"
+        android:background="#eee"
+        android:padding="@dimen/textview_padding" >
     </TextView>
     <!-- Upload File -->
 
@@ -54,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:onClick="selectUploadFile"
             android:text="@string/qiniu_select_file" >
         </Button>
     </RelativeLayout>
@@ -62,7 +67,10 @@
         android:id="@+id/simple_upload_without_key_upload_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#eee" >
+        android:layout_marginLeft="@dimen/textview_horizontal_margin"
+        android:layout_marginRight="@dimen/textview_horizontal_margin"
+        android:background="#eee"
+        android:padding="@dimen/textview_padding" >
     </TextView>
     <!-- Upload -->
 
@@ -70,13 +78,18 @@
         android:id="@+id/simple_upload_without_key_upload_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="uploadFile"
         android:text="@string/qiniu_upload" />
 
     <TextView
+        android:id="@+id/simple_upload_without_key_log_textview"
         android:layout_width="match_parent"
         android:layout_height="0dip"
+        android:layout_marginLeft="@dimen/textview_horizontal_margin"
+        android:layout_marginRight="@dimen/textview_horizontal_margin"
         android:layout_weight="1"
-        android:background="#eee" >
+        android:background="#eee"
+        android:padding="@dimen/textview_padding" >
     </TextView>
 
 </LinearLayout>

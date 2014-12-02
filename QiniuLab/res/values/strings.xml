@@ -42,6 +42,9 @@
     <string name="qiniu_get_upload_token">申请</string>
     <string name="qiniu_select_file">选择</string>
     <string name="qiniu_upload">上传</string>
+    <string name="qiniu_get_upload_token_failed">申请上传凭证失败!</string>
+    <string name="qiniu_get_upload_file_failed">选择上传文件失败!</string>
+    <string name="qiniu_upload_file_failed">上传文件失败！</string>
     <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
 
 </resources>
