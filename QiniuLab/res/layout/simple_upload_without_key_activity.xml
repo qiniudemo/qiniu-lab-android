@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_padding"
+    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:paddingRight="@dimen/activity_horizontal_padding"
+    android:paddingTop="@dimen/activity_vertical_padding"
+    tools:context=".SimpleUploadWithoutKeyActivity" >
+
+    <!-- Upload Token -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/qiniu_upload_token" >
+        </TextView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/qiniu_get_upload_token" >
+        </Button>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/simple_upload_without_key_upload_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eee" >
+    </TextView>
+    <!-- Upload File -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/qiniu_upload_file" >
+        </TextView>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/qiniu_select_file" >
+        </Button>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/simple_upload_without_key_upload_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#eee" >
+    </TextView>
+    <!-- Upload -->
+
+    <Button
+        android:id="@+id/simple_upload_without_key_upload_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/qiniu_upload" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#eee" >
+    </TextView>
+
+</LinearLayout>

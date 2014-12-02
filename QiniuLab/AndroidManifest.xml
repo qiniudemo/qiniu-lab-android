@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.qiniu.qiniulab"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light" >
+        <activity
+            android:name="com.qiniu.qiniulab.activity.QiniuLabMainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.qiniu.qiniulab.activity.SimpleUploadWithoutKeyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_simple_upload_without_key"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+    </application>
+
+</manifest>

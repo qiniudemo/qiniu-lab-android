@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">七牛实验室</string>
+    <string name="action_settings">Settings</string>
+    <string name="qiniu_simple_upload">简单上传</string>
+    <string name="qiniu_advanced_upload">高级上传</string>
+    <string name="qiniu_public_download">公开空间下载</string>
+    <string name="qiniu_private_download">私有空间下载</string>
+
+    <string-array name="qiniu_simple_upload_values">
+        <item>无Key文件上传</item>
+        <item>有Key文件上传</item>
+        <item>使用SaveKey作为文件名</item>
+        <item>使用扩展参数作为SaveKey</item>
+        <item>使用ReturnBody自定义返回内容</item>
+        <item>文件同名覆盖上传</item>
+        <item>限制文件上传大小</item>
+        <item>限制文件上传类型</item>
+        <item>开启MimeType侦测功能</item>
+        <item>使用EndUser标注终端</item>
+    </string-array>
+    <string-array name="qiniu_advanced_upload_values">
+        <item>大文件分片上传</item>
+        <item>回调上传-URL参数格式</item>
+        <item>回调上传-JSON参数格式</item>
+        <item>上传后文件持久化操作</item>
+    </string-array>
+    <string-array name="qiniu_public_download_values">
+        <item>图片显示</item>
+        <item>音频播放</item>
+        <item>视频播放</item>
+    </string-array>
+    <string-array name="qiniu_private_download_values">
+        <item>图片显示</item>
+        <item>音频播放</item>
+        <item>视频播放</item>
+    </string-array>
+
+    <string name="qiniu_upload_token">上传凭证</string>
+    <string name="qiniu_upload_file">上传文件</string>
+    <string name="qiniu_get_upload_token">申请</string>
+    <string name="qiniu_select_file">选择</string>
+    <string name="qiniu_upload">上传</string>
+    <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
+
+</resources>
