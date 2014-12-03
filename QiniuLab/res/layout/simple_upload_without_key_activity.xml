@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="#008b57"
+            android:background="@drawable/select_button_selector"
             android:onClick="getUploadToken"
             android:text="@string/qiniu_get_upload_token"
             android:textColor="#fff" >
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
         android:layout_marginTop="@dimen/block_vertical_margin"
-        android:background="#E7F2ED"
+        android:background="@color/field_textview_background"
         android:padding="@dimen/textview_padding" >
     </TextView>
     <!-- Upload File -->
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="#008b57"
+            android:background="@drawable/select_button_selector"
             android:onClick="selectUploadFile"
             android:text="@string/qiniu_select_file"
             android:textColor="#fff" >
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
         android:layout_marginTop="@dimen/block_vertical_margin"
-        android:background="#E7F2ED"
+        android:background="@color/field_textview_background"
         android:padding="@dimen/textview_padding" >
     </TextView>
     <!-- Upload -->
@@ -86,7 +86,7 @@
         android:id="@+id/simple_upload_without_key_upload_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1e82ca"
+        android:background="@drawable/action_button_selector"
         android:onClick="uploadFile"
         android:text="@string/qiniu_upload"
         android:textColor="#fff" />
@@ -102,7 +102,7 @@
             android:id="@+id/simple_upload_without_key_log_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fcf8e3"
+            android:background="@color/log_textview_background"
             android:padding="@dimen/textview_padding" >
         </TextView>
     </ScrollView>
