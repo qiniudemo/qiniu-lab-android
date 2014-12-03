@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,16 +24,17 @@ import com.qiniu.android.storage.UploadManager;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 
-public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
-	private SimpleUploadWithoutKeyActivity context;
+public class SimpleUploadWithKeyActivity extends ActionBarActivity {
+	private SimpleUploadWithKeyActivity context;
 	private TextView uploadTokenTextView;
 	private TextView uploadFileTextView;
+	private EditText uploadFileKeyEditText;
 	private TextView uploadLogTextView;
 	private HttpManager httpManager;
 	private UploadManager uploadManager;
-	private static final int REQUEST_CODE = 6841;
+	private static final int REQUEST_CODE = 6842;
 
-	public SimpleUploadWithoutKeyActivity() {
+	public SimpleUploadWithKeyActivity() {
 		this.httpManager = new HttpManager();
 		this.uploadManager = new UploadManager();
 		this.context = this;
@@ -41,20 +43,22 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.simple_upload_without_key_activity);
+		this.setContentView(R.layout.simple_upload_with_key_activity);
 		this.uploadTokenTextView = (TextView) this
-				.findViewById(R.id.simple_upload_without_key_upload_token);
+				.findViewById(R.id.simple_upload_with_key_upload_token);
 		this.uploadFileTextView = (TextView) this
-				.findViewById(R.id.simple_upload_without_key_upload_file);
+				.findViewById(R.id.simple_upload_with_key_upload_file);
+		this.uploadFileKeyEditText = (EditText) this
+				.findViewById(R.id.simple_upload_with_key_file_key);
 		this.uploadLogTextView = (TextView) this
-				.findViewById(R.id.simple_upload_without_key_log_textview);
+				.findViewById(R.id.simple_upload_with_key_log_textview);
 
 	}
 
 	public void getUploadToken(View view) {
 		this.httpManager.postData(QiniuLabConfig.makeUrl(
 				QiniuLabConfig.REMOTE_SERVICE_SERVER,
-				QiniuLabConfig.SIMPLE_UPLOAD_WITHOUT_KEY_PATH),
+				QiniuLabConfig.SIMPLE_UPLOAD_WITH_KEY_PATH),
 				QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
 
 					@Override
@@ -115,7 +119,8 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	public void uploadFile(View view) {
 		String uploadToken = this.uploadTokenTextView.getText().toString();
 		File uploadFile = new File(this.uploadFileTextView.getText().toString());
-		this.uploadManager.put(uploadFile, null, uploadToken,
+		String uploadFileKey = this.uploadFileKeyEditText.getText().toString();
+		this.uploadManager.put(uploadFile, uploadFileKey, uploadToken,
 				new UpCompletionHandler() {
 					@Override
 					public void complete(String key, ResponseInfo respInfo,
