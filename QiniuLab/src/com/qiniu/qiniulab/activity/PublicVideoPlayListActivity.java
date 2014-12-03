@@ -40,7 +40,7 @@ public class PublicVideoPlayListActivity extends ActionBarActivity {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.public_video_play_list_activity);
 		this.playlistView = (ListView) this
@@ -113,7 +113,7 @@ public class PublicVideoPlayListActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.public_video_play_list_activity_menu,
 				menu);
-		return true;
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
