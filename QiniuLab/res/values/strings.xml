@@ -3,6 +3,7 @@
 
     <string name="app_name">七牛实验室</string>
     <string name="action_settings">Settings</string>
+    <string name="action_refresh">刷新播放列表</string>
     <string name="qiniu_simple_upload">简单上传</string>
     <string name="qiniu_advanced_upload">高级上传</string>
     <string name="qiniu_public_download">公开空间下载</string>
@@ -46,5 +47,7 @@
     <string name="qiniu_get_upload_file_failed">选择上传文件失败!</string>
     <string name="qiniu_upload_file_failed">上传文件失败！</string>
     <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
+    <string name="qiniu_video_play">视频播放</string>
+    <string name="qiniu_get_public_video_playlist_failed">获取公开视频播放列表失败!</string>
 
 </resources>

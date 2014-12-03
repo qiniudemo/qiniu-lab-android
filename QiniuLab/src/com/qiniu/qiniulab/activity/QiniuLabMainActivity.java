@@ -63,7 +63,7 @@ public class QiniuLabMainActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.qiniu_lab_main, menu);
+		getMenuInflater().inflate(R.menu.qiniu_lab_main_activity_menu, menu);
 		return true;
 	}
 

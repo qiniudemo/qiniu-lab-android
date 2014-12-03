@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
 
+import com.qiniu.qiniulab.activity.PublicVideoPlayListActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadWithoutKeyActivity;
 
@@ -30,6 +31,10 @@ public class OnExampleItemClickListener implements
 			// advanced upload
 		} else if (groupPosition == 2) {
 			// public download
+			if (childPosition == 2) {
+				intent = new Intent(this.mainActivity,
+						PublicVideoPlayListActivity.class);
+			}
 		} else if (groupPosition == 3) {
 			// private download
 		}
