@@ -14,7 +14,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,8 +29,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:background="#008b57"
             android:onClick="getUploadToken"
-            android:text="@string/qiniu_get_upload_token" >
+            android:text="@string/qiniu_get_upload_token"
+            android:textColor="#fff" >
         </Button>
     </RelativeLayout>
 
@@ -36,16 +40,18 @@
         android:id="@+id/simple_upload_use_save_key_upload_token"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/textview_horizontal_margin"
-        android:layout_marginRight="@dimen/textview_horizontal_margin"
-        android:background="#eee"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="#E7F2ED"
         android:padding="@dimen/textview_padding" >
     </TextView>
     <!-- Upload File -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,8 +64,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:background="#008b57"
             android:onClick="selectUploadFile"
-            android:text="@string/qiniu_select_file" >
+            android:text="@string/qiniu_select_file"
+            android:textColor="#fff" >
         </Button>
     </RelativeLayout>
 
@@ -67,9 +75,9 @@
         android:id="@+id/simple_upload_use_save_key_upload_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/textview_horizontal_margin"
-        android:layout_marginRight="@dimen/textview_horizontal_margin"
-        android:background="#eee"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="#E7F2ED"
         android:padding="@dimen/textview_padding" >
     </TextView>
     <!-- Upload -->
@@ -78,21 +86,25 @@
         android:id="@+id/simple_upload_use_save_key_upload_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="#1e82ca"
         android:onClick="uploadFile"
-        android:text="@string/qiniu_upload" />
+        android:text="@string/qiniu_upload"
+        android:textColor="#fff" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_marginLeft="@dimen/textview_horizontal_margin"
-        android:layout_marginRight="@dimen/textview_horizontal_margin"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
         android:layout_weight="1" >
 
         <TextView
             android:id="@+id/simple_upload_use_save_key_log_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#eee"
+            android:background="#fcf8e3"
             android:padding="@dimen/textview_padding" >
         </TextView>
     </ScrollView>
