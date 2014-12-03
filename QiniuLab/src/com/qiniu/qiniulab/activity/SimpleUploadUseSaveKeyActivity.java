@@ -30,7 +30,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 	private TextView uploadLogTextView;
 	private HttpManager httpManager;
 	private UploadManager uploadManager;
-	private static final int REQUEST_CODE = 6841;
+	private static final int REQUEST_CODE = 8090;
 
 	public SimpleUploadUseSaveKeyActivity() {
 		this.httpManager = new HttpManager();
@@ -71,6 +71,11 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 										context.getString(R.string.qiniu_get_upload_token_failed),
 										Toast.LENGTH_LONG).show();
 							}
+						}else{
+							Toast.makeText(
+									context,
+									context.getString(R.string.qiniu_get_upload_token_failed),
+									Toast.LENGTH_LONG).show();
 						}
 					}
 				});
