@@ -1,5 +1,7 @@
 package com.qiniu.qiniulab.activity;
 
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -33,6 +35,12 @@ public class SimpleVideoPlayActivity extends ActionBarActivity {
 		String videoUrl = this.getIntent().getStringExtra("VideoUrl");
 		this.setTitle(videoName);
 		videoPlayView.setVideoURI(Uri.parse(videoUrl));
-		videoPlayView.start();
+		videoPlayView.setOnPreparedListener(new OnPreparedListener() {
+
+			@Override
+			public void onPrepared(MediaPlayer mp) {
+				mp.start();
+			}
+		});
 	}
 }

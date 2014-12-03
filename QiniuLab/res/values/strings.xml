@@ -46,6 +46,7 @@
     <string name="qiniu_get_upload_token_failed">申请上传凭证失败!</string>
     <string name="qiniu_get_upload_file_failed">选择上传文件失败!</string>
     <string name="qiniu_upload_file_failed">上传文件失败！</string>
+    <string name="qiniu_upload_file_response_parse_error">上传回复解析错误!</string>
     <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
     <string name="qiniu_video_play">视频播放</string>
     <string name="qiniu_get_public_video_playlist_failed">获取公开视频播放列表失败!</string>

@@ -130,13 +130,27 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 								uploadLogTextView.append("File Hash:"
 										+ fileHash + "\r\n");
 							} catch (JSONException e) {
+								Toast.makeText(
+										context,
+										context.getString(R.string.qiniu_upload_file_response_parse_error),
+										Toast.LENGTH_LONG).show();
+								uploadLogTextView.append(jsonData.toString());
+								uploadLogTextView.append("\r\n");
 							}
 						} else {
 							Toast.makeText(
 									context,
 									context.getString(R.string.qiniu_upload_file_failed),
 									Toast.LENGTH_LONG).show();
-							uploadLogTextView.append(respInfo.toString());
+
+							uploadLogTextView.append("StatusCode: "
+									+ respInfo.statusCode + "\r\n");
+							uploadLogTextView.append("Reqid: " + respInfo.reqId
+									+ "\r\n");
+							uploadLogTextView.append("Xlog: " + respInfo.xlog
+									+ "\r\n");
+							uploadLogTextView.append("Error: " + respInfo.error
+									+ "\r\n");
 						}
 					}
 
