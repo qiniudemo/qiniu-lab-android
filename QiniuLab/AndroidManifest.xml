@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Example Activity -->
+        <!-- Simple Upload Without Key Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.SimpleUploadWithoutKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -53,10 +53,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
+        <!-- Simple Upload With Key Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.SimpleUploadWithKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_with_key"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+        <!-- Simple Upload Use Save Key Activity -->
+        <activity
+            android:name="com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_simple_upload_use_save_key"
             android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

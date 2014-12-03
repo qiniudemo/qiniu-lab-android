@@ -40,6 +40,7 @@
 
     <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
     <string name="qiniu_activity_simple_upload_with_key">有Key文件上传</string>
+    <string name="qiniu_activity_simple_upload_use_save_key">使用SaveKey作为文件名</string>
     <string name="qiniu_upload_token">上传凭证</string>
     <string name="qiniu_upload_file">上传文件</string>
     <string name="qiniu_get_upload_token">申请</string>

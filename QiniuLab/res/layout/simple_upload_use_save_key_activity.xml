@@ -33,7 +33,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/simple_upload_without_key_upload_token"
+        android:id="@+id/simple_upload_use_save_key_upload_token"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/textview_horizontal_margin"
@@ -64,7 +64,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/simple_upload_without_key_upload_file"
+        android:id="@+id/simple_upload_use_save_key_upload_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/textview_horizontal_margin"
@@ -75,7 +75,7 @@
     <!-- Upload -->
 
     <Button
-        android:id="@+id/simple_upload_without_key_upload_button"
+        android:id="@+id/simple_upload_use_save_key_upload_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="uploadFile"
@@ -89,7 +89,7 @@
         android:layout_weight="1" >
 
         <TextView
-            android:id="@+id/simple_upload_without_key_log_textview"
+            android:id="@+id/simple_upload_use_save_key_log_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#eee"
