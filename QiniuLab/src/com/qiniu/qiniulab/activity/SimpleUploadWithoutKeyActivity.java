@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -158,11 +157,14 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						long uploadCurrentPos = (long) (uploadFileLength * percent);
 						long uploadCurrentMillis = System.currentTimeMillis();
 						long uploadSliceSize = uploadCurrentPos - uploadLastPos;
+
 						long uploadSliceMillis = uploadCurrentMillis
 								- uploadLastTimePoint;
-						uploadSpeedTextView
-								.setText((uploadSliceSize / uploadSliceMillis)
-										+ " KB/s");
+						if (uploadSliceMillis != 0) {
+							uploadSpeedTextView
+									.setText((uploadSliceSize / uploadSliceMillis)
+											+ " KB/s");
+						}
 						// update pos
 						uploadLastTimePoint = uploadCurrentMillis;
 						uploadLastPos = uploadCurrentPos;
