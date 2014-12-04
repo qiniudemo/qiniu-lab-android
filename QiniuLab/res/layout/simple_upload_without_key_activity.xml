@@ -91,6 +91,14 @@
         android:text="@string/qiniu_upload"
         android:textColor="#fff" />
 
+    <ProgressBar
+        android:id="@+id/simple_upload_without_key_upload_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dip"

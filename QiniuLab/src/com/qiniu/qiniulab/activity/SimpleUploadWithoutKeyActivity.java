@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +19,11 @@ import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCancellationSignal;
 import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 
@@ -28,6 +32,7 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	private TextView uploadTokenTextView;
 	private TextView uploadFileTextView;
 	private TextView uploadLogTextView;
+	private ProgressBar uploadProgressBar;
 	private HttpManager httpManager;
 	private UploadManager uploadManager;
 	private static final int REQUEST_CODE = 8090;
@@ -46,6 +51,10 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 				.findViewById(R.id.simple_upload_without_key_upload_token);
 		this.uploadFileTextView = (TextView) this
 				.findViewById(R.id.simple_upload_without_key_upload_file);
+		this.uploadProgressBar = (ProgressBar) this
+				.findViewById(R.id.simple_upload_without_key_upload_progressbar);
+		this.uploadProgressBar.setMax(100);
+		this.uploadProgressBar.setVisibility(ProgressBar.INVISIBLE);
 		this.uploadLogTextView = (TextView) this
 				.findViewById(R.id.simple_upload_without_key_log_textview);
 
@@ -120,11 +129,33 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	public void uploadFile(View view) {
 		String uploadToken = this.uploadTokenTextView.getText().toString();
 		File uploadFile = new File(this.uploadFileTextView.getText().toString());
+		UploadOptions uploadOptions = new UploadOptions(null, null, false,
+				new UpProgressHandler() {
+
+					@Override
+					public void progress(String key, double percent) {
+						uploadProgressBar.setProgress((int) (percent * 100));
+					}
+
+				}, new UpCancellationSignal() {
+
+					@Override
+					public boolean isCancelled() {
+						return false;
+					}
+				});
+		uploadProgressBar.setVisibility(ProgressBar.VISIBLE);
+		final long startTime = System.currentTimeMillis();
+		final long fileLength = uploadFile.length();
 		this.uploadManager.put(uploadFile, null, uploadToken,
 				new UpCompletionHandler() {
 					@Override
 					public void complete(String key, ResponseInfo respInfo,
 							JSONObject jsonData) {
+						uploadProgressBar.setVisibility(ProgressBar.INVISIBLE);
+						uploadProgressBar.setProgress(0);
+						long lastMillis = System.currentTimeMillis()
+								- startTime;
 						if (respInfo.isOK()) {
 							try {
 								String fileKey = jsonData.getString("key");
@@ -134,7 +165,13 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
+								uploadLogTextView.append("Last Time: "
+										+ lastMillis + " ms\r\n");
+								uploadLogTextView.append("Average Speed: "
+										+ (fileLength / lastMillis)
+										+ " KB/s\r\n");
 								uploadLogTextView.append("-------\r\n");
+
 							} catch (JSONException e) {
 								Toast.makeText(
 										context,
@@ -162,6 +199,6 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						}
 					}
 
-				}, null);
+				}, uploadOptions);
 	}
 }
