@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,16 +28,24 @@ import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
+import com.qiniu.qiniulab.utils.Tools;
 
 public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	private SimpleUploadWithoutKeyActivity context;
 	private TextView uploadTokenTextView;
 	private TextView uploadFileTextView;
 	private TextView uploadLogTextView;
+	private LinearLayout uploadStatusLayout;
 	private ProgressBar uploadProgressBar;
+	private TextView uploadSpeedTextView;
+	private TextView uploadFileLengthTextView;
+	private TextView uploadPercentageTextView;
 	private HttpManager httpManager;
 	private UploadManager uploadManager;
 	private static final int REQUEST_CODE = 8090;
+	private long uploadLastTimePoint = 0;
+	private long uploadLastPos = 0;
+	private long uploadFileLength = 0;
 
 	public SimpleUploadWithoutKeyActivity() {
 		this.httpManager = new HttpManager();
@@ -54,7 +64,15 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 		this.uploadProgressBar = (ProgressBar) this
 				.findViewById(R.id.simple_upload_without_key_upload_progressbar);
 		this.uploadProgressBar.setMax(100);
-		this.uploadProgressBar.setVisibility(ProgressBar.INVISIBLE);
+		this.uploadStatusLayout = (LinearLayout) this
+				.findViewById(R.id.simple_upload_without_key_status_layout);
+		this.uploadSpeedTextView = (TextView) this
+				.findViewById(R.id.simple_upload_without_key_upload_speed_textview);
+		this.uploadFileLengthTextView = (TextView) this
+				.findViewById(R.id.simple_upload_without_key_upload_file_length_textview);
+		this.uploadPercentageTextView = (TextView) this
+				.findViewById(R.id.simple_upload_without_key_upload_percentage_textview);
+		this.uploadStatusLayout.setVisibility(LinearLayout.INVISIBLE);
 		this.uploadLogTextView = (TextView) this
 				.findViewById(R.id.simple_upload_without_key_log_textview);
 
@@ -134,7 +152,20 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 
 					@Override
 					public void progress(String key, double percent) {
-						uploadProgressBar.setProgress((int) (percent * 100));
+						int percentage = (int) (percent * 100);
+						uploadProgressBar.setProgress(percentage);
+						uploadPercentageTextView.setText(percentage + " %");
+						long uploadCurrentPos = (long) (uploadFileLength * percent);
+						long uploadCurrentMillis = System.currentTimeMillis();
+						long uploadSliceSize = uploadCurrentPos - uploadLastPos;
+						long uploadSliceMillis = uploadCurrentMillis
+								- uploadLastTimePoint;
+						uploadSpeedTextView
+								.setText((uploadSliceSize / uploadSliceMillis)
+										+ " KB/s");
+						// update pos
+						uploadLastTimePoint = uploadCurrentMillis;
+						uploadLastPos = uploadCurrentPos;
 					}
 
 				}, new UpCancellationSignal() {
@@ -144,15 +175,23 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						return false;
 					}
 				});
-		uploadProgressBar.setVisibility(ProgressBar.VISIBLE);
 		final long startTime = System.currentTimeMillis();
 		final long fileLength = uploadFile.length();
+		this.uploadFileLength = fileLength;
+		this.uploadLastTimePoint = startTime;
+		// prepare status
+		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+		uploadPercentageTextView.setText("0 %");
+		uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
+
 		this.uploadManager.put(uploadFile, null, uploadToken,
 				new UpCompletionHandler() {
 					@Override
 					public void complete(String key, ResponseInfo respInfo,
 							JSONObject jsonData) {
-						uploadProgressBar.setVisibility(ProgressBar.INVISIBLE);
+						// reset status
+						uploadStatusLayout
+								.setVisibility(LinearLayout.INVISIBLE);
 						uploadProgressBar.setProgress(0);
 						long lastMillis = System.currentTimeMillis()
 								- startTime;
@@ -160,6 +199,8 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 							try {
 								String fileKey = jsonData.getString("key");
 								String fileHash = jsonData.getString("hash");
+								uploadLogTextView.append("File Size: "
+										+ uploadFileLength);
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
 

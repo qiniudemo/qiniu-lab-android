@@ -91,13 +91,43 @@
         android:text="@string/qiniu_upload"
         android:textColor="#fff" />
 
-    <ProgressBar
-        android:id="@+id/simple_upload_without_key_upload_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <LinearLayout
+        android:id="@+id/simple_upload_without_key_status_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
-        android:layout_marginTop="@dimen/block_vertical_margin" />
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/simple_upload_without_key_upload_speed_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/simple_upload_without_key_upload_file_length_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/simple_upload_without_key_upload_speed_textview" />
+
+            <TextView
+                android:id="@+id/simple_upload_without_key_upload_percentage_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/simple_upload_without_key_upload_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
