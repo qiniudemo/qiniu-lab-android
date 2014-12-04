@@ -8,6 +8,10 @@ public class Tools {
 	private final static int FZ_GB = 1024 * FZ_MB;
 	private final static int FZ_PB = 1024 * FZ_GB;
 
+	private final static int TS_SECOND = 1000;
+	private final static int TS_MINUTE = 60 * TS_SECOND;
+	private final static int TS_HOUR = 60 * TS_MINUTE;
+
 	public static String formatSize(long fileLength) {
 		StringBuilder sb = new StringBuilder();
 		if (fileLength < FZ_KB) {
@@ -24,8 +28,27 @@ public class Tools {
 		return sb.toString();
 	}
 
-	private static String formatDouble(long fileLength, int divider) {
-		double result = fileLength * 1.0 / divider;
+	public static String formatMilliSeconds(long milliSeconds) {
+		StringBuilder sb = new StringBuilder();
+		long left = milliSeconds;
+		if (left / TS_HOUR > 0) {
+			sb.append(left / TS_HOUR).append("h ");
+			left -= (left / TS_HOUR) * TS_HOUR;
+		}
+		if (left / TS_MINUTE > 0) {
+			sb.append(left / TS_MINUTE).append("m ");
+			left -= (left / TS_MINUTE) * TS_MINUTE;
+		}
+		if (left / TS_SECOND > 0) {
+			sb.append(left / TS_SECOND).append("s ");
+			left -= (left / TS_SECOND) * TS_SECOND;
+		}
+		sb.append(left).append("ms ");
+		return sb.toString();
+	}
+
+	private static String formatDouble(long value, int divider) {
+		double result = value * 1.0 / divider;
 		return String.format(Locale.getDefault(), "%.2f", result);
 	}
 }

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -157,7 +158,6 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						long uploadCurrentPos = (long) (uploadFileLength * percent);
 						long uploadCurrentMillis = System.currentTimeMillis();
 						long uploadSliceSize = uploadCurrentPos - uploadLastPos;
-
 						long uploadSliceMillis = uploadCurrentMillis
 								- uploadLastTimePoint;
 						if (uploadSliceMillis != 0) {
@@ -202,14 +202,16 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 								String fileKey = jsonData.getString("key");
 								String fileHash = jsonData.getString("hash");
 								uploadLogTextView.append("File Size: "
-										+ uploadFileLength);
+										+ uploadFileLength + "\r\n");
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
 
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
+								Log.d("M", lastMillis + "");
 								uploadLogTextView.append("Last Time: "
-										+ lastMillis + " ms\r\n");
+										+ Tools.formatMilliSeconds(lastMillis)
+										+ "\r\n");
 								uploadLogTextView.append("Average Speed: "
 										+ (fileLength / lastMillis)
 										+ " KB/s\r\n");
