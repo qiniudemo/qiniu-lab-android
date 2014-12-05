@@ -221,29 +221,27 @@ public class SimpleUploadUseReturnBodyActivity extends ActionBarActivity {
 										.getString("exParam1");
 								String xExParam2 = jsonData
 										.getString("exParam2");
-
+								uploadLogTextView.append("Bucket: " + bucket
+										+ "\r\n");
 								uploadLogTextView.append("File Size: "
 										+ Tools.formatSize(uploadFileLength)
-										+ "\r\n");
-								uploadLogTextView.append("Bucket: " + bucket
 										+ "\r\n");
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
-								uploadLogTextView
-										.append("XParam [exParam1]: "
-												+ xExParam1 + "\r\n");
-								uploadLogTextView
-										.append("XParam [exParam2]: "
-												+ xExParam2 + "\r\n");
+								uploadLogTextView.append("XParam [exParam1]: "
+										+ xExParam1 + "\r\n");
+								uploadLogTextView.append("XParam [exParam2]: "
+										+ xExParam2 + "\r\n");
 								uploadLogTextView.append("Last Time: "
 										+ Tools.formatMilliSeconds(lastMillis)
 										+ "\r\n");
 								uploadLogTextView.append("Average Speed: "
 										+ (fileLength / lastMillis)
 										+ " KB/s\r\n");
-								uploadLogTextView.append("---------------------------\r\n");
+								uploadLogTextView
+										.append("---------------------------\r\n");
 
 							} catch (JSONException e) {
 								Toast.makeText(
@@ -252,7 +250,8 @@ public class SimpleUploadUseReturnBodyActivity extends ActionBarActivity {
 										Toast.LENGTH_LONG).show();
 								uploadLogTextView.append(jsonData.toString());
 								uploadLogTextView.append("\r\n");
-								uploadLogTextView.append("---------------------------\r\n");
+								uploadLogTextView
+										.append("---------------------------\r\n");
 							}
 						} else {
 							Toast.makeText(
@@ -268,7 +267,8 @@ public class SimpleUploadUseReturnBodyActivity extends ActionBarActivity {
 									+ "\r\n");
 							uploadLogTextView.append("Error: " + respInfo.error
 									+ "\r\n");
-							uploadLogTextView.append("---------------------------\r\n");
+							uploadLogTextView
+									.append("---------------------------\r\n");
 						}
 					}
 
