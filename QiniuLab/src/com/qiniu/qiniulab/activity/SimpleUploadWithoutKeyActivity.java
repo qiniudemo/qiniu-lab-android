@@ -175,13 +175,7 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						}
 					}
 
-				}, new UpCancellationSignal() {
-
-					@Override
-					public boolean isCancelled() {
-						return false;
-					}
-				});
+				}, null);
 		final long startTime = System.currentTimeMillis();
 		final long fileLength = uploadFile.length();
 		this.uploadFileLength = fileLength;
