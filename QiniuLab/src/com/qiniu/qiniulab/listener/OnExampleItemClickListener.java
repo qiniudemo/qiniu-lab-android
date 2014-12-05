@@ -6,6 +6,7 @@ import android.widget.ExpandableListView;
 
 import com.qiniu.qiniulab.activity.PublicVideoPlayListActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadUseReturnBodyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyFromXParamActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadWithKeyActivity;
@@ -37,6 +38,9 @@ public class OnExampleItemClickListener implements
 			} else if (childPosition == 3) {
 				intent = new Intent(this.mainActivity,
 						SimpleUploadUseSaveKeyFromXParamActivity.class);
+			} else if (childPosition == 4) {
+				intent = new Intent(this.mainActivity,
+						SimpleUploadUseReturnBodyActivity.class);
 			}
 		} else if (groupPosition == 1) {
 			// advanced upload

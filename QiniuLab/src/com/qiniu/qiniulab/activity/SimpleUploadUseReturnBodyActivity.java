@@ -1,6 +1,8 @@
 package com.qiniu.qiniulab.activity;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,8 +31,11 @@ import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
 
-public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
-	private SimpleUploadUseSaveKeyActivity context;
+public class SimpleUploadUseReturnBodyActivity extends ActionBarActivity {
+	private SimpleUploadUseReturnBodyActivity context;
+	private EditText uploadFileKeyEditText;
+	private EditText uploadFileXParam1EditText;
+	private EditText uploadFileXParam2EditText;
 	private TextView uploadTokenTextView;
 	private TextView uploadFileTextView;
 	private TextView uploadLogTextView;
@@ -45,7 +51,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 	private long uploadLastPos = 0;
 	private long uploadFileLength = 0;
 
-	public SimpleUploadUseSaveKeyActivity() {
+	public SimpleUploadUseReturnBodyActivity() {
 		this.httpManager = new HttpManager();
 		this.uploadManager = new UploadManager();
 		this.context = this;
@@ -54,32 +60,37 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.simple_upload_use_save_key_activity);
+		this.setContentView(R.layout.simple_upload_use_return_body_activity);
+		this.uploadFileKeyEditText = (EditText) this
+				.findViewById(R.id.simple_upload_use_return_body_file_key);
+		this.uploadFileXParam1EditText = (EditText) this
+				.findViewById(R.id.simple_upload_use_return_body_xparam1);
+		this.uploadFileXParam2EditText = (EditText) this
+				.findViewById(R.id.simple_upload_use_return_body_xparam2);
 		this.uploadTokenTextView = (TextView) this
-				.findViewById(R.id.simple_upload_use_save_key_upload_token);
+				.findViewById(R.id.simple_upload_use_return_body_token);
 		this.uploadFileTextView = (TextView) this
-				.findViewById(R.id.simple_upload_use_save_key_upload_file);
+				.findViewById(R.id.simple_upload_use_return_body_file);
 		this.uploadProgressBar = (ProgressBar) this
-				.findViewById(R.id.simple_upload_use_save_key_upload_progressbar);
+				.findViewById(R.id.simple_upload_use_return_body_progressbar);
 		this.uploadProgressBar.setMax(100);
 		this.uploadStatusLayout = (LinearLayout) this
-				.findViewById(R.id.simple_upload_use_save_key_status_layout);
+				.findViewById(R.id.simple_upload_with_key_status_layout);
 		this.uploadSpeedTextView = (TextView) this
-				.findViewById(R.id.simple_upload_use_save_key_upload_speed_textview);
+				.findViewById(R.id.simple_upload_use_return_body_speed_textview);
 		this.uploadFileLengthTextView = (TextView) this
-				.findViewById(R.id.simple_upload_use_save_key_upload_file_length_textview);
+				.findViewById(R.id.simple_upload_use_return_body_file_length_textview);
 		this.uploadPercentageTextView = (TextView) this
-				.findViewById(R.id.simple_upload_use_save_key_upload_percentage_textview);
+				.findViewById(R.id.simple_upload_use_return_body_percentage_textview);
 		this.uploadStatusLayout.setVisibility(LinearLayout.INVISIBLE);
 		this.uploadLogTextView = (TextView) this
-				.findViewById(R.id.simple_upload_use_save_key_log_textview);
-
+				.findViewById(R.id.simple_upload_with_key_log_textview);
 	}
 
 	public void getUploadToken(View view) {
 		this.httpManager.postData(QiniuLabConfig.makeUrl(
 				QiniuLabConfig.REMOTE_SERVICE_SERVER,
-				QiniuLabConfig.SIMPLE_UPLOAD_USE_SAVE_KEY_PATH),
+				QiniuLabConfig.SIMPLE_UPLOAD_USE_RETURN_BODY_PATH),
 				QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
 
 					@Override
@@ -145,7 +156,14 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 	public void uploadFile(View view) {
 		String uploadToken = this.uploadTokenTextView.getText().toString();
 		File uploadFile = new File(this.uploadFileTextView.getText().toString());
-		UploadOptions uploadOptions = new UploadOptions(null, null, false,
+		String uploadFileKey = this.uploadFileKeyEditText.getText().toString();
+		String exParam1 = this.uploadFileXParam1EditText.getText().toString();
+		String exParam2 = this.uploadFileXParam2EditText.getText().toString();
+
+		Map<String, String> xParams = new HashMap<String, String>();
+		xParams.put("x:exParam1", exParam1);
+		xParams.put("x:exParam2", exParam2);
+		UploadOptions uploadOptions = new UploadOptions(xParams, null, false,
 				new UpProgressHandler() {
 
 					@Override
@@ -182,8 +200,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
 		uploadPercentageTextView.setText("0 %");
 		uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
-
-		this.uploadManager.put(uploadFile, null, uploadToken,
+		this.uploadManager.put(uploadFile, uploadFileKey, uploadToken,
 				new UpCompletionHandler() {
 					@Override
 					public void complete(String key, ResponseInfo respInfo,
@@ -198,14 +215,28 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 							try {
 								String fileKey = jsonData.getString("key");
 								String fileHash = jsonData.getString("hash");
+								// more info here
+								String bucket = jsonData.getString("bucket");
+								String xExParam1 = jsonData
+										.getString("exParam1");
+								String xExParam2 = jsonData
+										.getString("exParam2");
+
 								uploadLogTextView.append("File Size: "
 										+ Tools.formatSize(uploadFileLength)
 										+ "\r\n");
+								uploadLogTextView.append("Bucket: " + bucket
+										+ "\r\n");
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
-
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
+								uploadLogTextView
+										.append("XParam [exParam1]: "
+												+ xExParam1 + "\r\n");
+								uploadLogTextView
+										.append("XParam [exParam2]: "
+												+ xExParam2 + "\r\n");
 								uploadLogTextView.append("Last Time: "
 										+ Tools.formatMilliSeconds(lastMillis)
 										+ "\r\n");

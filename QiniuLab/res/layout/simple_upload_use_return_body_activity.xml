@@ -8,29 +8,62 @@
     android:paddingLeft="@dimen/activity_horizontal_padding"
     android:paddingRight="@dimen/activity_horizontal_padding"
     android:paddingTop="@dimen/activity_vertical_padding"
-    tools:context=".SimpleUploadUseSaveKeyFromXParamActivity" >
+    tools:context=".SimpleUploadUseReturnBodyActivity" >
 
-    <!-- XParam as SaveKey -->
+    <!-- Key -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
         android:layout_marginTop="@dimen/block_vertical_margin"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/qiniu_xparam_as_savekey" />
+            android:text="@string/qiniu_file_key" />
 
         <EditText
-            android:id="@+id/simple_upload_use_save_key_from_xparam_file_key"
-            android:layout_width="match_parent"
+            android:id="@+id/simple_upload_use_return_body_file_key"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/qiniu_x_saveKeyEx_hint"
+            android:layout_weight="1"
             android:inputType="text" />
     </LinearLayout>
+
+    <!-- Extra Param -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qiniu_xparam" />
+
+        <EditText
+            android:id="@+id/simple_upload_use_return_body_xparam1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/qiniu_x_exParam1_hint"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/simple_upload_use_return_body_xparam2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/qiniu_x_exParam2_hint"
+            android:inputType="text" />
+
+    </LinearLayout>
+
     <!-- Upload Token -->
 
     <RelativeLayout
@@ -58,7 +91,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/simple_upload_use_save_key_from_xparam_upload_token"
+        android:id="@+id/simple_upload_use_return_body_token"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
@@ -66,6 +99,7 @@
         android:background="@color/field_textview_background"
         android:padding="@dimen/textview_padding" >
     </TextView>
+
     <!-- Upload File -->
 
     <RelativeLayout
@@ -93,7 +127,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/simple_upload_use_save_key_from_xparam_upload_file"
+        android:id="@+id/simple_upload_use_return_body_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
@@ -105,7 +139,7 @@
     <!-- Upload -->
 
     <Button
-        android:id="@+id/simple_upload_use_save_key_from_xparam_upload_button"
+        android:id="@+id/simple_upload_use_return_body_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
@@ -116,7 +150,7 @@
         android:textColor="#fff" />
 
     <LinearLayout
-        android:id="@+id/simple_upload_use_save_key_status_layout"
+        android:id="@+id/simple_upload_with_key_status_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/block_vertical_margin"
@@ -128,26 +162,26 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/simple_upload_use_save_key_from_xparam_upload_speed_textview"
+                android:id="@+id/simple_upload_use_return_body_speed_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/simple_upload_use_save_key_from_xparam_upload_file_length_textview"
+                android:id="@+id/simple_upload_use_return_body_file_length_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/simple_upload_use_save_key_from_xparam_upload_speed_textview" />
+                android:layout_toRightOf="@id/simple_upload_use_return_body_speed_textview" />
 
             <TextView
-                android:id="@+id/simple_upload_use_save_key_from_xparam_upload_percentage_textview"
+                android:id="@+id/simple_upload_use_return_body_percentage_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <ProgressBar
-            android:id="@+id/simple_upload_use_save_key_from_xparam_upload_progressbar"
+            android:id="@+id/simple_upload_use_return_body_progressbar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -161,7 +195,7 @@
         android:layout_weight="1" >
 
         <TextView
-            android:id="@+id/simple_upload_use_save_key_from_xparam_log_textview"
+            android:id="@+id/simple_upload_with_key_log_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/log_textview_background"

@@ -85,7 +85,7 @@ public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity 
 	public void getUploadToken(View view) {
 		this.httpManager.postData(QiniuLabConfig.makeUrl(
 				QiniuLabConfig.REMOTE_SERVICE_SERVER,
-				QiniuLabConfig.SIMPLE_UPLOAD_USE_SAVE_KEY_FROM_XPARAM),
+				QiniuLabConfig.SIMPLE_UPLOAD_USE_SAVE_KEY_FROM_XPARAM_PATH),
 				QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
 
 					@Override
