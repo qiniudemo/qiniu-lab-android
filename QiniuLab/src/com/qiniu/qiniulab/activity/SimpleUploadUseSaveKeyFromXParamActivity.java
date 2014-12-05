@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,10 +24,12 @@ import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
+import com.qiniu.qiniulab.utils.Tools;
 
 public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity {
 	private SimpleUploadUseSaveKeyFromXParamActivity context;
@@ -33,9 +37,17 @@ public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity 
 	private TextView uploadFileTextView;
 	private EditText uploadXParamEditText;
 	private TextView uploadLogTextView;
+	private LinearLayout uploadStatusLayout;
+	private ProgressBar uploadProgressBar;
+	private TextView uploadSpeedTextView;
+	private TextView uploadFileLengthTextView;
+	private TextView uploadPercentageTextView;
 	private HttpManager httpManager;
 	private UploadManager uploadManager;
 	private static final int REQUEST_CODE = 8090;
+	private long uploadLastTimePoint = 0;
+	private long uploadLastPos = 0;
+	private long uploadFileLength = 0;
 
 	public SimpleUploadUseSaveKeyFromXParamActivity() {
 		this.httpManager = new HttpManager();
@@ -51,6 +63,18 @@ public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity 
 				.findViewById(R.id.simple_upload_use_save_key_from_xparam_upload_token);
 		this.uploadFileTextView = (TextView) this
 				.findViewById(R.id.simple_upload_use_save_key_from_xparam_upload_file);
+		this.uploadProgressBar = (ProgressBar) this
+				.findViewById(R.id.simple_upload_use_save_key_from_xparam_upload_progressbar);
+		this.uploadProgressBar.setMax(100);
+		this.uploadStatusLayout = (LinearLayout) this
+				.findViewById(R.id.simple_upload_use_save_key_status_layout);
+		this.uploadSpeedTextView = (TextView) this
+				.findViewById(R.id.simple_upload_use_save_key_from_xparam_upload_speed_textview);
+		this.uploadFileLengthTextView = (TextView) this
+				.findViewById(R.id.simple_upload_use_save_key_from_xparam_upload_file_length_textview);
+		this.uploadPercentageTextView = (TextView) this
+				.findViewById(R.id.simple_upload_use_save_key_from_xparam_upload_percentage_textview);
+		this.uploadStatusLayout.setVisibility(LinearLayout.INVISIBLE);
 		this.uploadXParamEditText = (EditText) this
 				.findViewById(R.id.simple_upload_use_save_key_from_xparam_file_key);
 		this.uploadLogTextView = (TextView) this
@@ -131,26 +155,78 @@ public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity 
 		Map<String, String> xParams = new HashMap<String, String>();
 		xParams.put("x:saveKeyEx", uploadXParam);
 		UploadOptions uploadOptions = new UploadOptions(xParams, null, false,
-				null, null);
+				new UpProgressHandler() {
+
+					@Override
+					public void progress(String key, double percent) {
+						int percentage = (int) (percent * 100);
+						uploadProgressBar.setProgress(percentage);
+						uploadPercentageTextView.setText(percentage + " %");
+						long uploadCurrentPos = (long) (uploadFileLength * percent);
+						long uploadCurrentMillis = System.currentTimeMillis();
+						long uploadSliceSize = uploadCurrentPos - uploadLastPos;
+						long uploadSliceMillis = uploadCurrentMillis
+								- uploadLastTimePoint;
+
+						if (uploadSliceMillis != 0) {
+							uploadSpeedTextView
+									.setText((uploadSliceSize / uploadSliceMillis)
+											+ " KB/s");
+						}
+						// update pos
+						uploadLastTimePoint = uploadCurrentMillis;
+						uploadLastPos = uploadCurrentPos;
+						if (percentage == 100) {
+							// reset the start pos if upload by block
+							uploadLastPos = 0;
+						}
+					}
+
+				}, null);
+		final long startTime = System.currentTimeMillis();
+		final long fileLength = uploadFile.length();
+		this.uploadFileLength = fileLength;
+		this.uploadLastTimePoint = startTime;
+		// prepare status
+		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+		uploadPercentageTextView.setText("0 %");
+		uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
 		this.uploadManager.put(uploadFile, null, uploadToken,
 				new UpCompletionHandler() {
 					@Override
 					public void complete(String key, ResponseInfo respInfo,
 							JSONObject jsonData) {
+						// reset status
+						uploadStatusLayout
+								.setVisibility(LinearLayout.INVISIBLE);
+						uploadProgressBar.setProgress(0);
+						long lastMillis = System.currentTimeMillis()
+								- startTime;
 						if (respInfo.isOK()) {
 							try {
 								String fileKey = jsonData.getString("key");
 								String fileHash = jsonData.getString("hash");
 								String xSaveKeyEx = jsonData
 										.getString("x:saveKeyEx");
+
+								uploadLogTextView.append("File Size: "
+										+ Tools.formatSize(uploadFileLength)
+										+ "\r\n");
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
 
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
-								uploadLogTextView.append("XParam x:saveKeyEx: "
+								uploadLogTextView.append("XParam [x:saveKeyEx]: "
 										+ xSaveKeyEx + "\r\n");
+								uploadLogTextView.append("Last Time: "
+										+ Tools.formatMilliSeconds(lastMillis)
+										+ "\r\n");
+								uploadLogTextView.append("Average Speed: "
+										+ (fileLength / lastMillis)
+										+ " KB/s\r\n");
 								uploadLogTextView.append("-------\r\n");
+
 							} catch (JSONException e) {
 								Toast.makeText(
 										context,
