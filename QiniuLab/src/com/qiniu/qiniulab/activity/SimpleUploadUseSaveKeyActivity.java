@@ -5,6 +5,17 @@ import java.io.File;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
@@ -16,18 +27,6 @@ import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
-
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 	private SimpleUploadUseSaveKeyActivity context;
@@ -207,7 +206,6 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
-								Log.d("M", lastMillis + "");
 								uploadLogTextView.append("Last Time: "
 										+ Tools.formatMilliSeconds(lastMillis)
 										+ "\r\n");

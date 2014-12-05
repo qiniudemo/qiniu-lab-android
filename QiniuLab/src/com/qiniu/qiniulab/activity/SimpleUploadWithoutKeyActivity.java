@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -207,7 +206,6 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
-								Log.d("M", lastMillis + "");
 								uploadLogTextView.append("Last Time: "
 										+ Tools.formatMilliSeconds(lastMillis)
 										+ "\r\n");
