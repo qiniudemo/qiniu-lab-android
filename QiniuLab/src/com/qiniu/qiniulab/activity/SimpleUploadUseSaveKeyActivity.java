@@ -212,7 +212,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 								uploadLogTextView.append("Average Speed: "
 										+ (fileLength / lastMillis)
 										+ " KB/s\r\n");
-								uploadLogTextView.append("-------\r\n");
+								uploadLogTextView.append("---------------------------\r\n");
 
 							} catch (JSONException e) {
 								Toast.makeText(
@@ -221,7 +221,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 										Toast.LENGTH_LONG).show();
 								uploadLogTextView.append(jsonData.toString());
 								uploadLogTextView.append("\r\n");
-								uploadLogTextView.append("-------\r\n");
+								uploadLogTextView.append("---------------------------\r\n");
 							}
 						} else {
 							Toast.makeText(
@@ -237,7 +237,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 									+ "\r\n");
 							uploadLogTextView.append("Error: " + respInfo.error
 									+ "\r\n");
-							uploadLogTextView.append("-------\r\n");
+							uploadLogTextView.append("---------------------------\r\n");
 						}
 					}
 
