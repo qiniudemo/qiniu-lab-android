@@ -11,6 +11,25 @@
     <VideoView
         android:id="@+id/simple_video_play_videoview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="240dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/simple_video_play_log_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/log_textview_background"
+            android:padding="@dimen/textview_padding" >
+        </TextView>
+    </ScrollView>
 
 </LinearLayout>
