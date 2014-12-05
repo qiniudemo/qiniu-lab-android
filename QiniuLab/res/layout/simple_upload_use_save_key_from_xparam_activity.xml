@@ -10,6 +10,26 @@
     android:paddingTop="@dimen/activity_vertical_padding"
     tools:context=".SimpleUploadUseSaveKeyFromXParamActivity" >
 
+    <!-- XParam as SaveKey -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/qiniu_xparam_as_savekey" />
+
+        <EditText
+            android:id="@+id/simple_upload_use_save_key_from_xparam_file_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </LinearLayout>
     <!-- Upload Token -->
 
     <RelativeLayout
@@ -81,26 +101,6 @@
         android:padding="@dimen/textview_padding" >
     </TextView>
 
-    <!-- XParam as SaveKey -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/block_vertical_margin"
-        android:layout_marginTop="@dimen/block_vertical_margin"
-        android:orientation="vertical" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/qiniu_xparam_as_savekey" />
-
-        <EditText
-            android:id="@+id/simple_upload_use_save_key_from_xparam_file_key"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text" />
-    </LinearLayout>
     <!-- Upload -->
 
     <Button
