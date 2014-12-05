@@ -160,6 +160,7 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						long uploadSliceSize = uploadCurrentPos - uploadLastPos;
 						long uploadSliceMillis = uploadCurrentMillis
 								- uploadLastTimePoint;
+
 						if (uploadSliceMillis != 0) {
 							uploadSpeedTextView
 									.setText((uploadSliceSize / uploadSliceMillis)
@@ -168,6 +169,10 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 						// update pos
 						uploadLastTimePoint = uploadCurrentMillis;
 						uploadLastPos = uploadCurrentPos;
+						if (percentage == 100) {
+							// reset the start pos if upload by block
+							uploadLastPos = 0;
+						}
 					}
 
 				}, new UpCancellationSignal() {
@@ -202,7 +207,8 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 								String fileKey = jsonData.getString("key");
 								String fileHash = jsonData.getString("hash");
 								uploadLogTextView.append("File Size: "
-										+ uploadFileLength + "\r\n");
+										+ Tools.formatSize(uploadFileLength)
+										+ "\r\n");
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
 
