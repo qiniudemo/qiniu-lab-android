@@ -43,6 +43,7 @@
     <string name="qiniu_activity_simple_upload_use_save_key">使用SaveKey作为文件名</string>
     <string name="qiniu_activity_simple_upload_use_save_key_from_xparam">使用扩展参数作为SaveKey</string>
     <string name="qiniu_activity_simple_upload_use_return_body">使用ReturnBody自定义返回内容</string>
+    <string name="qiniu_activity_simple_upload_overwrite_existing_file">文件同名覆盖上传</string>
     <string name="qiniu_upload_token">上传凭证</string>
     <string name="qiniu_upload_file">上传文件</string>
     <string name="qiniu_get_upload_token">申请</string>
@@ -57,6 +58,7 @@
     <string name="qiniu_upload">上传</string>
     <string name="qiniu_get_upload_token_failed">申请上传凭证失败!</string>
     <string name="qiniu_get_upload_file_failed">选择上传文件失败!</string>
+    <string name="qiniu_specify_the_file_key">请指定文件的key!</string>
     <string name="qiniu_upload_file_failed">上传文件失败！</string>
     <string name="qiniu_upload_file_response_parse_error">上传回复解析错误!</string>
     <string name="qiniu_video_play">视频播放</string>

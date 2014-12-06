@@ -93,6 +93,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
+        <!-- Simple Upload Overwrite Existing File Activity -->
+        <activity
+            android:name="com.qiniu.qiniulab.activity.SimpleUploadOverwriteExistingFileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_simple_upload_overwrite_existing_file"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
         <!-- Public Video Play List Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.PublicVideoPlayListActivity"
