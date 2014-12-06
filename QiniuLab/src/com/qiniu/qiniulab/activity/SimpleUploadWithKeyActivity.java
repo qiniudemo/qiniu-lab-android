@@ -43,9 +43,9 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 	private HttpManager httpManager;
 	private UploadManager uploadManager;
 	private static final int REQUEST_CODE = 8090;
-	private long uploadLastTimePoint = 0;
-	private long uploadLastPos = 0;
-	private long uploadFileLength = 0;
+	private long uploadLastTimePoint;
+	private long uploadLastPos;
+	private long uploadFileLength;
 
 	public SimpleUploadWithKeyActivity() {
 		this.httpManager = new HttpManager();
@@ -172,10 +172,6 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 						// update pos
 						uploadLastTimePoint = uploadCurrentMillis;
 						uploadLastPos = uploadCurrentPos;
-						if (percentage == 100) {
-							// reset the start pos if upload by block
-							uploadLastPos = 0;
-						}
 					}
 
 				}, null);
@@ -183,6 +179,7 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 		final long fileLength = uploadFile.length();
 		this.uploadFileLength = fileLength;
 		this.uploadLastTimePoint = startTime;
+		this.uploadLastPos = 0;
 		// prepare status
 		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
 		uploadPercentageTextView.setText("0 %");
@@ -216,7 +213,8 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 								uploadLogTextView.append("Average Speed: "
 										+ (fileLength / lastMillis)
 										+ " KB/s\r\n");
-								uploadLogTextView.append("---------------------------\r\n");
+								uploadLogTextView
+										.append("---------------------------\r\n");
 
 							} catch (JSONException e) {
 								Toast.makeText(
@@ -225,7 +223,8 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 										Toast.LENGTH_LONG).show();
 								uploadLogTextView.append(jsonData.toString());
 								uploadLogTextView.append("\r\n");
-								uploadLogTextView.append("---------------------------\r\n");
+								uploadLogTextView
+										.append("---------------------------\r\n");
 							}
 						} else {
 							Toast.makeText(
@@ -241,7 +240,8 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 									+ "\r\n");
 							uploadLogTextView.append("Error: " + respInfo.error
 									+ "\r\n");
-							uploadLogTextView.append("---------------------------\r\n");
+							uploadLogTextView
+									.append("---------------------------\r\n");
 						}
 					}
 
