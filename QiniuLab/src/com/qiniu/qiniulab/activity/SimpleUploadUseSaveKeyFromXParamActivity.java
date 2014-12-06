@@ -185,9 +185,11 @@ public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity 
 		this.uploadLastTimePoint = startTime;
 		this.uploadLastPos = 0;
 		// prepare status
-		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
 		uploadPercentageTextView.setText("0 %");
+		uploadSpeedTextView.setText("0 KB/s");
 		uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
+		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+		
 		this.uploadManager.put(uploadFile, null, uploadToken,
 				new UpCompletionHandler() {
 					@Override
