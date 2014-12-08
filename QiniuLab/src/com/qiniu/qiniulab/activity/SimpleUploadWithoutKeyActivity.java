@@ -180,7 +180,7 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 		uploadSpeedTextView.setText("0 KB/s");
 		uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
 		uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
-		
+
 		this.uploadManager.put(uploadFile, null, uploadToken,
 				new UpCompletionHandler() {
 					@Override
@@ -201,7 +201,6 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 										+ "\r\n");
 								uploadLogTextView.append("File Key: " + fileKey
 										+ "\r\n");
-
 								uploadLogTextView.append("File Hash: "
 										+ fileHash + "\r\n");
 								uploadLogTextView.append("Last Time: "
@@ -210,6 +209,10 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 								uploadLogTextView.append("Average Speed: "
 										+ (fileLength / lastMillis)
 										+ " KB/s\r\n");
+								uploadLogTextView.append("StatusCode: "
+										+ respInfo.statusCode + "\r\n");
+								uploadLogTextView.append("Reqid: "
+										+ respInfo.reqId + "\r\n");
 								uploadLogTextView
 										.append("---------------------------\r\n");
 

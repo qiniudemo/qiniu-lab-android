@@ -15,7 +15,7 @@
         <item>使用SaveKey作为文件名</item>
         <item>使用扩展参数作为SaveKey</item>
         <item>使用ReturnBody自定义返回内容</item>
-        <item>文件同名覆盖上传</item>
+        <item>文件同名(Key相同)覆盖上传</item>
         <item>限制文件上传大小</item>
         <item>限制文件上传类型</item>
         <item>开启MimeType侦测功能</item>
@@ -43,7 +43,7 @@
     <string name="qiniu_activity_simple_upload_use_save_key">使用SaveKey作为文件名</string>
     <string name="qiniu_activity_simple_upload_use_save_key_from_xparam">使用扩展参数作为SaveKey</string>
     <string name="qiniu_activity_simple_upload_use_return_body">使用ReturnBody自定义返回内容</string>
-    <string name="qiniu_activity_simple_upload_overwrite_existing_file">文件同名覆盖上传</string>
+    <string name="qiniu_activity_simple_upload_overwrite_existing_file">文件同名(Key相同)覆盖上传</string>
     <string name="qiniu_upload_token">上传凭证</string>
     <string name="qiniu_upload_file">上传文件</string>
     <string name="qiniu_get_upload_token">申请</string>
