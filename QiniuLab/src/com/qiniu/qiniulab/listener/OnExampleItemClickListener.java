@@ -12,6 +12,7 @@ import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyFromXParamActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadWithKeyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadWithoutKeyActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadUseFsizeLimitActivity;
 
 public class OnExampleItemClickListener implements
 		ExpandableListView.OnChildClickListener {
@@ -45,6 +46,9 @@ public class OnExampleItemClickListener implements
 			} else if (childPosition == 5) {
 				intent = new Intent(this.mainActivity,
 						SimpleUploadOverwriteExistingFileActivity.class);
+			} else if (childPosition == 6) {
+				intent = new Intent(this.mainActivity,
+						SimpleUploadUseFsizeLimitActivity.class);
 			}
 		} else if (groupPosition == 1) {
 			// advanced upload

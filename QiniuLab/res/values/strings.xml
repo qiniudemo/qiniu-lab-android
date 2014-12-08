@@ -44,6 +44,7 @@
     <string name="qiniu_activity_simple_upload_use_save_key_from_xparam">使用扩展参数作为SaveKey</string>
     <string name="qiniu_activity_simple_upload_use_return_body">使用ReturnBody自定义返回内容</string>
     <string name="qiniu_activity_simple_upload_overwrite_existing_file">文件同名(Key相同)覆盖上传</string>
+    <string name="qiniu_activity_simple_upload_use_fsize_limit">限制文件上传大小</string>
     <string name="qiniu_upload_token">上传凭证</string>
     <string name="qiniu_upload_file">上传文件</string>
     <string name="qiniu_get_upload_token">申请</string>
