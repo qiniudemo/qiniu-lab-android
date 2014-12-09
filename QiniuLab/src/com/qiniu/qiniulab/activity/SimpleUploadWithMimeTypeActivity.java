@@ -82,6 +82,9 @@ public class SimpleUploadWithMimeTypeActivity extends ActionBarActivity {
 	}
 
 	public void getUploadToken(View view) {
+		if (this.httpManager == null) {
+			this.httpManager = new HttpManager();
+		}
 		this.httpManager.postData(QiniuLabConfig.makeUrl(
 				QiniuLabConfig.REMOTE_SERVICE_SERVER,
 				QiniuLabConfig.SIMPLE_UPLOAD_WITH_MIMETYPE_PATH),
@@ -148,9 +151,6 @@ public class SimpleUploadWithMimeTypeActivity extends ActionBarActivity {
 	}
 
 	public void uploadFile(View view) {
-		if (this.httpManager == null) {
-			this.httpManager = new HttpManager();
-		}
 		if (this.uploadManager == null) {
 			this.uploadManager = new UploadManager();
 		}

@@ -89,12 +89,15 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
 	}
 
 	public void getUploadToken(View view) {
+		if (this.httpManager == null) {
+			this.httpManager = new HttpManager();
+		}
 		String endUser = "endUser=" + getEndUser();
 		byte[] postData = QiniuLabConfig.EMPTY_BODY;
 		try {
 			postData = endUser.getBytes("utf-8");
 		} catch (UnsupportedEncodingException e1) {
-			Log.e("SystemError", "no supported charset utf-8");
+			Log.e("QiniuAndroidSDK", "no supported charset utf-8");
 		}
 		Header contentTypeHeader = new BasicHeader("Content-Type",
 				"application/x-www-form-urlencoded");
@@ -165,9 +168,6 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
 	}
 
 	public void uploadFile(View view) {
-		if (this.httpManager == null) {
-			this.httpManager = new HttpManager();
-		}
 		if (this.uploadManager == null) {
 			this.uploadManager = new UploadManager();
 		}

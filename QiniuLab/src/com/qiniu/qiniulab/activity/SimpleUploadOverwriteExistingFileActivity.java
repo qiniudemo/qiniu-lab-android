@@ -84,6 +84,9 @@ public class SimpleUploadOverwriteExistingFileActivity extends
 	}
 
 	public void getUploadToken(View view) {
+		if (this.httpManager == null) {
+			this.httpManager = new HttpManager();
+		}
 		// get upload token with key
 		String key = this.uploadFileKeyEditText.getText().toString().trim();
 		if (key.length() == 0) {
@@ -167,9 +170,6 @@ public class SimpleUploadOverwriteExistingFileActivity extends
 	}
 
 	public void uploadFile(View view) {
-		if (this.httpManager == null) {
-			this.httpManager = new HttpManager();
-		}
 		if (this.uploadManager == null) {
 			this.uploadManager = new UploadManager();
 		}
