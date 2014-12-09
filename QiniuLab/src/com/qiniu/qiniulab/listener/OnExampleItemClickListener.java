@@ -8,6 +8,7 @@ import com.qiniu.qiniulab.activity.PublicVideoPlayListActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadEnableCrc32CheckActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadOverwriteExistingFileActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadUseEndUserActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseFsizeLimitActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseMimeLimitActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseReturnBodyActivity;
@@ -61,6 +62,9 @@ public class OnExampleItemClickListener implements
 			} else if (childPosition == 9) {
 				intent = new Intent(this.mainActivity,
 						SimpleUploadEnableCrc32CheckActivity.class);
+			} else if (childPosition == 10) {
+				intent = new Intent(this.mainActivity,
+						SimpleUploadUseEndUserActivity.class);
 			}
 		} else if (groupPosition == 1) {
 			// advanced upload

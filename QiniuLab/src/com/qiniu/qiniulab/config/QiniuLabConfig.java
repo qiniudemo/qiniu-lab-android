@@ -14,6 +14,7 @@ public class QiniuLabConfig {
 	public final static String SIMPLE_UPLOAD_USE_MIME_LIMIT_PATH = "/demos/api/simple_upload_use_mime_limit_upload_token.php";
 	public final static String SIMPLE_UPLOAD_WITH_MIMETYPE_PATH = "/demos/api/simple_upload_with_mimetype_upload_token.php";
 	public final static String SIMPLE_UPLOAD_ENABLE_CRC32_CHECK_PATH = "/demos/api/simple_upload_enable_crc32_check_upload_token.php";
+	public final static String SIMPLE_UPLOAD_USE_ENDUSER_PATH = "/demos/api/simple_upload_use_enduser_upload_token.php";
 	public final static String PUBLIC_VIDEO_PLAY_LIST_PATH = "/demos/api/public_video_play_list.php";
 
 	public static String makeUrl(String remoteServer, String reqPath) {
