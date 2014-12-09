@@ -4,6 +4,7 @@ public class QiniuLabConfig {
 	public final static byte[] EMPTY_BODY = new byte[0];
 	public final static String REMOTE_SERVICE_SERVER = "http://192.168.0.125/~jemy/qiniu-lab-php";
 
+	// simple upload
 	public final static String SIMPLE_UPLOAD_WITHOUT_KEY_PATH = "/demos/api/simple_upload_without_key_upload_token.php";
 	public final static String SIMPLE_UPLOAD_WITH_KEY_PATH = "/demos/api/simple_upload_with_key_upload_token.php";
 	public final static String SIMPLE_UPLOAD_USE_SAVE_KEY_PATH = "/demos/api/simple_upload_use_save_key_upload_token.php";
@@ -15,6 +16,10 @@ public class QiniuLabConfig {
 	public final static String SIMPLE_UPLOAD_WITH_MIMETYPE_PATH = "/demos/api/simple_upload_with_mimetype_upload_token.php";
 	public final static String SIMPLE_UPLOAD_ENABLE_CRC32_CHECK_PATH = "/demos/api/simple_upload_enable_crc32_check_upload_token.php";
 	public final static String SIMPLE_UPLOAD_USE_ENDUSER_PATH = "/demos/api/simple_upload_use_enduser_upload_token.php";
+
+	// resumable upload
+	public final static String RESUMABLE_UPLOAD_WITH_KEY_PATH = "/demos/api/resumable_upload_with_key_upload_token.php";
+
 	public final static String PUBLIC_VIDEO_PLAY_LIST_PATH = "/demos/api/public_video_play_list.php";
 
 	public static String makeUrl(String remoteServer, String reqPath) {

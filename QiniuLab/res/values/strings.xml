@@ -50,6 +50,7 @@
     <string name="qiniu_activity_simple_upload_with_mime_type">指定上传文件的MimeType</string>
     <string name="qiniu_activity_simple_upload_enable_crc32_check">启用上传文件的CRC32内容校验</string>
     <string name="qiniu_activity_simple_upload_use_enduser">使用EndUser标注终端</string>
+    <string name="qiniu_activity_resumable_upload_with_key">大文件断点续传</string>
     <string name="qiniu_upload_token">上传凭证</string>
     <string name="qiniu_upload_file">上传文件</string>
     <string name="qiniu_get_upload_token">申请</string>
@@ -64,11 +65,13 @@
     <string name="qiniu_x_exParam2_hint">x:exParam2</string>
     <string name="qiniu_return_body_type">ReturnBody类型</string>
     <string name="qiniu_upload">上传</string>
+    <string name="qiniu_cancel">取消</string>
     <string name="qiniu_get_upload_token_failed">申请上传凭证失败!</string>
     <string name="qiniu_get_upload_file_failed">选择上传文件失败!</string>
     <string name="qiniu_specify_the_file_key">请指定文件的key!</string>
     <string name="qiniu_upload_file_failed">上传文件失败！</string>
     <string name="qiniu_upload_file_response_parse_error">上传回复解析错误!</string>
+    <string name="qiniu_create_progress_folder_failed">创建本地进度文件夹失败!</string>
     <string name="qiniu_video_play">视频播放</string>
     <string name="qiniu_get_public_video_playlist_failed">获取公开视频播放列表失败!</string>
 

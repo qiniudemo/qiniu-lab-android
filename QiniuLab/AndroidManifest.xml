@@ -5,6 +5,7 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk
@@ -142,7 +143,7 @@
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
 
-        <!-- Simple Upload With MimeType Activity -->
+        <!-- Simple Upload Enable Crc32 Check Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.SimpleUploadEnableCrc32CheckActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -153,11 +154,22 @@
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
 
-        <!-- Simple Upload With MimeType Activity -->
+        <!-- Simple Upload Use End User Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.SimpleUploadUseEndUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_enduser"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+
+        <!-- Resumable Upload With Key Activity -->
+        <activity
+            android:name="com.qiniu.qiniulab.activity.ResumableUploadWithKeyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_resumable_upload_with_key"
             android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
