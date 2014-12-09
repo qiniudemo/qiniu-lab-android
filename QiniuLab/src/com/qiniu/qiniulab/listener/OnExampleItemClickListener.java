@@ -6,13 +6,16 @@ import android.widget.ExpandableListView;
 
 import com.qiniu.qiniulab.activity.PublicVideoPlayListActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadEnableCrc32CheckActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadOverwriteExistingFileActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadUseFsizeLimitActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadUseMimeLimitActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseReturnBodyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyFromXParamActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadWithKeyActivity;
+import com.qiniu.qiniulab.activity.SimpleUploadWithMimeTypeActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadWithoutKeyActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseFsizeLimitActivity;
 
 public class OnExampleItemClickListener implements
 		ExpandableListView.OnChildClickListener {
@@ -49,6 +52,15 @@ public class OnExampleItemClickListener implements
 			} else if (childPosition == 6) {
 				intent = new Intent(this.mainActivity,
 						SimpleUploadUseFsizeLimitActivity.class);
+			} else if (childPosition == 7) {
+				intent = new Intent(this.mainActivity,
+						SimpleUploadUseMimeLimitActivity.class);
+			} else if (childPosition == 8) {
+				intent = new Intent(this.mainActivity,
+						SimpleUploadWithMimeTypeActivity.class);
+			} else if (childPosition == 9) {
+				intent = new Intent(this.mainActivity,
+						SimpleUploadEnableCrc32CheckActivity.class);
 			}
 		} else if (groupPosition == 1) {
 			// advanced upload

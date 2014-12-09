@@ -18,7 +18,8 @@
         <item>文件同名(Key相同)覆盖上传</item>
         <item>限制文件上传大小</item>
         <item>限制文件上传类型</item>
-        <item>开启MimeType侦测功能</item>
+        <item>指定上传文件的MimeType</item>
+        <item>启用上传文件的CRC32内容校验</item>
         <item>使用EndUser标注终端</item>
     </string-array>
     <string-array name="qiniu_advanced_upload_values">
@@ -45,11 +46,16 @@
     <string name="qiniu_activity_simple_upload_use_return_body">使用ReturnBody自定义返回内容</string>
     <string name="qiniu_activity_simple_upload_overwrite_existing_file">文件同名(Key相同)覆盖上传</string>
     <string name="qiniu_activity_simple_upload_use_fsize_limit">限制文件上传大小</string>
+    <string name="qiniu_activity_simple_upload_use_mime_limit">限制文件上传类型</string>
+    <string name="qiniu_activity_simple_upload_with_mime_type">指定上传文件的MimeType</string>
+    <string name="qiniu_activity_simple_upload_enable_crc32_check">启用上传文件的CRC32内容校验</string>
     <string name="qiniu_upload_token">上传凭证</string>
     <string name="qiniu_upload_file">上传文件</string>
     <string name="qiniu_get_upload_token">申请</string>
     <string name="qiniu_select_file">选择</string>
     <string name="qiniu_file_key">文件名(Key)</string>
+    <string name="qiniu_upload_crc32_check">启用文件内容Crc32校验</string>
+    <string name="qiniu_file_mimetype">MimeType</string>
     <string name="qiniu_xparam">扩展参数</string>
     <string name="qiniu_xparam_as_savekey">扩展参数(作为SaveKey)</string>
     <string name="qiniu_x_saveKeyEx_hint">x:saveKeyEx</string>
