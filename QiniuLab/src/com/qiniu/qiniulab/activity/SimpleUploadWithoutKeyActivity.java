@@ -46,8 +46,6 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	private long uploadFileLength;
 
 	public SimpleUploadWithoutKeyActivity() {
-		this.httpManager = new HttpManager();
-		this.uploadManager = new UploadManager();
 		this.context = this;
 	}
 
@@ -143,6 +141,12 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
 	}
 
 	public void uploadFile(View view) {
+		if (this.httpManager == null) {
+			this.httpManager = new HttpManager();
+		}
+		if (this.uploadManager == null) {
+			this.uploadManager = new UploadManager();
+		}
 		String uploadToken = this.uploadTokenTextView.getText().toString();
 		File uploadFile = new File(this.uploadFileTextView.getText().toString());
 		UploadOptions uploadOptions = new UploadOptions(null, null, false,
