@@ -21,6 +21,10 @@ public class QiniuLabConfig {
 	public final static String RESUMABLE_UPLOAD_WITHOUT_KEY_PATH = "/demos/api/resumable_upload_without_key_upload_token.php";
 	public final static String RESUMABLE_UPLOAD_WITH_KEY_PATH = "/demos/api/resumable_upload_with_key_upload_token.php";
 
+	// callback upload
+	public final static String CALLBACK_UPLOAD_WITH_KEY_IN_URL_FORMAT_PATH = "/demos/api/callback_upload_with_key_in_url_format_upload_token.php";
+	public final static String CALLBACK_UPLOAD_WITH_KEY_IN_JSON_FORMAT_PATH = "/demos/api/callback_upload_with_key_in_json_format_upload_token.php";
+
 	public final static String PUBLIC_VIDEO_PLAY_LIST_PATH = "/demos/api/public_video_play_list.php";
 
 	public static String makeUrl(String remoteServer, String reqPath) {

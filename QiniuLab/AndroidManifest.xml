@@ -165,7 +165,7 @@
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
 
-         <!-- Resumable Upload Without Key Activity -->
+        <!-- Resumable Upload Without Key Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.ResumableUploadWithoutKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -175,12 +175,34 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
-        
+
         <!-- Resumable Upload With Key Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.ResumableUploadWithKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_resumable_upload_with_key"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+
+        <!-- Callback Upload With Key In Url Format Activity -->
+        <activity
+            android:name="com.qiniu.qiniulab.activity.CallbackUploadWithKeyInUrlFormatActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_callback_upload_with_key_in_url_format"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+
+        <!-- Callback Upload With Key In JSON Format Activity -->
+        <activity
+            android:name="com.qiniu.qiniulab.activity.CallbackUploadWithKeyInJsonFormatActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_callback_upload_with_key_in_json_format"
             android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

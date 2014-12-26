@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
 
+import com.qiniu.qiniulab.activity.CallbackUploadWithKeyInJsonFormatActivity;
+import com.qiniu.qiniulab.activity.CallbackUploadWithKeyInUrlFormatActivity;
 import com.qiniu.qiniulab.activity.PublicVideoPlayListActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.ResumableUploadWithKeyActivity;
@@ -76,6 +78,16 @@ public class OnExampleItemClickListener implements
 			} else if (childPosition == 1) {
 				intent = new Intent(this.mainActivity,
 						ResumableUploadWithKeyActivity.class);
+			} else if (childPosition == 2) {
+
+			} else if (childPosition == 3) {
+				intent = new Intent(this.mainActivity,
+						CallbackUploadWithKeyInUrlFormatActivity.class);
+			} else if (childPosition == 4) {
+				intent = new Intent(this.mainActivity,
+						CallbackUploadWithKeyInJsonFormatActivity.class);
+			} else if (childPosition == 5) {
+
 			}
 		} else if (groupPosition == 2) {
 			// public download
