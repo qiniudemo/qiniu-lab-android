@@ -165,6 +165,17 @@
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
 
+         <!-- Resumable Upload Without Key Activity -->
+        <activity
+            android:name="com.qiniu.qiniulab.activity.ResumableUploadWithoutKeyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/qiniu_activity_resumable_upload_without_key"
+            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+        
         <!-- Resumable Upload With Key Activity -->
         <activity
             android:name="com.qiniu.qiniulab.activity.ResumableUploadWithKeyActivity"

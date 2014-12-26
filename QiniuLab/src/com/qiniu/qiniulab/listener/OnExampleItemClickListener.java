@@ -7,6 +7,7 @@ import android.widget.ExpandableListView;
 import com.qiniu.qiniulab.activity.PublicVideoPlayListActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.ResumableUploadWithKeyActivity;
+import com.qiniu.qiniulab.activity.ResumableUploadWithoutKeyActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadEnableCrc32CheckActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadOverwriteExistingFileActivity;
 import com.qiniu.qiniulab.activity.SimpleUploadUseEndUserActivity;
@@ -70,6 +71,9 @@ public class OnExampleItemClickListener implements
 		} else if (groupPosition == 1) {
 			// advanced upload
 			if (childPosition == 0) {
+				intent = new Intent(this.mainActivity,
+						ResumableUploadWithoutKeyActivity.class);
+			} else if (childPosition == 1) {
 				intent = new Intent(this.mainActivity,
 						ResumableUploadWithKeyActivity.class);
 			}
