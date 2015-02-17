@@ -74,6 +74,7 @@
     <string name="qiniu_cancel">取消</string>
     <string name="qiniu_select_upload_file">选择文件:</string>
     <string name="qiniu_get_upload_token">申请凭证:</string>
+    <string name="qiniu_upload_response">上传回复:</string>
     <string name="qiniu_get_upload_token_failed">申请上传凭证失败!</string>
     <string name="qiniu_get_upload_file_failed">选择上传文件失败!</string>
     <string name="qiniu_specify_the_file_key">请指定文件的key!</string>
