@@ -131,7 +131,7 @@ public class SimpleUploadUseReturnBodyActivity extends ActionBarActivity {
 		}
 		this.httpManager.postData(QiniuLabConfig.makeUrl(
 				QiniuLabConfig.REMOTE_SERVICE_SERVER,
-				QiniuLabConfig.SIMPLE_UPLOAD_WITH_KEY_PATH),
+				QiniuLabConfig.SIMPLE_UPLOAD_USE_RETURN_BODY_PATH),
 				QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
 
 					@Override
