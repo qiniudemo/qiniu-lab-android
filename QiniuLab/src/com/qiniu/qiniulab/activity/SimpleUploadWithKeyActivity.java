@@ -116,6 +116,9 @@ public class SimpleUploadWithKeyActivity extends ActionBarActivity {
 	}
 
 	public void uploadFile(View view) {
+		if (this.uploadFilePath == null) {
+			return;
+		}
 		if (this.httpManager == null) {
 			this.httpManager = new HttpManager();
 		}
