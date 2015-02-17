@@ -47,8 +47,18 @@ public class Tools {
 		return sb.toString();
 	}
 
-	private static String formatDouble(long value, int divider) {
+	public static String formatDouble(long value, int divider) {
 		double result = value * 1.0 / divider;
 		return String.format(Locale.getDefault(), "%.2f", result);
+	}
+
+	public static String formatSpeed(double fileLength, double millis) {
+		double speed = fileLength * FZ_KB / millis / 1000;
+		String result = String.format(Locale.getDefault(), "%.2f KB/s", speed);
+		if ((int) speed > FZ_KB) {
+			result = String.format(Locale.getDefault(), "%.2f MB/s", speed
+					/ FZ_KB);
+		}
+		return result;
 	}
 }
