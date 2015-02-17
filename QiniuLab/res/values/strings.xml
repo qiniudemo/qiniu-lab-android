@@ -25,9 +25,9 @@
     <string-array name="qiniu_advanced_upload_values">
         <item>无Key大文件断点续传</item>
         <item>有Key大文件断点续传</item>
-        <item>批量文件上传</item>
         <item>回调上传-URL参数格式</item>
         <item>回调上传-JSON参数格式</item>
+        <item>批量文件上传</item>
         <item>上传后文件持久化操作</item>
     </string-array>
     <string-array name="qiniu_public_download_values">
