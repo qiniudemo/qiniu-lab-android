@@ -134,7 +134,7 @@ public class ResumableUploadWithKeyActivity extends ActionBarActivity {
 		}
 		this.httpManager.postData(QiniuLabConfig.makeUrl(
 				QiniuLabConfig.REMOTE_SERVICE_SERVER,
-				QiniuLabConfig.RESUMABLE_UPLOAD_WITHOUT_KEY_PATH),
+				QiniuLabConfig.RESUMABLE_UPLOAD_WITH_KEY_PATH),
 				QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
 
 					@Override
