@@ -1,0 +1,13 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_padding">16dp</dimen>
+    <dimen name="activity_vertical_padding">16dp</dimen>
+    <dimen name="block_vertical_margin">2dp</dimen>
+    <dimen name="textview_padding">7dp</dimen>
+    <dimen name="list_padding">0dp</dimen>
+    <dimen name="list_item_padding">16dp</dimen>
+    <dimen name="play_list_item_padding_h">5dp</dimen>
+    <dimen name="play_list_item_padding_v">2dp</dimen>
+
+</resources>

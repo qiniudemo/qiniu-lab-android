@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_padding"
+    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:paddingRight="@dimen/activity_horizontal_padding"
+    android:paddingTop="@dimen/activity_vertical_padding"
+    tools:context=".SimpleUploadWithKeyActivity">
+
+    <EditText
+        android:id="@+id/simple_upload_with_key_file_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/qiniu_file_key"
+        android:inputType="text" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="@drawable/select_button_selector"
+        android:onClick="selectUploadFile"
+        android:text="@string/qiniu_select_file"
+        android:textColor="#fff"></Button>
+
+    <Button
+        android:id="@+id/simple_upload_without_key_upload_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="@drawable/action_button_selector"
+        android:onClick="uploadFile"
+        android:text="@string/qiniu_upload"
+        android:textColor="#fff" />
+
+    <LinearLayout
+        android:id="@+id/simple_upload_with_key_status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/simple_upload_with_key_upload_speed_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/simple_upload_with_key_upload_file_length_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/simple_upload_with_key_upload_speed_textview" />
+
+            <TextView
+                android:id="@+id/simple_upload_with_key_upload_percentage_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/simple_upload_with_key_upload_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/simple_upload_with_key_log_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/block_vertical_margin"
+            android:layout_marginTop="@dimen/block_vertical_margin"
+            android:background="@color/log_textview_background"
+            android:padding="@dimen/textview_padding"></TextView>
+    </ScrollView>
+
+</LinearLayout>

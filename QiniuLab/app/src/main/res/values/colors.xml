@@ -1,0 +1,13 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="field_textview_background">#e7f2ed</color>
+    <color name="log_textview_background">#fcf8e3</color>
+    <color name="action_button_pressed_background">#5ebce6</color>
+    <color name="action_button_normal_background">#1e82ca</color>
+    <color name="select_button_pressed_background">#5cb85c</color>
+    <color name="select_button_normal_background">#008b57</color>
+    <color name="cancel_button_pressed_background">#f9632d</color>
+    <color name="cancel_button_normal_background">#dd4b39</color>
+
+</resources>
