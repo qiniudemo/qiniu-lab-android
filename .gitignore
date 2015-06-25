@@ -6,7 +6,9 @@ gen/
 .mtj.tmp/
 .gradle
 build/
-app/
+app/build/
+app/libs/
+
 # Package Files #
 *.jar
 *.war
