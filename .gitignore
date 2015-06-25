@@ -4,7 +4,9 @@ bin/
 gen/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
+.gradle
+build/
+app/
 # Package Files #
 *.jar
 *.war
