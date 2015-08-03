@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile files('libs/android-async-http-1.4.6.jar')
     compile files('libs/happy-dns-0.2.3.1.jar')
+    compile files('libs/qiniu-android-sdk-7.0.7.jar')
 }
