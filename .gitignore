@@ -8,7 +8,6 @@ gen/
 .gradle
 build/
 app/build/
-app/libs/
 
 # Package Files #
 *.jar
