@@ -29,10 +29,14 @@
         <item>批量文件上传</item>
         <item>上传后文件持久化操作</item>
     </string-array>
+    <string-array name="qiniu_image_view">
+        <item>基本图片浏览(ImageView)</item>
+    </string-array>
     <string-array name="qiniu_audio_video_play">
         <item>视频播放(VideoView)</item>
         <item>视频播放(Video.js)</item>
     </string-array>
+
 
     <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
     <string name="qiniu_activity_simple_upload_with_key">有Key文件上传</string>
@@ -75,5 +79,8 @@
     <string name="qiniu_create_progress_folder_failed">创建本地进度文件夹失败!</string>
     <string name="qiniu_video_play">视频播放</string>
     <string name="qiniu_get_public_video_playlist_failed">获取公开视频播放列表失败!</string>
+    <string name="qiniu_image_view">图片浏览</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
