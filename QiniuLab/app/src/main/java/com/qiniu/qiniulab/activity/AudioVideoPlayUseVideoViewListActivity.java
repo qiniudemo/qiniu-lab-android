@@ -68,7 +68,7 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.PUBLIC_VIDEO_PLAY_LIST_PATH),
-                QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
+                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
 
                     @Override
                     public void complete(ResponseInfo respInfo,
@@ -106,7 +106,7 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
                             }
                         }
                     }
-                }, null);
+                }, null, false);
     }
 
     @Override

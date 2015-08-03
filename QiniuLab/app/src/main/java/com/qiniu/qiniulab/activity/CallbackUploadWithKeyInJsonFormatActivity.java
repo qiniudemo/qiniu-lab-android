@@ -13,10 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.qiniu.android.common.Config;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.Configuration;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -137,7 +137,7 @@ public class CallbackUploadWithKeyInJsonFormatActivity extends
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.CALLBACK_UPLOAD_WITH_KEY_IN_JSON_FORMAT_PATH),
-                QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
+                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
 
                     @Override
                     public void complete(ResponseInfo respInfo,
@@ -176,7 +176,7 @@ public class CallbackUploadWithKeyInJsonFormatActivity extends
 
                         }
                     }
-                }, null);
+                }, null, false);
     }
 
     private void upload(String uploadToken) {
@@ -285,7 +285,7 @@ public class CallbackUploadWithKeyInJsonFormatActivity extends
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0 || deltaSize < Config.CHUNK_SIZE) {
+        if (deltaTime <= 0) {
             return;
         }
 

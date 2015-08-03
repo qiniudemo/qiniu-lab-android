@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.qiniu.android.common.Config;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
@@ -147,7 +146,7 @@ public class SimpleUploadOverwriteExistingFileActivity extends
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.SIMPLE_UPLOAD_OVERWRITE_EXISTING_FILE_PATH),
-                postData, new Header[]{contentTypeHeader}, null,
+                postData, 0, postData.length, new Header[]{contentTypeHeader}, null,
                 new CompletionHandler() {
 
                     @Override
@@ -187,7 +186,7 @@ public class SimpleUploadOverwriteExistingFileActivity extends
 
                         }
                     }
-                }, null);
+                }, null, false);
     }
 
     private void upload(String uploadFileKey, String uploadToken) {
@@ -274,7 +273,7 @@ public class SimpleUploadOverwriteExistingFileActivity extends
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0 || deltaSize < Config.CHUNK_SIZE) {
+        if (deltaTime <= 0) {
             return;
         }
 

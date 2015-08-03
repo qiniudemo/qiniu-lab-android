@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.qiniu.android.common.Config;
+import com.qiniu.android.common.Constants;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
@@ -80,7 +80,7 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
     }
 
     public String getEndUser() {
-        return String.format("QiniuAndroid/%s (%s; %s)", Config.VERSION,
+        return String.format("QiniuAndroid/%s (%s; %s)", Constants.VERSION,
                 android.os.Build.VERSION.RELEASE, android.os.Build.MODEL);
     }
 
@@ -142,7 +142,7 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
                 "application/x-www-form-urlencoded");
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.SIMPLE_UPLOAD_USE_ENDUSER_PATH), postData,
+                        QiniuLabConfig.SIMPLE_UPLOAD_USE_ENDUSER_PATH), postData, 0, postData.length,
                 new Header[]{contentTypeHeader}, null,
                 new CompletionHandler() {
 
@@ -183,7 +183,7 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
 
                         }
                     }
-                }, null);
+                }, null, false);
     }
 
     private void upload(String uploadToken) {
@@ -273,7 +273,7 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0 || deltaSize < Config.CHUNK_SIZE) {
+        if (deltaTime <= 0) {
             return;
         }
 

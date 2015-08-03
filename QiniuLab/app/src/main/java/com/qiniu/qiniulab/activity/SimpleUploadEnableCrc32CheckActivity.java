@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.qiniu.android.common.Config;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
@@ -129,7 +128,7 @@ public class SimpleUploadEnableCrc32CheckActivity extends ActionBarActivity {
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.SIMPLE_UPLOAD_ENABLE_CRC32_CHECK_PATH),
-                QiniuLabConfig.EMPTY_BODY, null, null, new CompletionHandler() {
+                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
 
                     @Override
                     public void complete(ResponseInfo respInfo,
@@ -168,7 +167,7 @@ public class SimpleUploadEnableCrc32CheckActivity extends ActionBarActivity {
 
                         }
                     }
-                }, null);
+                }, null, false);
     }
 
     private void upload(String uploadToken) {
@@ -257,7 +256,7 @@ public class SimpleUploadEnableCrc32CheckActivity extends ActionBarActivity {
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0 || deltaSize < Config.CHUNK_SIZE) {
+        if (deltaTime <= 0) {
             return;
         }
 
