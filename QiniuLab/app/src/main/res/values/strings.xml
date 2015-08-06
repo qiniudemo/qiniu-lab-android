@@ -8,6 +8,9 @@
     <string name="qiniu_advanced_upload">高级上传</string>
     <string name="qiniu_audio_video_play">音视频播放</string>
 
+    <string name="qiniu_video_play_use_videoview">视频播放(VideoView)</string>
+    <string name="qiniu_video_play_use_pldplayer">视频播放(PLDPlayer)</string>
+
     <string-array name="qiniu_simple_upload_values">
         <item>无Key文件上传</item>
         <item>有Key文件上传</item>
@@ -34,6 +37,7 @@
     </string-array>
     <string-array name="qiniu_audio_video_play">
         <item>视频播放(VideoView)</item>
+        <item>视频播放(PLDPlayer)</item>
         <item>视频播放(Video.js)</item>
     </string-array>
 

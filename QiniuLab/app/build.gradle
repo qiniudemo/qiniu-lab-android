@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.qiniu.qiniulab"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 19
     }
 
@@ -25,4 +25,6 @@ dependencies {
     compile files('libs/android-async-http-1.4.6.jar')
     compile files('libs/happy-dns-0.2.3.1.jar')
     compile files('libs/qiniu-android-sdk-7.0.7.jar')
+    compile files('libs/ijkmediaplayer.jar')
+    compile files('libs/pldroid-player-1.1.0.jar')
 }

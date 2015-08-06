@@ -4,26 +4,27 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import com.qiniu.qiniulab.activity.AudioVideoPlayUseVideoJSListActivity;
-import com.qiniu.qiniulab.activity.AudioVideoPlayUseVideoViewListActivity;
-import com.qiniu.qiniulab.activity.BatchUploadFnameAsKeyActivity;
-import com.qiniu.qiniulab.activity.CallbackUploadWithKeyInJsonFormatActivity;
-import com.qiniu.qiniulab.activity.CallbackUploadWithKeyInUrlFormatActivity;
+import com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerListActivity;
+import com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoJSListActivity;
+import com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewListActivity;
+import com.qiniu.qiniulab.activity.upload.BatchUploadFnameAsKeyActivity;
+import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInJsonFormatActivity;
+import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInUrlFormatActivity;
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
-import com.qiniu.qiniulab.activity.ResumableUploadWithKeyActivity;
-import com.qiniu.qiniulab.activity.ResumableUploadWithoutKeyActivity;
-import com.qiniu.qiniulab.activity.SimpleImageViewActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadEnableCrc32CheckActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadOverwriteExistingFileActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseEndUserActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseFsizeLimitActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseMimeLimitActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseReturnBodyActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadUseSaveKeyFromXParamActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadWithKeyActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadWithMimeTypeActivity;
-import com.qiniu.qiniulab.activity.SimpleUploadWithoutKeyActivity;
+import com.qiniu.qiniulab.activity.upload.ResumableUploadWithKeyActivity;
+import com.qiniu.qiniulab.activity.upload.ResumableUploadWithoutKeyActivity;
+import com.qiniu.qiniulab.activity.image.SimpleImageViewActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadEnableCrc32CheckActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadOverwriteExistingFileActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadUseEndUserActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadUseFsizeLimitActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadUseMimeLimitActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadUseReturnBodyActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadUseSaveKeyActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadUseSaveKeyFromXParamActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadWithKeyActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadWithMimeTypeActivity;
+import com.qiniu.qiniulab.activity.upload.SimpleUploadWithoutKeyActivity;
 
 public class OnExampleItemClickListener implements
         ExpandableListView.OnChildClickListener {
@@ -100,7 +101,7 @@ public class OnExampleItemClickListener implements
                         AudioVideoPlayUseVideoViewListActivity.class);
             } else if (childPosition == 1) {
                 intent = new Intent(this.mainActivity,
-                        AudioVideoPlayUseVideoJSListActivity.class);
+                        AudioVideoPlayUsePLDPlayerListActivity.class);
             }
         } else if (groupPosition == 3) {
             //image view
