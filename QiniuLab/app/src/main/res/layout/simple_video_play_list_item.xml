@@ -15,7 +15,12 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/simple_video_play_list_item_url_textview"
+        android:id="@+id/simple_video_play_list_item_ads_url_textview"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <TextView
+        android:id="@+id/simple_video_play_list_item_video_url_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/play_list_item_padding_v"

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/pili_videoview_fixed_layout"
+        android:layout_width="480px"
+        android:layout_height="270px"
+        android:orientation="vertical">
+
+        <com.pili.pldroid.player.widget.VideoView
+            android:id="@+id/simple_video_play_pldplayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/simple_video_play_log_textview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/log_textview_background"
+        android:padding="@dimen/textview_padding"></TextView>
+
+</LinearLayout>

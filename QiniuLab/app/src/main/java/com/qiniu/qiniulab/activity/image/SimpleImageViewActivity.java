@@ -2,7 +2,6 @@ package com.qiniu.qiniulab.activity.image;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -12,7 +11,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.utils.AsyncRun;
@@ -26,7 +24,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class SimpleImageViewActivity extends ActionBarActivity {
     private List<String> imageUrls;
@@ -72,7 +69,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         ArrayList<HashMap<String, Object>> viewData = new ArrayList<HashMap<String, Object>>();
         for (Bitmap bitmap : bitmaps) {
             HashMap<String, Object> item = new HashMap<String, Object>();
-            item.put("image",bitmap);
+            item.put("image", bitmap);
             viewData.add(item);
         }
         final SimpleAdapter adapter = new SimpleAdapter(this, viewData,
@@ -82,11 +79,11 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object data, String textRepresentation) {
-                if(view instanceof ImageView && data instanceof Bitmap){
-                    ImageView imageView=(ImageView)view;
-                    imageView.setImageBitmap((Bitmap)data);
+                if (view instanceof ImageView && data instanceof Bitmap) {
+                    ImageView imageView = (ImageView) view;
+                    imageView.setImageBitmap((Bitmap) data);
                     return true;
-                }else{
+                } else {
                     return false;
                 }
             }

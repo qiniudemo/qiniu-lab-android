@@ -52,11 +52,13 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
                                     int position, long id) {
                 TextView videoName = (TextView) view
                         .findViewById(R.id.simple_video_play_list_item_name_textview);
+                TextView adsUrl = (TextView) view.findViewById(R.id.simple_video_play_list_item_ads_url_textview);
                 TextView videoUrl = (TextView) view
-                        .findViewById(R.id.simple_video_play_list_item_url_textview);
+                        .findViewById(R.id.simple_video_play_list_item_video_url_textview);
                 Intent intent = new Intent(context,
                         AudioVideoPlayUseVideoViewActivity.class);
                 intent.putExtra("VideoName", videoName.getText());
+                intent.putExtra("AdsUrl", adsUrl.getText());
                 intent.putExtra("VideoUrl", videoUrl.getText());
                 context.startActivity(intent);
             }
@@ -82,10 +84,12 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
                                     JSONObject videoObj = playlistArray
                                             .getJSONObject(i);
                                     String name = videoObj.getString("name");
-                                    String url = videoObj.getString("url");
+                                    String adsUrl = videoObj.getString("ads_url");
+                                    String videoUrl = videoObj.getString("video_url");
                                     Map<String, String> playlistData = new HashMap<String, String>();
                                     playlistData.put("NAME", name);
-                                    playlistData.put("URL", url);
+                                    playlistData.put("ADS_URL", adsUrl);
+                                    playlistData.put("VIDEO_URL", videoUrl);
                                     playlistDataList.add(playlistData);
                                 }
                                 // pack playlist
@@ -93,10 +97,11 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
                                         context,
                                         playlistDataList,
                                         R.layout.simple_video_play_list_item,
-                                        new String[]{"NAME", "URL"},
+                                        new String[]{"NAME", "ADS_URL", "VIDEO_URL"},
                                         new int[]{
                                                 R.id.simple_video_play_list_item_name_textview,
-                                                R.id.simple_video_play_list_item_url_textview});
+                                                R.id.simple_video_play_list_item_ads_url_textview,
+                                                R.id.simple_video_play_list_item_video_url_textview});
                                 playlistView.setAdapter(playlistAdapter);
                             } catch (JSONException e) {
                                 Toast.makeText(

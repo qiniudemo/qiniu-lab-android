@@ -7,7 +7,6 @@ gen/
 .mtj.tmp/
 .gradle
 build/
-app/build/
 
 # Package Files #
 *.jar

@@ -51,22 +51,46 @@ public class AudioVideoPlayUsePLDPlayerActivity extends ActionBarActivity {
         videoPlayView.setMediaController(videoPlayController);
         videoPlayController.setMediaPlayer(videoPlayView);
         videoPlayController.setAnchorView(videoPlayView);
-        String videoName = this.getIntent().getStringExtra("VideoName");
-        String videoUrl = this.getIntent().getStringExtra("VideoUrl");
+        final String videoName = this.getIntent().getStringExtra("VideoName");
+        final String adsUrl = this.getIntent().getStringExtra("AdsUrl");
+        final String videoUrl = this.getIntent().getStringExtra("VideoUrl");
         this.setTitle(videoName);
-        videoPlayView.setVideoURI(Uri.parse(videoUrl));
-        final long startTime = System.currentTimeMillis();
-        videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
 
+        final long startTime = System.currentTimeMillis();
+
+        //insert ads
+        videoPlayView.setVideoURI(Uri.parse(adsUrl));
+        videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(IMediaPlayer mp) {
                 long endTime = System.currentTimeMillis();
                 long loadTime = endTime - startTime;
-                videoPlayLogTextView.append("Load Time: "
+                videoPlayLogTextView.append("Load Ads Time: "
                         + Tools.formatMilliSeconds(loadTime) + "\r\n");
                 mp.start();
             }
         });
+
+        //video to play
+        videoPlayView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(IMediaPlayer mp) {
+                videoPlayView.setVideoURI(Uri.parse(videoUrl));
+                final long startTime2 = System.currentTimeMillis();
+                videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+
+                    @Override
+                    public void onPrepared(IMediaPlayer mp) {
+                        long endTime = System.currentTimeMillis();
+                        long loadTime = endTime - startTime2;
+                        videoPlayLogTextView.append("Load Video Time: "
+                                + Tools.formatMilliSeconds(loadTime) + "\r\n");
+                        mp.start();
+                    }
+                });
+            }
+        });
+
 
     }
 }
