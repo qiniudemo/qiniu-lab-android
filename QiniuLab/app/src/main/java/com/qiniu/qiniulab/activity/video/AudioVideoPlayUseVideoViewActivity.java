@@ -5,7 +5,10 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -24,7 +27,19 @@ public class AudioVideoPlayUseVideoViewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.simple_video_play_use_videoview_activity);
+        this.initLayout();
         this.initVideoPlay();
+    }
+
+    private void initLayout() {
+        DisplayMetrics dm = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        RelativeLayout layout = (RelativeLayout) this.findViewById(R.id.videoview_fixed_layout);
+        int width = dm.widthPixels;
+        int height = width * 360 / 640;
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        layout.setLayoutParams(layoutParams);
     }
 
     private void initVideoPlay() {
@@ -52,6 +67,5 @@ public class AudioVideoPlayUseVideoViewActivity extends ActionBarActivity {
                 mp.start();
             }
         });
-
     }
 }
