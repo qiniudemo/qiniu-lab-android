@@ -6,6 +6,9 @@ import android.widget.ExpandableListView;
 
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.image.SimpleImageViewActivity;
+import com.qiniu.qiniulab.activity.quick.QuickStartAudioExampleActivity;
+import com.qiniu.qiniulab.activity.quick.QuickStartImageExampleActivity;
+import com.qiniu.qiniulab.activity.quick.QuickStartVideoExampleActivity;
 import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInJsonFormatActivity;
 import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInUrlFormatActivity;
 import com.qiniu.qiniulab.activity.upload.ResumableUploadWithKeyActivity;
@@ -36,7 +39,17 @@ public class OnExampleItemClickListener implements
                                 int groupPosition, int childPosition, long id) {
         Intent intent = null;
         boolean result = false;
+
         if (groupPosition == 0) {
+            //quick start
+            if (childPosition == 0) {
+                intent = new Intent(this.mainActivity, QuickStartImageExampleActivity.class);
+            } else if (childPosition == 1) {
+                intent = new Intent(this.mainActivity, QuickStartAudioExampleActivity.class);
+            } else if (childPosition == 2) {
+                intent = new Intent(this.mainActivity, QuickStartVideoExampleActivity.class);
+            }
+        } else if (groupPosition == 1) {
             // simple upload
             if (childPosition == 0) {
                 intent = new Intent(this.mainActivity,
@@ -72,7 +85,7 @@ public class OnExampleItemClickListener implements
                 intent = new Intent(this.mainActivity,
                         SimpleUploadUseEndUserActivity.class);
             }
-        } else if (groupPosition == 1) {
+        } else if (groupPosition == 2) {
             // advanced upload
             if (childPosition == 0) {
                 intent = new Intent(this.mainActivity,
@@ -87,7 +100,7 @@ public class OnExampleItemClickListener implements
                 intent = new Intent(this.mainActivity,
                         CallbackUploadWithKeyInJsonFormatActivity.class);
             }
-        } else if (groupPosition == 2) {
+        } else if (groupPosition == 3) {
             // audio video play
             if (childPosition == 0) {
                 intent = new Intent(this.mainActivity,
@@ -96,7 +109,7 @@ public class OnExampleItemClickListener implements
                 intent = new Intent(this.mainActivity,
                         AudioVideoPlayUsePLDPlayerListActivity.class);
             }
-        } else if (groupPosition == 3) {
+        } else if (groupPosition == 4) {
             //image view
             if (childPosition == 0) {
                 intent = new Intent(this.mainActivity, SimpleImageViewActivity.class);

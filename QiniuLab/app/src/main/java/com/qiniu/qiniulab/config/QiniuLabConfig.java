@@ -3,7 +3,12 @@ package com.qiniu.qiniulab.config;
 public class QiniuLabConfig {
     public final static byte[] EMPTY_BODY = new byte[0];
     //public final static String REMOTE_SERVICE_SERVER = "http://115.231.183.102:9090";
-    public final static String REMOTE_SERVICE_SERVER = "http://192.168.200.55/~jemy/qiniu-api-server/php-v6";
+    public final static String REMOTE_SERVICE_SERVER = "http://192.168.100.105/~jemy/qiniu-api-server/php-v6";
+
+    //quick start
+    public final static String QUICK_START_IMAGE_DEMO_PATH = "/api/quick_start/simple_image_example_token.php";
+    public final static String QUICK_START_AUDIO_DEMO_PATH = "/api/quick_start/simple_audio_example_token.php";
+    public final static String QUICK_START_VIDEO_DEMO_PATH = "/api/quick_start/simple_video_example_token.php";
 
     // simple upload
     public final static String SIMPLE_UPLOAD_WITHOUT_KEY_PATH = "/api/simple_upload/without_key_upload_token.php";

@@ -1,8 +1,10 @@
 package com.qiniu.qiniulab.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
@@ -34,6 +36,8 @@ public class QiniuLabMainActivity extends ActionBarActivity {
 
     private void inflateExpandableListView() {
         this.exampleGroupTitleList.add(this
+                .getString(R.string.qiniu_quick_start));
+        this.exampleGroupTitleList.add(this
                 .getString(R.string.qiniu_simple_upload));
         this.exampleGroupTitleList.add(this
                 .getString(R.string.qiniu_advanced_upload));
@@ -42,6 +46,8 @@ public class QiniuLabMainActivity extends ActionBarActivity {
         this.exampleGroupTitleList.add(this
                 .getString(R.string.qiniu_image_view));
 
+        this.exampleItemTitleList.add(Arrays.asList(this.getResources()
+                .getStringArray(R.array.qiniu_quick_start_demo)));
         this.exampleItemTitleList.add(Arrays.asList(this.getResources()
                 .getStringArray(R.array.qiniu_simple_upload_values)));
         this.exampleItemTitleList.add(Arrays.asList(this.getResources()
@@ -61,9 +67,19 @@ public class QiniuLabMainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.qiniu_lab_main_activity_menu, menu);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_about:
+                Intent aboutIntent = new Intent(QiniuLabMainActivity.this,
+                        AboutActivity.class);
+                this.startActivity(aboutIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

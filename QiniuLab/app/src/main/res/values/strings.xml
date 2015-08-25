@@ -2,15 +2,26 @@
 <resources>
 
     <string name="app_name">七牛实验室</string>
-    <string name="action_settings">Settings</string>
+    <string name="about_app">关于</string>
+    <string name="version_number">版本: </string>
+    <string name="support_qq">技术支持QQ</string>
+    <string name="support_qq_id">2037014430</string>
+    <string name="github">项目地址</string>
+    <string name="github_address">https://github.com/qiniudemo/qiniu-lab-android</string>
     <string name="action_refresh">刷新播放列表</string>
-    <string name="qiniu_simple_upload">简单上传</string>
+    <string name="qiniu_quick_start">快速入门</string>
+    <string name="qiniu_simple_upload">常规上传</string>
     <string name="qiniu_advanced_upload">高级上传</string>
     <string name="qiniu_audio_video_play">音视频播放</string>
 
     <string name="qiniu_video_play_use_videoview">视频播放(VideoView)</string>
     <string name="qiniu_video_play_use_pldplayer">视频播放(PLDPlayer)</string>
 
+    <string-array name="qiniu_quick_start_demo">
+        <item>图片上传与展示</item>
+        <item>音频上传与播放</item>
+        <item>视频上传与播放</item>
+    </string-array>
     <string-array name="qiniu_simple_upload_values">
         <item>无Key文件上传</item>
         <item>有Key文件上传</item>
@@ -38,7 +49,9 @@
         <item>视频播放(PLDPlayer)</item>
     </string-array>
 
-
+    <string name="qiniu_activity_quick_start_image_upload">图片上传与展示</string>
+    <string name="qiniu_activity_quick_start_audio_upload">音频上传与播放</string>
+    <string name="qiniu_activity_quick_start_video_upload">视频上传与播放</string>
     <string name="qiniu_activity_simple_upload_without_key">无Key文件上传</string>
     <string name="qiniu_activity_simple_upload_with_key">有Key文件上传</string>
     <string name="qiniu_activity_simple_upload_use_save_key">使用SaveKey作为文件名</string>
@@ -82,6 +95,5 @@
     <string name="qiniu_get_public_video_playlist_failed">获取公开视频播放列表失败!</string>
     <string name="qiniu_image_view">图片浏览</string>
 
-    <string name="hello_world">Hello world!</string>
 
 </resources>
