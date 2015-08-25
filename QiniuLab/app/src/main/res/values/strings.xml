@@ -69,7 +69,7 @@
     <string name="qiniu_x_exParam3_hint">x:exParam3</string>
     <string name="qiniu_return_body_type">ReturnBody类型</string>
     <string name="qiniu_upload">上传</string>
-    <string name="qiniu_cancel">取消</string>
+    <string name="qiniu_cancel">暂停</string>
     <string name="qiniu_select_upload_file">选择文件:</string>
     <string name="qiniu_get_upload_token">申请凭证:</string>
     <string name="qiniu_upload_response">上传回复:</string>

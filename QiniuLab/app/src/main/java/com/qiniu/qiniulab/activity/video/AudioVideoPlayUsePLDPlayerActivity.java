@@ -89,7 +89,7 @@ public class AudioVideoPlayUsePLDPlayerActivity extends ActionBarActivity {
                     long loadTime = endTime - startTime;
 
                     videoPlayLogTextView.append("Load Ads Time: "
-                            + Tools.formatMilliSeconds(loadTime) + ", Duration: " + duration + "\r\n");
+                            + Tools.formatMilliSeconds(loadTime) + ", Duration: " + duration + "ms\r\n");
                     mp.start();
                 }
             });
@@ -111,7 +111,7 @@ public class AudioVideoPlayUsePLDPlayerActivity extends ActionBarActivity {
                             long endTime = System.currentTimeMillis();
                             long loadTime = endTime - startTime2;
                             videoPlayLogTextView.append("Load Video Time: "
-                                    + Tools.formatMilliSeconds(loadTime) + ", Duration:" + duration + "\r\n");
+                                    + Tools.formatMilliSeconds(loadTime) + ", Duration:" + duration + "ms\r\n");
                             mp.start();
                         }
                     });
@@ -136,7 +136,7 @@ public class AudioVideoPlayUsePLDPlayerActivity extends ActionBarActivity {
                     long endTime = System.currentTimeMillis();
                     long loadTime = endTime - startTime2;
                     videoPlayLogTextView.append("Load Video Time: "
-                            + Tools.formatMilliSeconds(loadTime) + ", Duration:" + duration + "\r\n");
+                            + Tools.formatMilliSeconds(loadTime) + ", Duration:" + duration + "ms\r\n");
                     mp.start();
                 }
             });
