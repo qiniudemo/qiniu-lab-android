@@ -250,12 +250,12 @@ public class SimpleUploadUseSaveKeyFromXParamActivity extends ActionBarActivity 
                 }, uploadOptions);
     }
 
-    private synchronized void updateStatus(final double percentage) {
+    private void updateStatus(final double percentage) {
         long now = System.currentTimeMillis();
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0) {
+        if (deltaTime <= 100) {
             return;
         }
 

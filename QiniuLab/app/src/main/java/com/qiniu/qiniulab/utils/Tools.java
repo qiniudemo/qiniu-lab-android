@@ -52,8 +52,8 @@ public class Tools {
         return String.format(Locale.getDefault(), "%.2f", result);
     }
 
-    public static String formatSpeed(double fileLength, double millis) {
-        double speed = fileLength * FZ_KB / millis / 1000;
+    public static String formatSpeed(double deltaSize, double deltaMillis) {
+        double speed = deltaSize * 1000 / deltaMillis / FZ_KB;
         String result = String.format(Locale.getDefault(), "%.2f KB/s", speed);
         if ((int) speed > FZ_KB) {
             result = String.format(Locale.getDefault(), "%.2f MB/s", speed
