@@ -58,39 +58,97 @@ public class AudioVideoPlayUsePLDPlayerActivity extends ActionBarActivity {
 
         final long startTime = System.currentTimeMillis();
 
-        //insert ads
-        videoPlayView.setVideoURI(Uri.parse(adsUrl));
-        videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+        //common settings
+        videoPlayView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
+
             @Override
-            public void onPrepared(IMediaPlayer mp) {
-                long endTime = System.currentTimeMillis();
-                long loadTime = endTime - startTime;
-                videoPlayLogTextView.append("Load Ads Time: "
-                        + Tools.formatMilliSeconds(loadTime) + "\r\n");
-                mp.start();
+            public boolean onError(IMediaPlayer mp, int what, int extra) {
+                videoPlayLogTextView.append("Play " + mp.getDataSource() + "Error, Pos" + mp.getCurrentPosition() + "\r\n");
+                return false;
             }
         });
 
-        //video to play
-        videoPlayView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(IMediaPlayer mp) {
-                videoPlayView.setVideoURI(Uri.parse(videoUrl));
-                final long startTime2 = System.currentTimeMillis();
-                videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+        videoPlayView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
 
-                    @Override
-                    public void onPrepared(IMediaPlayer mp) {
-                        long endTime = System.currentTimeMillis();
-                        long loadTime = endTime - startTime2;
-                        videoPlayLogTextView.append("Load Video Time: "
-                                + Tools.formatMilliSeconds(loadTime) + "\r\n");
-                        mp.start();
-                    }
-                });
+            @Override
+            public boolean onInfo(IMediaPlayer mp, int what, int extra) {
+                videoPlayLogTextView.append("Play " + mp.getDataSource() + ", Pos:" + mp.getCurrentPosition() + "\r\n");
+                return false;
             }
         });
 
+        if (!adsUrl.isEmpty()) {
+            ///////////////// Play the ads first /////////////////////////
 
+            videoPlayView.setVideoURI(Uri.parse(adsUrl));
+            videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(IMediaPlayer mp) {
+                    long duration = videoPlayView.getDuration();
+                    long endTime = System.currentTimeMillis();
+                    long loadTime = endTime - startTime;
+
+                    videoPlayLogTextView.append("Load Ads Time: "
+                            + Tools.formatMilliSeconds(loadTime) + ", Duration: " + duration + "\r\n");
+                    mp.start();
+                }
+            });
+
+
+            //////////////////Play the video then ////////////////////////
+
+            //video to play
+            videoPlayView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(IMediaPlayer mp) {
+                    videoPlayView.setVideoURI(Uri.parse(videoUrl));
+                    final long startTime2 = System.currentTimeMillis();
+                    videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+
+                        @Override
+                        public void onPrepared(IMediaPlayer mp) {
+                            long duration = videoPlayView.getDuration();
+                            long endTime = System.currentTimeMillis();
+                            long loadTime = endTime - startTime2;
+                            videoPlayLogTextView.append("Load Video Time: "
+                                    + Tools.formatMilliSeconds(loadTime) + ", Duration:" + duration + "\r\n");
+                            mp.start();
+                        }
+                    });
+                    videoPlayView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+
+                        @Override
+                        public void onCompletion(IMediaPlayer iMediaPlayer) {
+                            videoPlayLogTextView.append("All Play Ends\r\n");
+                        }
+                    });
+                }
+            });
+        } else {
+            //video to play
+            videoPlayView.setVideoURI(Uri.parse(videoUrl));
+            final long startTime2 = System.currentTimeMillis();
+            videoPlayView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
+
+                @Override
+                public void onPrepared(IMediaPlayer mp) {
+                    long duration = videoPlayView.getDuration();
+                    long endTime = System.currentTimeMillis();
+                    long loadTime = endTime - startTime2;
+                    videoPlayLogTextView.append("Load Video Time: "
+                            + Tools.formatMilliSeconds(loadTime) + ", Duration:" + duration + "\r\n");
+                    mp.start();
+                }
+            });
+            videoPlayView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
+
+                @Override
+                public void onCompletion(IMediaPlayer iMediaPlayer) {
+                    videoPlayLogTextView.append("All Play Ends\r\n");
+                }
+            });
+        }
     }
+
+
 }

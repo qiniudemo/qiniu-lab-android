@@ -128,7 +128,7 @@ public class SimpleUploadUseMimeLimitActivity extends ActionBarActivity {
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.SIMPLE_UPLOAD_USE_MIME_LIMIT_PATH),
-                QiniuLabConfig.EMPTY_BODY,0,0, null, null, new CompletionHandler() {
+                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
 
                     @Override
                     public void complete(ResponseInfo respInfo,
@@ -170,7 +170,7 @@ public class SimpleUploadUseMimeLimitActivity extends ActionBarActivity {
 
                         }
                     }
-                }, null,false);
+                }, null, false);
     }
 
     private void upload(String uploadToken) {

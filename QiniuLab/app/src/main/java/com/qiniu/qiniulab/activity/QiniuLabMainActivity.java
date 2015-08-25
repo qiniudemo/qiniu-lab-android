@@ -47,7 +47,7 @@ public class QiniuLabMainActivity extends ActionBarActivity {
         this.exampleItemTitleList.add(Arrays.asList(this.getResources()
                 .getStringArray(R.array.qiniu_advanced_upload_values)));
         this.exampleItemTitleList.add(Arrays.asList(this.getResources()
-                .getStringArray(R.array.qiniu_audio_video_play)));
+                .getStringArray(R.array.qiniu_video_play)));
         this.exampleItemTitleList.add(Arrays.asList(this.getResources()
                 .getStringArray(R.array.qiniu_image_view)));
         ExpandableListAdapter exampleListViewAdapter = new ExampleExpandableListAdapter(

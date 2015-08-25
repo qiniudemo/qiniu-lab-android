@@ -120,7 +120,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.SIMPLE_UPLOAD_USE_SAVE_KEY_PATH),
-                QiniuLabConfig.EMPTY_BODY,0,0, null, null, new CompletionHandler() {
+                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
 
                     @Override
                     public void complete(ResponseInfo respInfo,
@@ -159,7 +159,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
 
                         }
                     }
-                }, null,false);
+                }, null, false);
     }
 
     private void upload(String uploadToken) {
@@ -246,7 +246,7 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0 ) {
+        if (deltaTime <= 0) {
             return;
         }
 

@@ -117,6 +117,7 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
         if (this.httpManager == null) {
             this.httpManager = new HttpManager();
         }
+        //从业务服务器获取上传凭证
         this.httpManager.postData(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.SIMPLE_UPLOAD_WITHOUT_KEY_PATH),
@@ -185,6 +186,7 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
         uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
         uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
         writeLog(context.getString(R.string.qiniu_upload_file) + "...");
+        //因为是无key上传，所以key参数指定为null
         this.uploadManager.put(uploadFile, null, uploadToken,
                 new UpCompletionHandler() {
                     @Override

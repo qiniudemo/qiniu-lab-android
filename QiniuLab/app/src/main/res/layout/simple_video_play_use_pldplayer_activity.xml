@@ -16,12 +16,19 @@
             android:layout_height="match_parent" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/simple_video_play_log_textview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/log_textview_background"
-        android:padding="@dimen/textview_padding"></TextView>
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/simple_video_play_log_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/log_textview_background"
+            android:padding="@dimen/textview_padding"
+            android:scrollbarAlwaysDrawVerticalTrack="true"></TextView>
+    </ScrollView>
+
 
 </LinearLayout>

@@ -260,7 +260,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
         long deltaTime = now - uploadLastTimePoint;
         long currentOffset = (long) (percentage * uploadFileLength);
         long deltaSize = currentOffset - uploadLastOffset;
-        if (deltaTime <= 0 ) {
+        if (deltaTime <= 0) {
             return;
         }
 

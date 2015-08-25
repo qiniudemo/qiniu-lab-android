@@ -4,16 +4,12 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerListActivity;
-import com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoJSListActivity;
-import com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewListActivity;
-import com.qiniu.qiniulab.activity.upload.BatchUploadFnameAsKeyActivity;
+import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
+import com.qiniu.qiniulab.activity.image.SimpleImageViewActivity;
 import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInJsonFormatActivity;
 import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInUrlFormatActivity;
-import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.upload.ResumableUploadWithKeyActivity;
 import com.qiniu.qiniulab.activity.upload.ResumableUploadWithoutKeyActivity;
-import com.qiniu.qiniulab.activity.image.SimpleImageViewActivity;
 import com.qiniu.qiniulab.activity.upload.SimpleUploadEnableCrc32CheckActivity;
 import com.qiniu.qiniulab.activity.upload.SimpleUploadOverwriteExistingFileActivity;
 import com.qiniu.qiniulab.activity.upload.SimpleUploadUseEndUserActivity;
@@ -25,6 +21,8 @@ import com.qiniu.qiniulab.activity.upload.SimpleUploadUseSaveKeyFromXParamActivi
 import com.qiniu.qiniulab.activity.upload.SimpleUploadWithKeyActivity;
 import com.qiniu.qiniulab.activity.upload.SimpleUploadWithMimeTypeActivity;
 import com.qiniu.qiniulab.activity.upload.SimpleUploadWithoutKeyActivity;
+import com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerListActivity;
+import com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewListActivity;
 
 public class OnExampleItemClickListener implements
         ExpandableListView.OnChildClickListener {
@@ -88,11 +86,6 @@ public class OnExampleItemClickListener implements
             } else if (childPosition == 3) {
                 intent = new Intent(this.mainActivity,
                         CallbackUploadWithKeyInJsonFormatActivity.class);
-            } else if (childPosition == 4) {
-                intent = new Intent(this.mainActivity,
-                        BatchUploadFnameAsKeyActivity.class);
-            } else if (childPosition == 5) {
-
             }
         } else if (groupPosition == 2) {
             // audio video play

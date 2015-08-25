@@ -14,12 +14,13 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.qiniu.android.http.CompletionHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.HttpManager;
-import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,55 +64,56 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
                 context.startActivity(intent);
             }
         });
-        this.loadPlaylist();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                loadPlaylist();
+            }
+        }).start();
     }
 
     private void loadPlaylist() {
-        this.httpManager.postData(QiniuLabConfig.makeUrl(
-                        QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.PUBLIC_VIDEO_PLAY_LIST_PATH),
-                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
-
-                    @Override
-                    public void complete(ResponseInfo respInfo,
-                                         JSONObject jsonData) {
-                        if (respInfo.statusCode == 200) {
-                            try {
-                                JSONArray playlistArray = jsonData
-                                        .getJSONArray("playlist");
-                                List<Map<String, String>> playlistDataList = new ArrayList<Map<String, String>>();
-                                for (int i = 0; i < playlistArray.length(); i++) {
-                                    JSONObject videoObj = playlistArray
-                                            .getJSONObject(i);
-                                    String name = videoObj.getString("name");
-                                    String adsUrl = videoObj.getString("ads_url");
-                                    String videoUrl = videoObj.getString("video_url");
-                                    Map<String, String> playlistData = new HashMap<String, String>();
-                                    playlistData.put("NAME", name);
-                                    playlistData.put("ADS_URL", adsUrl);
-                                    playlistData.put("VIDEO_URL", videoUrl);
-                                    playlistDataList.add(playlistData);
-                                }
-                                // pack playlist
-                                SimpleAdapter playlistAdapter = new SimpleAdapter(
-                                        context,
-                                        playlistDataList,
-                                        R.layout.simple_video_play_list_item,
-                                        new String[]{"NAME", "ADS_URL", "VIDEO_URL"},
-                                        new int[]{
-                                                R.id.simple_video_play_list_item_name_textview,
-                                                R.id.simple_video_play_list_item_ads_url_textview,
-                                                R.id.simple_video_play_list_item_video_url_textview});
-                                playlistView.setAdapter(playlistAdapter);
-                            } catch (JSONException e) {
-                                Toast.makeText(
-                                        context,
-                                        context.getString(R.string.qiniu_get_public_video_playlist_failed),
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
+        SyncHttpClient client = new SyncHttpClient();
+        client.get(QiniuLabConfig.makeUrl(
+                QiniuLabConfig.REMOTE_SERVICE_SERVER,
+                QiniuLabConfig.PUBLIC_VIDEO_PLAY_LIST_PATH), null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    JSONArray playlistArray = response.getJSONArray("playlist");
+                    List<Map<String, String>> playlistDataList = new ArrayList<Map<String, String>>();
+                    for (int i = 0; i < playlistArray.length(); i++) {
+                        JSONObject videoObj = playlistArray
+                                .getJSONObject(i);
+                        String name = videoObj.getString("name");
+                        String adsUrl = videoObj.getString("ads_url");
+                        String videoUrl = videoObj.getString("video_url");
+                        Map<String, String> playlistData = new HashMap<String, String>();
+                        playlistData.put("NAME", name);
+                        playlistData.put("ADS_URL", adsUrl);
+                        playlistData.put("VIDEO_URL", videoUrl);
+                        playlistDataList.add(playlistData);
                     }
-                }, null, false);
+                    // pack playlist
+                    SimpleAdapter playlistAdapter = new SimpleAdapter(
+                            context,
+                            playlistDataList,
+                            R.layout.simple_video_play_list_item,
+                            new String[]{"NAME", "ADS_URL", "VIDEO_URL"},
+                            new int[]{
+                                    R.id.simple_video_play_list_item_name_textview,
+                                    R.id.simple_video_play_list_item_ads_url_textview,
+                                    R.id.simple_video_play_list_item_video_url_textview});
+                    playlistView.setAdapter(playlistAdapter);
+                } catch (JSONException e) {
+                    Toast.makeText(
+                            context,
+                            context.getString(R.string.qiniu_get_public_video_playlist_failed),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
     }
 
     @Override
