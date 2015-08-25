@@ -36,7 +36,6 @@
     <string-array name="qiniu_video_play">
         <item>视频播放(VideoView)</item>
         <item>视频播放(PLDPlayer)</item>
-        <item>视频播放(Video.js)</item>
     </string-array>
 
 
