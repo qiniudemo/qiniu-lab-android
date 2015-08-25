@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.HttpManager;
+import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 
@@ -95,7 +96,7 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
                         playlistDataList.add(playlistData);
                     }
                     // pack playlist
-                    SimpleAdapter playlistAdapter = new SimpleAdapter(
+                    final SimpleAdapter playlistAdapter = new SimpleAdapter(
                             context,
                             playlistDataList,
                             R.layout.simple_video_play_list_item,
@@ -104,7 +105,13 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
                                     R.id.simple_video_play_list_item_name_textview,
                                     R.id.simple_video_play_list_item_ads_url_textview,
                                     R.id.simple_video_play_list_item_video_url_textview});
-                    playlistView.setAdapter(playlistAdapter);
+                    AsyncRun.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            playlistView.setAdapter(playlistAdapter);
+                        }
+                    });
+
                 } catch (JSONException e) {
                     Toast.makeText(
                             context,

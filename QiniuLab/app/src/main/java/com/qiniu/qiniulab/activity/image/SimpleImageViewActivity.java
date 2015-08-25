@@ -71,13 +71,12 @@ public class SimpleImageViewActivity extends ActionBarActivity {
     }
 
     private void basicImageView() {
-        List<String> imageUrls = this.populateUrls();
-        List<Bitmap> bitmaps = loadImages(imageUrls);
+        List<String> imageUrls = this.getImageUrls();
         final GridView gridView = (GridView) this.findViewById(R.id.simple_grid_image_view);
         ArrayList<HashMap<String, Object>> viewData = new ArrayList<HashMap<String, Object>>();
-        for (Bitmap bitmap : bitmaps) {
+        for (String imageUrl : imageUrls) {
             HashMap<String, Object> item = new HashMap<String, Object>();
-            item.put("image", bitmap);
+            item.put("image", imageUrl);
             viewData.add(item);
         }
         final SimpleAdapter adapter = new SimpleAdapter(this, viewData,
@@ -87,9 +86,53 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
             @Override
             public boolean setViewValue(View view, Object data, String textRepresentation) {
-                if (view instanceof ImageView && data instanceof Bitmap) {
-                    ImageView imageView = (ImageView) view;
-                    imageView.setImageBitmap((Bitmap) data);
+                if (view instanceof ImageView && data instanceof String) {
+                    final SyncHttpClient httpClient = new SyncHttpClient();
+                    final String imageUrl = data.toString();
+
+                    final URI imageUri = URI.create(imageUrl);
+                    final String host = imageUri.getHost();
+
+                    final ImageView imageView = (ImageView) view;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String reqImageUrl = imageUrl;
+                            try {
+                                String ip = DomainUtils.getIpByDomain(host);
+                                if (ip != null) {
+                                    reqImageUrl = String.format("%s://%s%s", imageUri.getScheme(), ip, imageUri.getPath());
+                                    if (imageUri.getQuery() != null) {
+                                        reqImageUrl = String.format("%s?%s", reqImageUrl, imageUri.getQuery());
+                                    }
+                                    httpClient.removeHeader("Host");
+                                    httpClient.addHeader("Host", host);
+                                }
+                            } catch (IOException e) {
+
+                            }
+
+                            httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                    final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    AsyncRun.run(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            imageView.setImageBitmap(bitmap);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                                }
+                            });
+
+                        }
+                    }).start();
+
                     return true;
                 } else {
                     return false;
@@ -104,7 +147,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         });
     }
 
-    private List<String> populateUrls() {
+    private List<String> getImageUrls() {
         final List<String> imageUrls = new ArrayList<String>();
         SyncHttpClient httpClient = new SyncHttpClient();
         //获取设备的分辨率，以从服务器获取合适大小的图片显示
@@ -131,41 +174,4 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         return imageUrls;
     }
 
-    private List<Bitmap> loadImages(List<String> imageUrls) {
-        final List<Bitmap> bitmaps = new ArrayList<Bitmap>();
-        SyncHttpClient httpClient = new SyncHttpClient();
-        for (String imageUrl : imageUrls) {
-            URI imageUri = URI.create(imageUrl);
-            String host = imageUri.getHost();
-            String reqImageUrl = imageUrl;
-            try {
-                String ip = DomainUtils.getIpByDomain(host);
-                if (ip != null) {
-                    reqImageUrl = String.format("%s://%s%s", imageUri.getScheme(), ip, imageUri.getPath());
-                    if (imageUri.getQuery() != null) {
-                        reqImageUrl = String.format("%s?%s", reqImageUrl, imageUri.getQuery());
-                    }
-                    httpClient.removeHeader("Host");
-                    httpClient.addHeader("Host", host);
-                }
-            } catch (IOException e) {
-
-            }
-            System.out.println(reqImageUrl);
-            httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
-                @Override
-                public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    bitmaps.add(bitmap);
-                }
-
-                @Override
-                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
-                }
-            });
-        }
-
-        return bitmaps;
-    }
 }
