@@ -125,9 +125,8 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
                         QiniuLabConfig.SIMPLE_UPLOAD_WITHOUT_KEY_PATH), null, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        String uploadToken = null;
                         try {
-                            uploadToken = response.getString("uptoken");
+                            String uploadToken = response.getString("uptoken");
                             writeLog(context
                                     .getString(R.string.qiniu_get_upload_token)
                                     + uploadToken);
