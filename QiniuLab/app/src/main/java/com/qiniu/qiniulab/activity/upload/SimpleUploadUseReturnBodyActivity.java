@@ -220,7 +220,7 @@ public class SimpleUploadUseReturnBodyActivity extends ActionBarActivity {
                                 String fileHash = jsonData.getString("hash");
                                 writeLog(context
                                         .getString(R.string.qiniu_upload_response)
-                                        + jsonData.toString());
+                                        +"\r\n"+ jsonData.toString());
                                 writeLog("File Size: "
                                         + Tools.formatSize(uploadFileLength));
                                 writeLog("File Key: " + fileKey);

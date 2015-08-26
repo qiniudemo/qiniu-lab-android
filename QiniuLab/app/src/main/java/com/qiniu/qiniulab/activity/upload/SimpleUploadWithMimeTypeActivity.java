@@ -212,10 +212,12 @@ public class SimpleUploadWithMimeTypeActivity extends ActionBarActivity {
                             try {
                                 String fileKey = jsonData.getString("key");
                                 String fileHash = jsonData.getString("hash");
+                                String fileMime = jsonData.getString("mimeType");
                                 writeLog("File Size: "
                                         + Tools.formatSize(uploadFileLength));
                                 writeLog("File Key: " + fileKey);
                                 writeLog("File Hash: " + fileHash);
+                                writeLog("File Mime:" + fileMime);
                                 writeLog("Last Time: "
                                         + Tools.formatMilliSeconds(lastMillis));
                                 writeLog("Average Speed: "

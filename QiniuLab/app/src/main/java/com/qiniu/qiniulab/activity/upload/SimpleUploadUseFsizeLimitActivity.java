@@ -15,8 +15,6 @@ import android.widget.Toast;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
-import com.qiniu.android.http.CompletionHandler;
-import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -188,21 +186,34 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
         this.uploadFileLength = fileLength;
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
-        // prepare status
-        uploadPercentageTextView.setText("0 %");
-        uploadSpeedTextView.setText("0 KB/s");
-        uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
-        uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+
+        AsyncRun.run(new Runnable() {
+            @Override
+            public void run() {
+                // prepare status
+                uploadPercentageTextView.setText("0 %");
+                uploadSpeedTextView.setText("0 KB/s");
+                uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
+                uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
+
         writeLog(context.getString(R.string.qiniu_upload_file) + "...");
         this.uploadManager.put(uploadFile, uploadFileKey, uploadToken,
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
-                        // reset status
-                        uploadStatusLayout
-                                .setVisibility(LinearLayout.INVISIBLE);
-                        uploadProgressBar.setProgress(0);
+                        AsyncRun.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                // reset status
+                                uploadStatusLayout
+                                        .setVisibility(LinearLayout.INVISIBLE);
+                                uploadProgressBar.setProgress(0);
+                            }
+                        });
+
                         long lastMillis = System.currentTimeMillis()
                                 - startTime;
                         if (respInfo.isOK()) {
@@ -222,10 +233,16 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                                 writeLog("X-Via: " + respInfo.xvia);
                                 writeLog("--------------------------------");
                             } catch (JSONException e) {
-                                Toast.makeText(
-                                        context,
-                                        context.getString(R.string.qiniu_upload_file_response_parse_error),
-                                        Toast.LENGTH_LONG).show();
+                                AsyncRun.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(
+                                                context,
+                                                context.getString(R.string.qiniu_upload_file_response_parse_error),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
                                 writeLog(context
                                         .getString(R.string.qiniu_upload_file_response_parse_error));
                                 if (jsonData != null) {
@@ -234,10 +251,16 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                                 writeLog("--------------------------------");
                             }
                         } else {
-                            Toast.makeText(
-                                    context,
-                                    context.getString(R.string.qiniu_upload_file_failed),
-                                    Toast.LENGTH_LONG).show();
+                            AsyncRun.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(
+                                            context,
+                                            context.getString(R.string.qiniu_upload_file_failed),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                             writeLog(respInfo.toString());
                             if (jsonData != null) {
                                 writeLog(jsonData.toString());
@@ -278,8 +301,15 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
         this.uploadLogTextView.setText("");
     }
 
-    private void writeLog(String msg) {
-        this.uploadLogTextView.append(msg);
-        this.uploadLogTextView.append("\r\n");
+    private void writeLog(final String msg) {
+
+        AsyncRun.run(new Runnable() {
+            @Override
+            public void run() {
+                uploadLogTextView.append(msg);
+                uploadLogTextView.append("\r\n");
+            }
+        });
+
     }
 }

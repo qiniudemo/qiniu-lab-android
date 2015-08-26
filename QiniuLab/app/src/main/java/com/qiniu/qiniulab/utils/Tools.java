@@ -19,11 +19,11 @@ public class Tools {
         StringBuilder sb = new StringBuilder();
         if (fileLength < FZ_KB) {
             sb.append(formatDouble(fileLength, 1)).append(" B");
-        } else if (fileLength < FZ_MB) {
+        } else if (fileLength <= FZ_MB) {
             sb.append(formatDouble(fileLength, FZ_KB)).append(" KB");
-        } else if (fileLength < FZ_GB) {
+        } else if (fileLength <= FZ_GB) {
             sb.append(formatDouble(fileLength, FZ_MB)).append(" MB");
-        } else if (fileLength < FZ_PB) {
+        } else if (fileLength <= FZ_PB) {
             sb.append(formatDouble(fileLength, FZ_GB)).append(" GB");
         } else {
             sb.append(formatDouble(fileLength, FZ_PB)).append(" PB");
