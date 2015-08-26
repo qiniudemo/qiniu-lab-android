@@ -223,7 +223,7 @@ public class CallbackUploadWithKeyInJsonFormatActivity extends
                         if (respInfo.isOK()) {
                             try {
                                 String fileKey = jsonData.getString("key");
-                                String fileHash = jsonData.getString("hash");
+                                String fileHash = jsonData.getString("etag");
 
                                 String xExParam1 = jsonData
                                         .getString("exParam1");
@@ -238,17 +238,16 @@ public class CallbackUploadWithKeyInJsonFormatActivity extends
                                 writeLog("File Hash: " + fileHash);
                                 writeLog("Last Time: "
                                         + Tools.formatMilliSeconds(lastMillis));
-                                uploadLogTextView.append("XParam [exParam1]: "
+                                writeLog("XParam [exParam1]: "
                                         + xExParam1);
-                                uploadLogTextView.append("XParam [exParam2]: "
+                                writeLog("XParam [exParam2]: "
                                         + xExParam2);
-                                uploadLogTextView.append("XParam [exParam3]: "
+                                writeLog("XParam [exParam3]: "
                                         + xExParam3);
                                 writeLog("Average Speed: "
                                         + Tools.formatSpeed(fileLength,
                                         lastMillis));
                                 writeLog("X-Reqid: " + respInfo.reqId);
-                                writeLog("X-Log: " + respInfo.xlog);
                                 writeLog("X-Via: " + respInfo.xvia);
                                 writeLog("--------------------------------");
                             } catch (JSONException e) {

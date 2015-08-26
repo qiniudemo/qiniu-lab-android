@@ -73,7 +73,7 @@ public class QiniuLabMainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_about:
                 Intent aboutIntent = new Intent(QiniuLabMainActivity.this,
                         AboutActivity.class);

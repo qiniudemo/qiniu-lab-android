@@ -210,7 +210,6 @@ public class SimpleUploadUseSaveKeyActivity extends ActionBarActivity {
                                         + Tools.formatSpeed(fileLength,
                                         lastMillis));
                                 writeLog("X-Reqid: " + respInfo.reqId);
-                                writeLog("X-Log: " + respInfo.xlog);
                                 writeLog("X-Via: " + respInfo.xvia);
                                 writeLog("--------------------------------");
                             } catch (JSONException e) {
