@@ -284,16 +284,6 @@
         </activity>
 
         <activity
-            android:name=".activity.quick.QuickStartAudioExampleActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/qiniu_activity_quick_start_audio_upload"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity"></meta-data>
-        </activity>
-
-        <activity
             android:name=".activity.quick.QuickStartVideoExampleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_quick_start_video_upload"

@@ -6,7 +6,6 @@ import android.widget.ExpandableListView;
 
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
 import com.qiniu.qiniulab.activity.image.SimpleImageViewActivity;
-import com.qiniu.qiniulab.activity.quick.QuickStartAudioExampleActivity;
 import com.qiniu.qiniulab.activity.quick.QuickStartImageExampleActivity;
 import com.qiniu.qiniulab.activity.quick.QuickStartVideoExampleActivity;
 import com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInJsonFormatActivity;
@@ -45,8 +44,6 @@ public class OnExampleItemClickListener implements
             if (childPosition == 0) {
                 intent = new Intent(this.mainActivity, QuickStartImageExampleActivity.class);
             } else if (childPosition == 1) {
-                intent = new Intent(this.mainActivity, QuickStartAudioExampleActivity.class);
-            } else if (childPosition == 2) {
                 intent = new Intent(this.mainActivity, QuickStartVideoExampleActivity.class);
             }
         } else if (groupPosition == 1) {

@@ -2,8 +2,8 @@ package com.qiniu.qiniulab.config;
 
 public class QiniuLabConfig {
     public final static byte[] EMPTY_BODY = new byte[0];
-    //public final static String REMOTE_SERVICE_SERVER = "http://115.231.183.102:9090";
-    public final static String REMOTE_SERVICE_SERVER = "http://192.168.100.105/~jemy/qiniu-api-server/php-v6";
+    public final static String REMOTE_SERVICE_SERVER = "http://115.231.183.102:9090";
+    //public final static String REMOTE_SERVICE_SERVER = "http://192.168.200.108/~jemy/qiniu-api-server/php-v6";
 
     //quick start
     public final static String QUICK_START_IMAGE_DEMO_PATH = "/api/quick_start/simple_image_example_token.php";
@@ -33,6 +33,7 @@ public class QiniuLabConfig {
 
     public final static String PUBLIC_IMAGE_VIEW_LIST_PATH = "/api/image_view/public_image_view_list.php";
     public final static String PUBLIC_VIDEO_PLAY_LIST_PATH = "/api/video_play/public_video_play_list.php";
+    public final static String QUERY_PFOP_RESULT_PATH = "/service/query_pfop_result.php";
 
     public static String makeUrl(String remoteServer, String reqPath) {
         StringBuilder sb = new StringBuilder();
