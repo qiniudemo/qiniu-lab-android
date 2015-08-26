@@ -1,5 +1,8 @@
 package com.qiniu.qiniulab.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 public class Tools {
@@ -61,4 +64,12 @@ public class Tools {
         }
         return result;
     }
+
+    public static byte[] sha1(String val) throws NoSuchAlgorithmException,
+            UnsupportedEncodingException {
+        byte[] data = val.getBytes("utf-8");
+        MessageDigest mDigest = MessageDigest.getInstance("sha1");
+        return mDigest.digest(data);
+    }
+
 }

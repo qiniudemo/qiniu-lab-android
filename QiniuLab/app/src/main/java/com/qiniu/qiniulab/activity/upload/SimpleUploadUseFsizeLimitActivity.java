@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.CompletionHandler;
 import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
@@ -25,6 +27,7 @@ import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
 
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,7 +45,6 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
     private TextView uploadSpeedTextView;
     private TextView uploadFileLengthTextView;
     private TextView uploadPercentageTextView;
-    private HttpManager httpManager;
     private UploadManager uploadManager;
     private long uploadLastTimePoint;
     private long uploadLastOffset;
@@ -123,56 +125,49 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
         if (this.uploadFilePath == null) {
             return;
         }
-        if (this.httpManager == null) {
-            this.httpManager = new HttpManager();
-        }
-        this.httpManager.postData(QiniuLabConfig.makeUrl(
+        //从业务服务器获取上传凭证
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final SyncHttpClient httpClient = new SyncHttpClient();
+                httpClient.get(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.SIMPLE_UPLOAD_USE_FSIZE_LIMIT_PATH),
-                QiniuLabConfig.EMPTY_BODY, 0, 0, null, null, new CompletionHandler() {
-
+                        QiniuLabConfig.SIMPLE_UPLOAD_USE_FSIZE_LIMIT_PATH), null, new JsonHttpResponseHandler() {
                     @Override
-                    public void complete(ResponseInfo respInfo,
-                                         JSONObject jsonData) {
-                        if (respInfo.statusCode == 200) {
-                            try {
-                                String uploadToken = jsonData
-                                        .getString("uptoken");
-                                int fsizeLimit = jsonData.getInt("fsizeLimit");
-                                uploadFsizeLimitTextView.setText("<="
-                                        + fsizeLimit + " Byte ("
-                                        + Tools.formatSize(fsizeLimit) + ")");
-                                writeLog(context
-                                        .getString(R.string.qiniu_get_upload_token)
-                                        + uploadToken);
-                                upload(uploadToken);
-                            } catch (JSONException e) {
-                                Toast.makeText(
-                                        context,
-                                        context.getString(R.string.qiniu_get_upload_token_failed),
-                                        Toast.LENGTH_LONG).show();
-                                writeLog(context
-                                        .getString(R.string.qiniu_get_upload_token_failed)
-                                        + respInfo.toString());
-                                if (jsonData != null) {
-                                    writeLog(jsonData.toString());
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            String uploadToken = response.getString("uptoken");
+                            final int fsizeLimit = response.getInt("fsizeLimit");
+                            AsyncRun.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    uploadFsizeLimitTextView.setText("<="
+                                            + fsizeLimit + " Byte ("
+                                            + Tools.formatSize(fsizeLimit) + ")");
                                 }
-                            }
-                        } else {
-                            Toast.makeText(
-                                    context,
-                                    context.getString(R.string.qiniu_get_upload_token_failed),
-                                    Toast.LENGTH_LONG).show();
+                            });
+                            writeLog(context
+                                    .getString(R.string.qiniu_get_upload_token)
+                                    + uploadToken);
+                            upload(uploadToken);
+                        } catch (JSONException e1) {
+                            AsyncRun.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(
+                                            context,
+                                            context.getString(R.string.qiniu_get_upload_token_failed),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
                             writeLog(context
                                     .getString(R.string.qiniu_get_upload_token_failed)
-                                    + respInfo.toString());
-                            if (jsonData != null) {
-                                writeLog(jsonData.toString());
-                            }
-
+                                    + response.toString());
                         }
                     }
-                }, null, false);
+                });
+            }
+        }).start();
     }
 
     private void upload(String uploadToken) {

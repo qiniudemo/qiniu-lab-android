@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,9 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.common.Constants;
-import com.qiniu.android.http.CompletionHandler;
-import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -28,12 +28,10 @@ import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
 
 import org.apache.http.Header;
-import org.apache.http.message.BasicHeader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
     private static final int REQUEST_CODE = 8090;
@@ -45,7 +43,6 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
     private TextView uploadSpeedTextView;
     private TextView uploadFileLengthTextView;
     private TextView uploadPercentageTextView;
-    private HttpManager httpManager;
     private UploadManager uploadManager;
     private long uploadLastTimePoint;
     private long uploadLastOffset;
@@ -128,62 +125,42 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
         if (this.uploadFilePath == null) {
             return;
         }
-        if (this.httpManager == null) {
-            this.httpManager = new HttpManager();
-        }
-        String endUser = "endUser=" + getEndUser();
-        byte[] postData = QiniuLabConfig.EMPTY_BODY;
-        try {
-            postData = endUser.getBytes("utf-8");
-        } catch (UnsupportedEncodingException e1) {
-            Log.e("QiniuAndroidSDK", "no supported charset utf-8");
-        }
-        Header contentTypeHeader = new BasicHeader("Content-Type",
-                "application/x-www-form-urlencoded");
-        this.httpManager.postData(QiniuLabConfig.makeUrl(
+        //从业务服务器获取上传凭证
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final SyncHttpClient httpClient = new SyncHttpClient();
+                RequestParams params = new RequestParams();
+                params.add("endUser", getEndUser());
+                httpClient.get(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.SIMPLE_UPLOAD_USE_ENDUSER_PATH), postData, 0, postData.length,
-                new Header[]{contentTypeHeader}, null,
-                new CompletionHandler() {
-
+                        QiniuLabConfig.SIMPLE_UPLOAD_USE_ENDUSER_PATH), params, new JsonHttpResponseHandler() {
                     @Override
-                    public void complete(ResponseInfo respInfo,
-                                         JSONObject jsonData) {
-                        if (respInfo.statusCode == 200) {
-                            try {
-                                String uploadToken = jsonData
-                                        .getString("uptoken");
-                                writeLog(context
-                                        .getString(R.string.qiniu_get_upload_token)
-                                        + uploadToken);
-                                upload(uploadToken);
-                            } catch (JSONException e) {
-                                Toast.makeText(
-                                        context,
-                                        context.getString(R.string.qiniu_get_upload_token_failed),
-                                        Toast.LENGTH_LONG).show();
-                                writeLog(context
-                                        .getString(R.string.qiniu_get_upload_token_failed)
-                                        + respInfo.toString());
-                                if (jsonData != null) {
-                                    writeLog(jsonData.toString());
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            String uploadToken = response.getString("uptoken");
+                            writeLog(context
+                                    .getString(R.string.qiniu_get_upload_token)
+                                    + uploadToken);
+                            upload(uploadToken);
+                        } catch (JSONException e1) {
+                            AsyncRun.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(
+                                            context,
+                                            context.getString(R.string.qiniu_get_upload_token_failed),
+                                            Toast.LENGTH_LONG).show();
                                 }
-                            }
-                        } else {
-                            Toast.makeText(
-                                    context,
-                                    context.getString(R.string.qiniu_get_upload_token_failed),
-                                    Toast.LENGTH_LONG).show();
+                            });
                             writeLog(context
                                     .getString(R.string.qiniu_get_upload_token_failed)
-                                    + respInfo.toString());
-                            if (jsonData != null) {
-                                writeLog(jsonData.toString());
-                            }
-
+                                    + response.toString());
                         }
                     }
-                }, null, false);
+                });
+            }
+        }).start();
     }
 
     private void upload(String uploadToken) {
@@ -204,21 +181,32 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
         this.uploadFileLength = fileLength;
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
-        // prepare status
-        uploadPercentageTextView.setText("0 %");
-        uploadSpeedTextView.setText("0 KB/s");
-        uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
-        uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+
+        AsyncRun.run(new Runnable() {
+            @Override
+            public void run() {
+                // prepare status
+                uploadPercentageTextView.setText("0 %");
+                uploadSpeedTextView.setText("0 KB/s");
+                uploadFileLengthTextView.setText(Tools.formatSize(fileLength));
+                uploadStatusLayout.setVisibility(LinearLayout.VISIBLE);
+            }
+        });
         writeLog(context.getString(R.string.qiniu_upload_file) + "...");
         this.uploadManager.put(uploadFile, uploadFileKey, uploadToken,
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
-                        // reset status
-                        uploadStatusLayout
-                                .setVisibility(LinearLayout.INVISIBLE);
-                        uploadProgressBar.setProgress(0);
+                        AsyncRun.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                // reset status
+                                uploadStatusLayout
+                                        .setVisibility(LinearLayout.INVISIBLE);
+                                uploadProgressBar.setProgress(0);
+                            }
+                        });
                         long lastMillis = System.currentTimeMillis()
                                 - startTime;
                         if (respInfo.isOK()) {
@@ -240,10 +228,16 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
                                 writeLog("X-Via: " + respInfo.xvia);
                                 writeLog("--------------------------------");
                             } catch (JSONException e) {
-                                Toast.makeText(
-                                        context,
-                                        context.getString(R.string.qiniu_upload_file_response_parse_error),
-                                        Toast.LENGTH_LONG).show();
+                                AsyncRun.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(
+                                                context,
+                                                context.getString(R.string.qiniu_upload_file_response_parse_error),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
                                 writeLog(context
                                         .getString(R.string.qiniu_upload_file_response_parse_error));
                                 if (jsonData != null) {
@@ -252,10 +246,15 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
                                 writeLog("--------------------------------");
                             }
                         } else {
-                            Toast.makeText(
-                                    context,
-                                    context.getString(R.string.qiniu_upload_file_failed),
-                                    Toast.LENGTH_LONG).show();
+                            AsyncRun.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(
+                                            context,
+                                            context.getString(R.string.qiniu_upload_file_failed),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
                             writeLog(respInfo.toString());
                             if (jsonData != null) {
                                 writeLog(jsonData.toString());
@@ -296,8 +295,13 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
         this.uploadLogTextView.setText("");
     }
 
-    private void writeLog(String msg) {
-        this.uploadLogTextView.append(msg);
-        this.uploadLogTextView.append("\r\n");
+    private void writeLog(final String msg) {
+        AsyncRun.run(new Runnable() {
+            @Override
+            public void run() {
+                uploadLogTextView.append(msg);
+                uploadLogTextView.append("\r\n");
+            }
+        });
     }
 }
