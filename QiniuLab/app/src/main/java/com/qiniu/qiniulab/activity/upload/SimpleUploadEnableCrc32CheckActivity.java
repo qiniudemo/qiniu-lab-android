@@ -153,6 +153,16 @@ public class SimpleUploadEnableCrc32CheckActivity extends ActionBarActivity {
                                     + response.toString());
                         }
                     }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        writeLog(context.getString(R.string.qiniu_get_upload_token_failed));
+                        writeLog("StatusCode:" + statusCode);
+                        if (errorResponse != null) {
+                            writeLog("Response:" + errorResponse.toString());
+                        }
+                        writeLog("Exception:" + throwable.getMessage());
+                    }
                 });
             }
         }).start();

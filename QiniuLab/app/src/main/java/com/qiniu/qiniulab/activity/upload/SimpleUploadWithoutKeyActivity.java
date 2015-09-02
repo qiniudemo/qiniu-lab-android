@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -145,6 +144,16 @@ public class SimpleUploadWithoutKeyActivity extends ActionBarActivity {
                                     .getString(R.string.qiniu_get_upload_token_failed)
                                     + response.toString());
                         }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        writeLog(context.getString(R.string.qiniu_get_upload_token_failed));
+                        writeLog("StatusCode:" + statusCode);
+                        if (errorResponse != null) {
+                            writeLog("Response:" + errorResponse.toString());
+                        }
+                        writeLog("Exception:" + throwable.getMessage());
                     }
                 });
             }

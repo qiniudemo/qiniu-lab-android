@@ -161,13 +161,17 @@ public class CaptureImageActivity extends ActionBarActivity {
                             }
 
                             @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Toast.makeText(
-                                        context,
-                                        context.getString(R.string.qiniu_get_upload_token_failed) + ", StatusCode:"
-                                                + statusCode + "\r\n" + responseString + "\r\n",
-                                        Toast.LENGTH_LONG).show();
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                final String msg = context.getString(R.string.qiniu_get_upload_token_failed) + "\r\nStatusCode:"
+                                        + statusCode + "\r\n" + throwable.toString() + "\r\n";
+                                AsyncRun.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
+
                         });
             }
         }).start();

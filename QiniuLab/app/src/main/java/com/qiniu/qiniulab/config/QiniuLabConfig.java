@@ -2,7 +2,7 @@ package com.qiniu.qiniulab.config;
 
 public class QiniuLabConfig {
     //public final static String REMOTE_SERVICE_SERVER = "http://115.231.183.102:9090";
-    public final static String REMOTE_SERVICE_SERVER = "http://192.168.200.108/~jemy/qiniu-api-server/php-v6";
+    public final static String REMOTE_SERVICE_SERVER = "http://192.168.200.100/~jemy/qiniu-api-server/php-v6";
 
     //quick start
     public final static String QUICK_START_IMAGE_DEMO_PATH = "/api/quick_start/simple_image_example_token.php";
