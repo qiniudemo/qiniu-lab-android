@@ -48,7 +48,6 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
     private TextView uploadFileLengthTextView;
     private TextView uploadPercentageTextView;
     private TextView persistentIdTextView;
-    private Button queryPfopResultButton;
     private com.pili.pldroid.player.widget.VideoView uploadResultVideoView;
     private UploadManager uploadManager;
     private long uploadLastTimePoint;
@@ -85,7 +84,6 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         this.uploadResultVideoView = (com.pili.pldroid.player.widget.VideoView)
                 this.findViewById(R.id.quick_start_video_play_pldplayer);
         this.persistentIdTextView = (TextView) this.findViewById(R.id.quick_start_video_pid_textview);
-        this.queryPfopResultButton = (Button) this.findViewById(R.id.quick_start_video_query_button);
         this.pfopResult1TextView = (TextView) this.findViewById(R.id.quick_start_video1_textview);
         this.pfopResult2TextView = (TextView) this.findViewById(R.id.quick_start_video2_textview);
         this.loadPfopVideo1Button = (Button) this.findViewById(R.id.quick_start_load_video_button_1);

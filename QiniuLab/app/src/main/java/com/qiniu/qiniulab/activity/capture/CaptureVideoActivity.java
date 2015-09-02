@@ -51,7 +51,6 @@ public class CaptureVideoActivity extends ActionBarActivity {
     private TextView uploadFileLengthTextView;
     private TextView uploadPercentageTextView;
     private TextView persistentIdTextView;
-    private Button queryPfopResultButton;
     private com.pili.pldroid.player.widget.VideoView uploadResultVideoView;
     private UploadManager uploadManager;
     private long uploadLastTimePoint;
@@ -62,9 +61,9 @@ public class CaptureVideoActivity extends ActionBarActivity {
     private TextView pfopResult2TextView;
     private Button loadPfopVideo1Button;
     private Button loadPfopVideo2Button;
-    private String videoDomain;
     private Button uploadFileButton;
     private TextView captureVideoFilePathTextView;
+    private String videoDomain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +90,6 @@ public class CaptureVideoActivity extends ActionBarActivity {
         this.captureVideoFilePathTextView = (TextView) this.findViewById(R.id.capture_video_file_path_textview);
 
         this.persistentIdTextView = (TextView) this.findViewById(R.id.capture_video_pid_textview);
-        this.queryPfopResultButton = (Button) this.findViewById(R.id.capture_video_query_button);
         this.pfopResult1TextView = (TextView) this.findViewById(R.id.capture_video1_textview);
         this.pfopResult2TextView = (TextView) this.findViewById(R.id.capture_video2_textview);
         this.loadPfopVideo1Button = (Button) this.findViewById(R.id.capture_load_video_button_1);
@@ -170,7 +168,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                                 try {
                                     String uploadToken = response.getString("uptoken");
                                     String domain = response.getString("domain");
-
+                                    videoDomain=domain;
                                     upload(uploadToken, domain);
                                 } catch (JSONException e) {
                                     AsyncRun.run(new Runnable() {
