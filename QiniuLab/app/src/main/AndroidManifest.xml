@@ -2,27 +2,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qiniu.qiniulab"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
+    <!--permission-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.Camera"/>
 
+    <!--application-->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/Theme.AppCompat.Light" >
+
 
         <activity
-            android:name="com.qiniu.qiniulab.activity.QiniuLabMainActivity"
-            android:label="@string/app_name">
+            android:name=".activity.QiniuLabMainActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +41,7 @@
             android:enabled="@bool/use_activity"
             android:exported="true"
             android:icon="@drawable/ic_chooser"
-            android:label="@string/choose_file">
+            android:label="@string/choose_file" >
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
 
@@ -46,11 +51,10 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.qiniu.qiniulab.activity.AboutActivity"
+            android:name=".activity.AboutActivity"
             android:label="@string/about_app"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -58,10 +62,10 @@
 
         <!-- Simple Upload Without Key Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadWithoutKeyActivity"
+            android:name=".activity.upload.SimpleUploadWithoutKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_without_key"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -69,10 +73,10 @@
 
         <!-- Simple Upload With Key Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadWithKeyActivity"
+            android:name=".activity.upload.SimpleUploadWithKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_with_key"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -80,10 +84,10 @@
 
         <!-- Simple Upload Use Save Key Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadUseSaveKeyActivity"
+            android:name=".activity.upload.SimpleUploadUseSaveKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_save_key"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -91,10 +95,10 @@
 
         <!-- Simple Upload Use Save Key From XParam Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadUseSaveKeyFromXParamActivity"
+            android:name=".activity.upload.SimpleUploadUseSaveKeyFromXParamActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_save_key_from_xparam"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -102,10 +106,10 @@
 
         <!-- Simple Upload Use Return Body Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadUseReturnBodyActivity"
+            android:name=".activity.upload.SimpleUploadUseReturnBodyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_return_body"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -113,10 +117,10 @@
 
         <!-- Simple Upload Overwrite Existing File Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadOverwriteExistingFileActivity"
+            android:name=".activity.upload.SimpleUploadOverwriteExistingFileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_overwrite_existing_file"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -124,10 +128,10 @@
 
         <!-- Simple Upload Use File Size Limit Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadUseFsizeLimitActivity"
+            android:name=".activity.upload.SimpleUploadUseFsizeLimitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_fsize_limit"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -135,10 +139,10 @@
 
         <!-- Simple Upload Use MimeType Limit Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadUseMimeLimitActivity"
+            android:name=".activity.upload.SimpleUploadUseMimeLimitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_mime_limit"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -146,10 +150,10 @@
 
         <!-- Simple Upload With MimeType Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadWithMimeTypeActivity"
+            android:name=".activity.upload.SimpleUploadWithMimeTypeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_with_mime_type"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -157,10 +161,10 @@
 
         <!-- Simple Upload Enable Crc32 Check Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadEnableCrc32CheckActivity"
+            android:name=".activity.upload.SimpleUploadEnableCrc32CheckActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_enable_crc32_check"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -168,10 +172,10 @@
 
         <!-- Simple Upload Use End User Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.SimpleUploadUseEndUserActivity"
+            android:name=".activity.upload.SimpleUploadUseEndUserActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_simple_upload_use_enduser"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -179,10 +183,10 @@
 
         <!-- Resumable Upload Without Key Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.ResumableUploadWithoutKeyActivity"
+            android:name=".activity.upload.ResumableUploadWithoutKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_resumable_upload_without_key"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -190,10 +194,10 @@
 
         <!-- Resumable Upload With Key Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.ResumableUploadWithKeyActivity"
+            android:name=".activity.upload.ResumableUploadWithKeyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_resumable_upload_with_key"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -201,10 +205,10 @@
 
         <!-- Callback Upload With Key In Url Format Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInUrlFormatActivity"
+            android:name=".activity.upload.CallbackUploadWithKeyInUrlFormatActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_callback_upload_with_key_in_url_format"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -212,10 +216,10 @@
 
         <!-- Callback Upload With Key In JSON Format Activity -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.upload.CallbackUploadWithKeyInJsonFormatActivity"
+            android:name=".activity.upload.CallbackUploadWithKeyInJsonFormatActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_callback_upload_with_key_in_json_format"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -223,19 +227,19 @@
 
         <!-- System VideoView Usage -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewListActivity"
+            android:name=".activity.video.AudioVideoPlayUseVideoViewListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_video_play"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
         <activity
-            android:name="com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewActivity"
+            android:name=".activity.video.AudioVideoPlayUseVideoViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_video_play_use_videoview"
-            android:parentActivityName="com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewListActivity">
+            android:parentActivityName=".activity.video.AudioVideoPlayUseVideoViewListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.video.AudioVideoPlayUseVideoViewListActivity" />
@@ -243,19 +247,19 @@
 
         <!-- PLD Player Usage -->
         <activity
-            android:name="com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerListActivity"
+            android:name=".activity.video.AudioVideoPlayUsePLDPlayerListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_video_play"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
         <activity
-            android:name="com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerActivity"
+            android:name=".activity.video.AudioVideoPlayUsePLDPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_video_play_use_pldplayer"
-            android:parentActivityName="com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerListActivity">
+            android:parentActivityName=".activity.video.AudioVideoPlayUsePLDPlayerListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.video.AudioVideoPlayUsePLDPlayerListActivity" />
@@ -266,28 +270,43 @@
             android:name=".activity.image.SimpleImageViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_image_view"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
 
-        <!--Quick Start-->
+        <!-- Quick Start -->
         <activity
             android:name=".activity.quick.QuickStartImageExampleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_quick_start_image_upload"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity"></meta-data>
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
         </activity>
-
         <activity
             android:name=".activity.quick.QuickStartVideoExampleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/qiniu_activity_quick_start_video_upload"
-            android:parentActivityName="com.qiniu.qiniulab.activity.QiniuLabMainActivity">
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.capture.CaptureImageActivity"
+            android:label="@string/capture_image"
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.capture.CaptureVideoActivity"
+            android:label="@string/capture_video"
+            android:parentActivityName=".activity.QiniuLabMainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.qiniu.qiniulab.activity.QiniuLabMainActivity" />
@@ -295,4 +314,3 @@
     </application>
 
 </manifest>
-

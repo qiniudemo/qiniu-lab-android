@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_padding"
+    android:paddingLeft="@dimen/activity_horizontal_padding"
+    android:paddingRight="@dimen/activity_horizontal_padding"
+    android:paddingTop="@dimen/activity_vertical_padding"
+    tools:context="com.qiniu.qiniulab.activity.capture.CaptureImageActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="@drawable/select_button_selector"
+        android:onClick="captureImage"
+        android:text="@string/capture_image"
+        android:textColor="#fff"></Button>
+
+    <Button
+        android:id="@+id/capture_image_upload_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:background="@drawable/action_button_selector"
+        android:onClick="uploadFile"
+        android:text="@string/qiniu_upload"
+        android:textColor="#fff" />
+
+    <LinearLayout
+        android:id="@+id/capture_image_upload_status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/block_vertical_margin"
+        android:layout_marginTop="@dimen/block_vertical_margin"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/capture_image_upload_speed_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/capture_image_upload_file_length_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/capture_image_upload_speed_textview" />
+
+            <TextView
+                android:id="@+id/capture_image_upload_percentage_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/capture_image_upload_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/capture_image_file_path_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/capture_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+</LinearLayout>

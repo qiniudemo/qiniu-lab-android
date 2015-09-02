@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import com.qiniu.qiniulab.activity.QiniuLabMainActivity;
+import com.qiniu.qiniulab.activity.capture.CaptureImageActivity;
+import com.qiniu.qiniulab.activity.capture.CaptureVideoActivity;
 import com.qiniu.qiniulab.activity.image.SimpleImageViewActivity;
 import com.qiniu.qiniulab.activity.quick.QuickStartImageExampleActivity;
 import com.qiniu.qiniulab.activity.quick.QuickStartVideoExampleActivity;
@@ -110,6 +112,13 @@ public class OnExampleItemClickListener implements
             //image view
             if (childPosition == 0) {
                 intent = new Intent(this.mainActivity, SimpleImageViewActivity.class);
+            }
+        } else if (groupPosition == 5) {
+            //system capture
+            if (childPosition == 0) {
+                intent = new Intent(this.mainActivity, CaptureImageActivity.class);
+            } else if (childPosition == 1) {
+                intent = new Intent(this.mainActivity, CaptureVideoActivity.class);
             }
         }
         if (intent != null) {

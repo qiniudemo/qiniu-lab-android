@@ -19,12 +19,12 @@ android {
 }
 
 dependencies {
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.android.support:appcompat-v7:19.1.0'
-    compile files('libs/android-async-http-1.4.6.jar')
-    compile files('libs/happy-dns-0.2.3.1.jar')
-    compile files('libs/qiniu-android-sdk-7.0.7.jar')
+    compile 'com.qiniu:qiniu-android-sdk:7.0.+'
+    compile 'com.qiniu:happy-dns:0.2.3.2'
     compile files('libs/ijkmediaplayer.jar')
     compile files('libs/pldroid-player-1.1.0.jar')
 }
