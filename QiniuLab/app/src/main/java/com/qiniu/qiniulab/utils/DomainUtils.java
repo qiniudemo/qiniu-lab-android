@@ -16,8 +16,8 @@ public class DomainUtils {
 
     static {
         IResolver[] resolvers = new IResolver[2];
-        resolvers[0] = new DnspodFree();
-        resolvers[1] = AndroidDnsServer.defaultResolver();
+        resolvers[0] = AndroidDnsServer.defaultResolver();
+        resolvers[1] = new DnspodFree();
         dnsManager = new DnsManager(NetworkInfo.normal, resolvers);
     }
 
