@@ -27,6 +27,33 @@ public class CommonImageDownloader extends BaseImageDownloader {
         this.dns = dns;
     }
 
+    private static boolean serverError(HttpURLConnection conn) throws IOException {
+        return conn.getResponseCode() / 100 == 5;
+    }
+
+    private static boolean validIP(String ip) {
+        if (ip == null || ip.length() < 7 || ip.length() > 15) return false;
+        if (ip.contains("-")) return false;
+
+        try {
+            int x = 0;
+            int y = ip.indexOf('.');
+
+            if (y != -1 && Integer.parseInt(ip.substring(x, y)) > 255) return false;
+
+            x = ip.indexOf('.', ++y);
+            if (x != -1 && Integer.parseInt(ip.substring(y, x)) > 255) return false;
+
+            y = ip.indexOf('.', ++x);
+            return !(y != -1 && Integer.parseInt(ip.substring(x, y)) > 255 &&
+                    Integer.parseInt(ip.substring(++y, ip.length() - 1)) > 255 &&
+                    ip.charAt(ip.length() - 1) != '.');
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     /**
      * Retrieves {@link InputStream} of image by URI (image is located in the network).
      *
@@ -82,33 +109,6 @@ public class CommonImageDownloader extends BaseImageDownloader {
             throw new IOException("unexpect error");
         }
 
-    }
-
-    private static boolean serverError(HttpURLConnection conn) throws IOException {
-        return conn.getResponseCode() / 100 == 5;
-    }
-
-    private static boolean validIP(String ip) {
-        if (ip == null || ip.length() < 7 || ip.length() > 15) return false;
-        if (ip.contains("-")) return false;
-
-        try {
-            int x = 0;
-            int y = ip.indexOf('.');
-
-            if (y != -1 && Integer.parseInt(ip.substring(x, y)) > 255) return false;
-
-            x = ip.indexOf('.', ++y);
-            if (x != -1 && Integer.parseInt(ip.substring(y, x)) > 255) return false;
-
-            y = ip.indexOf('.', ++x);
-            return !(y != -1 && Integer.parseInt(ip.substring(x, y)) > 255 &&
-                    Integer.parseInt(ip.substring(++y, ip.length() - 1)) > 255 &&
-                    ip.charAt(ip.length() - 1) != '.');
-
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 
     private String replaceHost(String url, String host, String ip) {

@@ -141,7 +141,7 @@ public class CaptureImageActivity extends ActionBarActivity {
                                 QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH),
                         null, new JsonHttpResponseHandler() {
                             @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                                 try {
                                     String uploadToken = response.getString("uptoken");
                                     String domain = response.getString("domain");
@@ -161,7 +161,7 @@ public class CaptureImageActivity extends ActionBarActivity {
                             }
 
                             @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                                 final String msg = context.getString(R.string.qiniu_get_upload_token_failed) + "\r\nStatusCode:"
                                         + statusCode + "\r\n" + throwable.toString() + "\r\n";
                                 AsyncRun.run(new Runnable() {
@@ -256,7 +256,7 @@ public class CaptureImageActivity extends ActionBarActivity {
 
                                         httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
                                             @Override
-                                            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                            public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
                                                 final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                                 AsyncRun.run(new Runnable() {
                                                     @Override
@@ -267,7 +267,7 @@ public class CaptureImageActivity extends ActionBarActivity {
                                             }
 
                                             @Override
-                                            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                            public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
 
                                             }
                                         });

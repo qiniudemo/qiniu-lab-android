@@ -90,7 +90,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
 
                             httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
                                 @Override
-                                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
                                     final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                     AsyncRun.run(new Runnable() {
                                         @Override
@@ -101,7 +101,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                                 }
 
                                 @Override
-                                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
 
                                 }
                             });
@@ -135,7 +135,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                 QiniuLabConfig.PUBLIC_IMAGE_VIEW_LIST_PATH), params, new JsonHttpResponseHandler(
         ) {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 try {
                     JSONArray imagesArray = response.getJSONArray("images");
                     int count = imagesArray.length();

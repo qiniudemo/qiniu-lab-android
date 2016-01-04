@@ -23,7 +23,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.qiniu:qiniu-android-sdk:7.0.+'
+    compile 'com.qiniu:qiniu-android-sdk:7.0.9'
     compile 'com.qiniu:happy-dns:0.2.3.2'
     compile files('libs/ijkmediaplayer.jar')
     compile files('libs/pldroid-player-1.1.0.jar')

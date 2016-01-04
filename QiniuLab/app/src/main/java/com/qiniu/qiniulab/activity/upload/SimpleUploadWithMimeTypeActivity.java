@@ -130,7 +130,7 @@ public class SimpleUploadWithMimeTypeActivity extends ActionBarActivity {
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.SIMPLE_UPLOAD_WITH_MIMETYPE_PATH), null, new JsonHttpResponseHandler() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                         try {
                             String uploadToken = response.getString("uptoken");
                             writeLog(context
@@ -154,7 +154,7 @@ public class SimpleUploadWithMimeTypeActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                         writeLog(context.getString(R.string.qiniu_get_upload_token_failed));
                         writeLog("StatusCode:" + statusCode);
                         if (errorResponse != null) {

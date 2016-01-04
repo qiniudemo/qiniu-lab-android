@@ -79,7 +79,7 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
                 QiniuLabConfig.PUBLIC_VIDEO_PLAY_LIST_PATH), null, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                 try {
                     JSONArray playlistArray = response.getJSONArray("playlist");
                     List<Map<String, String>> playlistDataList = new ArrayList<Map<String, String>>();

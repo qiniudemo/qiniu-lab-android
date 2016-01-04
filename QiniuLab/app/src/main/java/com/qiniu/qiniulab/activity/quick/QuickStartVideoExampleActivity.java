@@ -149,7 +149,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                                 QiniuLabConfig.QUICK_START_VIDEO_DEMO_PATH),
                         null, new JsonHttpResponseHandler() {
                             @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                                 try {
                                     String uploadToken = response.getString("uptoken");
                                     String domain = response.getString("domain");
@@ -169,7 +169,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                             }
 
                             @Override
-                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
                                 final String msg = context.getString(R.string.qiniu_get_upload_token_failed) + "\r\nStatusCode:"
                                         + statusCode + "\r\n" + throwable.toString() + "\r\n";
                                 AsyncRun.run(new Runnable() {
@@ -315,7 +315,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                 httpClient.get(QiniuLabConfig.makeUrl(QiniuLabConfig.REMOTE_SERVICE_SERVER,
                         QiniuLabConfig.QUERY_PFOP_RESULT_PATH), params, new JsonHttpResponseHandler() {
                     @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
                         try {
                             final JSONArray keys = response.getJSONArray("keys");
                             int length = keys.length();
