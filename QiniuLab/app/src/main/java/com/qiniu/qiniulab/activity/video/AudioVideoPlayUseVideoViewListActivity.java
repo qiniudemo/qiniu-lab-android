@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
-import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
@@ -33,11 +32,9 @@ import java.util.Map;
 
 public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
     private Context context;
-    private HttpManager httpManager;
     private ListView playlistView;
 
     public AudioVideoPlayUseVideoViewListActivity() {
-        this.httpManager = new HttpManager();
         this.context = this;
     }
 

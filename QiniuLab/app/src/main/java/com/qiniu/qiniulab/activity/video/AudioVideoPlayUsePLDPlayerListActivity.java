@@ -16,12 +16,9 @@ import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
-import com.qiniu.android.http.HttpManager;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
-
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,11 +30,9 @@ import java.util.Map;
 
 public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
     private Context context;
-    private HttpManager httpManager;
     private ListView playlistView;
 
     public AudioVideoPlayUsePLDPlayerListActivity() {
-        this.httpManager = new HttpManager();
         this.context = this;
     }
 
