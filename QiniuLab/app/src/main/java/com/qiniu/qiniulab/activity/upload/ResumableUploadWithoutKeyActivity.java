@@ -13,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.KeyGenerator;
 import com.qiniu.android.storage.UpCancellationSignal;
@@ -28,8 +26,10 @@ import com.qiniu.android.utils.UrlSafeBase64;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -131,44 +131,48 @@ public class ResumableUploadWithoutKeyActivity extends ActionBarActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final SyncHttpClient httpClient = new SyncHttpClient();
-                httpClient.get(QiniuLabConfig.makeUrl(
+                final OkHttpClient httpClient = new OkHttpClient();
+                Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.RESUMABLE_UPLOAD_WITHOUT_KEY_PATH), null, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                        QiniuLabConfig.RESUMABLE_UPLOAD_WITHOUT_KEY_PATH)).method("GET", null).build();
+                Response resp = null;
+                try {
+                    resp = httpClient.newCall(req).execute();
+                    JSONObject jsonObject = new JSONObject(resp.body().string());
+                    String uploadToken = jsonObject.getString("uptoken");
+                    writeLog(context
+                            .getString(R.string.qiniu_get_upload_token)
+                            + uploadToken);
+                    upload(uploadToken);
+                } catch (IOException e) {
+                    AsyncRun.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(
+                                    context,
+                                    context.getString(R.string.qiniu_get_upload_token_failed),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    writeLog(context
+                            .getString(R.string.qiniu_get_upload_token_failed)
+                            + resp.toString());
+                } catch (JSONException e) {
+                    writeLog(context.getString(R.string.qiniu_get_upload_token_failed));
+                    writeLog("StatusCode:" + resp.code());
+                    if (resp != null) {
+                        writeLog("Response:" + resp.toString());
+                    }
+                    writeLog("Exception:" + e.getMessage());
+                } finally {
+                    if (resp != null) {
                         try {
-                            String uploadToken = response.getString("uptoken");
-                            writeLog(context
-                                    .getString(R.string.qiniu_get_upload_token)
-                                    + uploadToken);
-                            upload(uploadToken);
-                        } catch (JSONException e1) {
-                            AsyncRun.run(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(
-                                            context,
-                                            context.getString(R.string.qiniu_get_upload_token_failed),
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            });
-                            writeLog(context
-                                    .getString(R.string.qiniu_get_upload_token_failed)
-                                    + response.toString());
+                            resp.body().close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
-
-                    @Override
-                    public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        writeLog(context.getString(R.string.qiniu_get_upload_token_failed));
-                        writeLog("StatusCode:" + statusCode);
-                        if (errorResponse != null) {
-                            writeLog("Response:" + errorResponse.toString());
-                        }
-                        writeLog("Exception:" + throwable.getMessage());
-                    }
-                });
+                }
             }
         }).start();
 

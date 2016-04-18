@@ -11,14 +11,15 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 
-import com.loopj.android.http.BinaryHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -63,7 +64,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
             @Override
             public boolean setViewValue(View view, Object data, String textRepresentation) {
                 if (view instanceof ImageView && data instanceof String) {
-                    final SyncHttpClient httpClient = new SyncHttpClient();
+                    final OkHttpClient httpClient = new OkHttpClient();
                     final String imageUrl = data.toString();
 
                     final URI imageUri = URI.create(imageUrl);
@@ -74,6 +75,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             String reqImageUrl = imageUrl;
+                            Response response=null;
                             try {
                                 String ip = DomainUtils.getIpByDomain(host);
                                 if (ip != null) {
@@ -81,16 +83,12 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                                     if (imageUri.getQuery() != null) {
                                         reqImageUrl = String.format("%s?%s", reqImageUrl, imageUri.getQuery());
                                     }
-                                    httpClient.removeHeader("Host");
-                                    httpClient.addHeader("Host", host);
                                 }
-                            } catch (IOException e) {
-
-                            }
-
-                            httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
-                                @Override
-                                public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
+                                final Request.Builder builder = new Request.Builder();
+                                Request request = builder.url(reqImageUrl).addHeader("Host", host).method("GET", null).build();
+                                response = httpClient.newCall(request).execute();
+                                if (response.isSuccessful()) {
+                                    byte[] bytes = response.body().bytes();
                                     final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                     AsyncRun.run(new Runnable() {
                                         @Override
@@ -99,13 +97,17 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                                         }
                                     });
                                 }
+                            } catch (IOException e) {
 
-                                @Override
-                                public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
-
+                            } finally {
+                                if (response != null) {
+                                    try {
+                                        response.body().close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            });
-
+                            }
                         }
                     }).start();
 
@@ -125,28 +127,39 @@ public class SimpleImageViewActivity extends ActionBarActivity {
 
     private List<String> getImageUrls() {
         final List<String> imageUrls = new ArrayList<String>();
-        SyncHttpClient httpClient = new SyncHttpClient();
+        final OkHttpClient httpClient = new OkHttpClient();
         //获取设备的分辨率，以从服务器获取合适大小的图片显示
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        RequestParams params = new RequestParams();
-        params.add("device_width", dm.widthPixels + "");
-        httpClient.get(QiniuLabConfig.makeUrl(QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                QiniuLabConfig.PUBLIC_IMAGE_VIEW_LIST_PATH), params, new JsonHttpResponseHandler(
-        ) {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+
+
+        RequestBody requestBody = new FormEncodingBuilder().add("device_width", String.format("%d", dm.widthPixels)).build();
+        Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
+                QiniuLabConfig.REMOTE_SERVICE_SERVER,
+                QiniuLabConfig.PUBLIC_IMAGE_VIEW_LIST_PATH)).method("GET", requestBody).build();
+        Response resp=null;
+        try {
+            resp = httpClient.newCall(req).execute();
+            if (resp.isSuccessful()) {
+                JSONObject jsonObject = new JSONObject(resp.body().string());
+                JSONArray imagesArray = jsonObject.getJSONArray("images");
+                int count = imagesArray.length();
+                for (int i = 0; i < count; i++) {
+                    imageUrls.add(imagesArray.getString(i));
+                }
+
+            }
+        } catch (Exception ex) {
+
+        } finally {
+            if (resp != null) {
                 try {
-                    JSONArray imagesArray = response.getJSONArray("images");
-                    int count = imagesArray.length();
-                    for (int i = 0; i < count; i++) {
-                        imageUrls.add(imagesArray.getString(i));
-                    }
-                } catch (JSONException e) {
-                    Log.e("QiniuLab", e.getMessage());
+                    resp.body().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        });
+        }
         return imageUrls;
     }
 

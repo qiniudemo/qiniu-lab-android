@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,9 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.loopj.android.http.BinaryHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -29,6 +27,9 @@ import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
 import com.qiniu.qiniulab.utils.Tools;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -120,44 +121,38 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SyncHttpClient httpClient = new SyncHttpClient();
-                httpClient.get(QiniuLabConfig.makeUrl(
-                                QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                                QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH),
-                        null, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                                try {
-                                    String uploadToken = response.getString("uptoken");
-                                    String domain = response.getString("domain");
+                final OkHttpClient httpClient = new OkHttpClient();
+                Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
+                        QiniuLabConfig.REMOTE_SERVICE_SERVER,
+                        QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH)).method("GET", null).build();
+                Response resp = null;
+                try {
+                    resp=httpClient.newCall(req).execute();
+                    JSONObject jsonObject = new JSONObject(resp.body().string());
+                    String uploadToken = jsonObject.getString("uptoken");
+                    String domain = jsonObject.getString("domain");
 
-                                    upload(uploadToken, domain);
-                                } catch (JSONException e) {
-                                    AsyncRun.run(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(
-                                                    context,
-                                                    context.getString(R.string.qiniu_get_upload_token_failed),
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                final String msg = context.getString(R.string.qiniu_get_upload_token_failed) + "\r\nStatusCode:"
-                                        + statusCode + "\r\n" + throwable.toString() + "\r\n";
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-
-                        });
+                    upload(uploadToken, domain);
+                } catch (Exception e) {
+                    AsyncRun.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(
+                                    context,
+                                    context.getString(R.string.qiniu_get_upload_token_failed),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    Log.e(QiniuLabConfig.LOG_TAG,e.getMessage());
+                }finally {
+                    if(resp!=null){
+                        try {
+                            resp.body().close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }).start();
     }
@@ -213,15 +208,16 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                 DisplayMetrics dm = new DisplayMetrics();
                                 getWindowManager().getDefaultDisplay().getMetrics(dm);
                                 final int width = dm.widthPixels;
-                                final SyncHttpClient httpClient = new SyncHttpClient();
+                                final OkHttpClient httpClient = new OkHttpClient();
                                 final String imageUrl = domain + "/" + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
 
                                 final URI imageUri = URI.create(imageUrl);
                                 final String host = imageUri.getHost();
 
                                 final ImageView imageView = uploadResultImageView;
-
+                                final Request.Builder builder = new Request.Builder();
                                 new Thread(new Runnable() {
+
                                     @Override
                                     public void run() {
                                         String reqImageUrl = imageUrl;
@@ -232,16 +228,12 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                                 if (imageUri.getQuery() != null) {
                                                     reqImageUrl = String.format("%s?%s", reqImageUrl, imageUri.getQuery());
                                                 }
-                                                httpClient.removeHeader("Host");
-                                                httpClient.addHeader("Host", host);
                                             }
-                                        } catch (IOException e) {
 
-                                        }
-
-                                        httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
-                                            @Override
-                                            public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
+                                            Request request = builder.url(reqImageUrl).addHeader("Host", host).method("GET", null).build();
+                                            Response response = httpClient.newCall(request).execute();
+                                            if (response.isSuccessful()) {
+                                                byte[] bytes = response.body().bytes();
                                                 final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                                 AsyncRun.run(new Runnable() {
                                                     @Override
@@ -250,13 +242,9 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                                     }
                                                 });
                                             }
+                                        } catch (IOException ex) {
 
-                                            @Override
-                                            public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
-
-                                            }
-                                        });
-
+                                        }
                                     }
                                 }).start();
                             } catch (JSONException e) {
@@ -264,12 +252,14 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                         context,
                                         context.getString(R.string.qiniu_upload_file_response_parse_error),
                                         Toast.LENGTH_LONG).show();
+                                Log.e(QiniuLabConfig.LOG_TAG,e.getMessage());
                             }
                         } else {
                             Toast.makeText(
                                     context,
                                     context.getString(R.string.qiniu_upload_file_failed),
                                     Toast.LENGTH_LONG).show();
+                            Log.e(QiniuLabConfig.LOG_TAG,respInfo.toString());
                         }
                     }
 

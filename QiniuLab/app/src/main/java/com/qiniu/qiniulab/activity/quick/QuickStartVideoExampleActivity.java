@@ -16,9 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -28,13 +25,18 @@ import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -143,43 +145,38 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SyncHttpClient httpClient = new SyncHttpClient();
-                httpClient.get(QiniuLabConfig.makeUrl(
-                                QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                                QiniuLabConfig.QUICK_START_VIDEO_DEMO_PATH),
-                        null, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                                try {
-                                    String uploadToken = response.getString("uptoken");
-                                    String domain = response.getString("domain");
-                                    videoDomain = domain;
-                                    upload(uploadToken, domain);
-                                } catch (JSONException e) {
-                                    AsyncRun.run(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(
-                                                    context,
-                                                    context.getString(R.string.qiniu_get_upload_token_failed),
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                            }
+                final OkHttpClient httpClient = new OkHttpClient();
+                Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
+                        QiniuLabConfig.REMOTE_SERVICE_SERVER,
+                        QiniuLabConfig.QUICK_START_VIDEO_DEMO_PATH)).method("GET", null).build();
 
-                            @Override
-                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                final String msg = context.getString(R.string.qiniu_get_upload_token_failed) + "\r\nStatusCode:"
-                                        + statusCode + "\r\n" + throwable.toString() + "\r\n";
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        });
+                Response resp = null;
+                try {
+                    resp = httpClient.newCall(req).execute();
+                    JSONObject jsonObject = new JSONObject(resp.body().string());
+                    String uploadToken = jsonObject.getString("uptoken");
+                    String domain = jsonObject.getString("domain");
+
+                    upload(uploadToken, domain);
+                } catch (Exception e) {
+                    AsyncRun.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(
+                                    context,
+                                    context.getString(R.string.qiniu_get_upload_token_failed),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } finally {
+                    if (resp != null) {
+                        try {
+                            resp.body().close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }).start();
     }
@@ -262,12 +259,14 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                                         context,
                                         context.getString(R.string.qiniu_upload_file_response_parse_error),
                                         Toast.LENGTH_LONG).show();
+                                Log.e(QiniuLabConfig.LOG_TAG,e.getMessage());
                             }
                         } else {
                             Toast.makeText(
                                     context,
                                     context.getString(R.string.qiniu_upload_file_failed),
                                     Toast.LENGTH_LONG).show();
+                            Log.e(QiniuLabConfig.LOG_TAG,respInfo.toString());
                         }
                     }
 
@@ -305,79 +304,71 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         if (persistentId.isEmpty()) {
             return;
         }
-        final SyncHttpClient httpClient = new SyncHttpClient();
-        final RequestParams params = new RequestParams();
-        params.add("persistentId", persistentId);
+
+        final OkHttpClient httpClient = new OkHttpClient();
+        final Request req = new Request.Builder().url(String.format("%s?persistentId=%s",QiniuLabConfig.makeUrl(
+                QiniuLabConfig.REMOTE_SERVICE_SERVER,
+                QiniuLabConfig.QUERY_PFOP_RESULT_PATH),persistentId)).method("GET", null).build();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                httpClient.get(QiniuLabConfig.makeUrl(QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.QUERY_PFOP_RESULT_PATH), params, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                        try {
-                            final JSONArray keys = response.getJSONArray("keys");
-                            int length = keys.length();
-                            if (length == 2) {
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            String url1 = videoDomain + "/" + keys.getString(0);
-                                            String url2 = videoDomain + "/" + keys.getString(1);
-                                            pfopResult1TextView.setText(url1);
-                                            pfopResult2TextView.setText(url2);
-                                            loadPfopVideo1Button.setVisibility(View.VISIBLE);
-                                            loadPfopVideo2Button.setVisibility(View.VISIBLE);
-                                        } catch (JSONException e) {
-                                            Log.e("QiniuLab", "get key from keys error");
-                                        }
+                try {
+                    Response resp = httpClient.newCall(req).execute();
+                    JSONObject jsonObject = new JSONObject(resp.body().toString());
+                    final JSONArray keys = jsonObject.getJSONArray("keys");
+                    int length = keys.length();
+                    if (length == 2) {
+                        AsyncRun.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String url1 = videoDomain + "/" + keys.getString(0);
+                                    String url2 = videoDomain + "/" + keys.getString(1);
+                                    pfopResult1TextView.setText(url1);
+                                    pfopResult2TextView.setText(url2);
+                                    loadPfopVideo1Button.setVisibility(View.VISIBLE);
+                                    loadPfopVideo2Button.setVisibility(View.VISIBLE);
+                                } catch (JSONException e) {
+                                    Log.e("QiniuLab", "get key from keys error");
+                                }
 
-                                    }
-                                });
-                            } else if (length == 1) {
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try {
-                                            String url1 = videoDomain + "/" + keys.getString(0);
-                                            pfopResult1TextView.setText(url1);
-                                            loadPfopVideo1Button.setVisibility(View.VISIBLE);
-                                        } catch (JSONException e) {
-                                            Log.e("QiniuLab", "get key from keys error");
-                                        }
-
-                                    }
-                                });
-                            } else {
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, "no results", Toast.LENGTH_LONG).show();
-                                    }
-                                });
                             }
-                        } catch (JSONException e) {
-                            Log.e("QiniuLab", "no result found");
-                            try {
-                                final String error = response.getString("error");
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, error, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            } catch (JSONException e1) {
-                                Log.e("QiniuLab", "parse query pfop result failed");
-                            }
-                        }
+                        });
+                    } else if (length == 1) {
+                        AsyncRun.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    String url1 = videoDomain + "/" + keys.getString(0);
+                                    pfopResult1TextView.setText(url1);
+                                    loadPfopVideo1Button.setVisibility(View.VISIBLE);
+                                } catch (JSONException e) {
+                                    Log.e("QiniuLab", "get key from keys error");
+                                }
 
+                            }
+                        });
+                    } else {
+                        AsyncRun.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "no results", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
-                });
+                } catch (Exception e) {
+                    AsyncRun.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "pfop query failed", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
             }
         }).start();
     }
+
 
     public void loadVideo(View view) {
         switch (view.getId()) {

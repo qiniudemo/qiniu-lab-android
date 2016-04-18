@@ -18,9 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.BinaryHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -31,8 +28,10 @@ import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
 import com.qiniu.qiniulab.utils.Tools;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -135,44 +134,39 @@ public class CaptureImageActivity extends ActionBarActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SyncHttpClient httpClient = new SyncHttpClient();
-                httpClient.get(QiniuLabConfig.makeUrl(
-                                QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                                QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH),
-                        null, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
-                                try {
-                                    String uploadToken = response.getString("uptoken");
-                                    String domain = response.getString("domain");
+                final OkHttpClient httpClient = new OkHttpClient();
+                Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
+                        QiniuLabConfig.REMOTE_SERVICE_SERVER,
+                        QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH)).method("GET", null).build();
+                Response resp = null;
+                try {
+                    resp = httpClient.newCall(req).execute();
+                    JSONObject jsonObject = new JSONObject(resp.body().string());
+                    String uploadToken = jsonObject.getString("uptoken");
+                    String domain = jsonObject.getString("domain");
 
-                                    upload(uploadToken, domain);
-                                } catch (JSONException e) {
-                                    AsyncRun.run(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(
-                                                    context,
-                                                    context.getString(R.string.qiniu_get_upload_token_failed),
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                            }
+                    upload(uploadToken, domain);
+                } catch (Exception e) {
+                    AsyncRun.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(
+                                    context,
+                                    context.getString(R.string.qiniu_get_upload_token_failed),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-                            @Override
-                            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                final String msg = context.getString(R.string.qiniu_get_upload_token_failed) + "\r\nStatusCode:"
-                                        + statusCode + "\r\n" + throwable.toString() + "\r\n";
-                                AsyncRun.run(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
+                } finally {
+                    if (resp != null) {
+                        try {
+                            resp.body().close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
-                        });
             }
         }).start();
     }
@@ -220,15 +214,14 @@ public class CaptureImageActivity extends ActionBarActivity {
                             }
                         });
 
-                        long lastMillis = System.currentTimeMillis()
-                                - startTime;
                         if (respInfo.isOK()) {
                             try {
                                 String fileKey = jsonData.getString("key");
                                 DisplayMetrics dm = new DisplayMetrics();
                                 getWindowManager().getDefaultDisplay().getMetrics(dm);
                                 final int width = dm.widthPixels;
-                                final SyncHttpClient httpClient = new SyncHttpClient();
+
+                                final OkHttpClient httpClient = new OkHttpClient();
                                 final String imageUrl = domain + "/" + fileKey + "?imageView2/0/w/" + width + "/format/jpg";
 
                                 final URI imageUri = URI.create(imageUrl);
@@ -236,6 +229,7 @@ public class CaptureImageActivity extends ActionBarActivity {
 
                                 final ImageView imageView = uploadResultImageView;
 
+                                final Request.Builder builder = new Request.Builder();
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -247,16 +241,12 @@ public class CaptureImageActivity extends ActionBarActivity {
                                                 if (imageUri.getQuery() != null) {
                                                     reqImageUrl = String.format("%s?%s", reqImageUrl, imageUri.getQuery());
                                                 }
-                                                httpClient.removeHeader("Host");
-                                                httpClient.addHeader("Host", host);
                                             }
-                                        } catch (IOException e) {
 
-                                        }
-
-                                        httpClient.get(reqImageUrl, new BinaryHttpResponseHandler() {
-                                            @Override
-                                            public void onSuccess(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes) {
+                                            Request request = builder.url(reqImageUrl).addHeader("Host", host).method("GET", null).build();
+                                            Response response = httpClient.newCall(request).execute();
+                                            if (response.isSuccessful()) {
+                                                byte[] bytes = response.body().bytes();
                                                 final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                                 AsyncRun.run(new Runnable() {
                                                     @Override
@@ -265,12 +255,9 @@ public class CaptureImageActivity extends ActionBarActivity {
                                                     }
                                                 });
                                             }
+                                        } catch (IOException e) {
 
-                                            @Override
-                                            public void onFailure(int i, cz.msebera.android.httpclient.Header[] headers, byte[] bytes, Throwable throwable) {
-
-                                            }
-                                        });
+                                        }
 
                                     }
                                 }).start();

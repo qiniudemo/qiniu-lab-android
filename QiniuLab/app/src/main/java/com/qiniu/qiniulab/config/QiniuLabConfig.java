@@ -1,6 +1,7 @@
 package com.qiniu.qiniulab.config;
 
 public class QiniuLabConfig {
+    public final static String LOG_TAG="QiniuLab";
     public final static String REMOTE_SERVICE_SERVER = "http://115.231.183.102:9090";
     //public final static String REMOTE_SERVICE_SERVER = "http://192.168.200.100/~jemy/qiniu-api-server/php-v6";
 

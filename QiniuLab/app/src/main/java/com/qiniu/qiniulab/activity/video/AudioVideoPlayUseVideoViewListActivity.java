@@ -14,17 +14,17 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.SyncHttpClient;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,51 +71,59 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
     }
 
     private void loadPlaylist() {
-        SyncHttpClient client = new SyncHttpClient();
-        client.get(QiniuLabConfig.makeUrl(
+        final OkHttpClient httpClient = new OkHttpClient();
+        Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                QiniuLabConfig.PUBLIC_VIDEO_PLAY_LIST_PATH), null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONObject response) {
+                QiniuLabConfig.PUBLIC_VIDEO_PLAY_LIST_PATH)).method("GET", null).build();
+        Response resp = null;
+
+        try {
+            resp = httpClient.newCall(req).execute();
+            JSONObject jsonObject = new JSONObject(resp.body().string());
+            JSONArray playlistArray = jsonObject.getJSONArray("playlist");
+            List<Map<String, String>> playlistDataList = new ArrayList<Map<String, String>>();
+            for (int i = 0; i < playlistArray.length(); i++) {
+                JSONObject videoObj = playlistArray.getJSONObject(i);
+                String name = videoObj.getString("name");
+                String adsUrl = videoObj.getString("ads_url");
+                String videoUrl = videoObj.getString("video_url");
+                Map<String, String> playlistData = new HashMap<String, String>();
+                playlistData.put("NAME", name);
+                playlistData.put("ADS_URL", adsUrl);
+                playlistData.put("VIDEO_URL", videoUrl);
+                playlistDataList.add(playlistData);
+            }
+            // pack playlist
+            final SimpleAdapter playlistAdapter = new SimpleAdapter(
+                    context,
+                    playlistDataList,
+                    R.layout.simple_video_play_list_item,
+                    new String[]{"NAME", "ADS_URL", "VIDEO_URL"},
+                    new int[]{
+                            R.id.simple_video_play_list_item_name_textview,
+                            R.id.simple_video_play_list_item_ads_url_textview,
+                            R.id.simple_video_play_list_item_video_url_textview});
+            AsyncRun.run(new Runnable() {
+                @Override
+                public void run() {
+                    playlistView.setAdapter(playlistAdapter);
+                }
+            });
+
+        } catch (Exception e1) {
+            Toast.makeText(
+                    context,
+                    context.getString(R.string.qiniu_get_public_video_playlist_failed),
+                    Toast.LENGTH_LONG).show();
+        } finally {
+            if (resp != null) {
                 try {
-                    JSONArray playlistArray = response.getJSONArray("playlist");
-                    List<Map<String, String>> playlistDataList = new ArrayList<Map<String, String>>();
-                    for (int i = 0; i < playlistArray.length(); i++) {
-                        JSONObject videoObj = playlistArray
-                                .getJSONObject(i);
-                        String name = videoObj.getString("name");
-                        String adsUrl = videoObj.getString("ads_url");
-                        String videoUrl = videoObj.getString("video_url");
-                        Map<String, String> playlistData = new HashMap<String, String>();
-                        playlistData.put("NAME", name);
-                        playlistData.put("ADS_URL", adsUrl);
-                        playlistData.put("VIDEO_URL", videoUrl);
-                        playlistDataList.add(playlistData);
-                    }
-                    // pack playlist
-                    final SimpleAdapter playlistAdapter = new SimpleAdapter(
-                            context,
-                            playlistDataList,
-                            R.layout.simple_video_play_list_item,
-                            new String[]{"NAME", "ADS_URL", "VIDEO_URL"},
-                            new int[]{
-                                    R.id.simple_video_play_list_item_name_textview,
-                                    R.id.simple_video_play_list_item_ads_url_textview,
-                                    R.id.simple_video_play_list_item_video_url_textview});
-                    AsyncRun.run(new Runnable() {
-                        @Override
-                        public void run() {
-                            playlistView.setAdapter(playlistAdapter);
-                        }
-                    });
-                } catch (JSONException e) {
-                    Toast.makeText(
-                            context,
-                            context.getString(R.string.qiniu_get_public_video_playlist_failed),
-                            Toast.LENGTH_LONG).show();
+                    resp.body().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-        });
+        }
     }
 
     @Override

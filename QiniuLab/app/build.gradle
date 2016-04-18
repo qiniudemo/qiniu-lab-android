@@ -27,10 +27,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.squareup.okhttp:okhttp:2.6.0'
     compile 'com.squareup.okio:okio:1.6.0'
-    compile 'cz.msebera.android:httpclient:4.4.1.1'
     compile 'com.qiniu:happy-dns:0.2.3.2'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile files('libs/qiniu-android-sdk-7.0.9.jar')
+    compile 'com.qiniu:qiniu-android-sdk:7.1.+'
     compile files('libs/ijkmediaplayer.jar')
     compile files('libs/pldroid-player-1.1.0.jar')
 
