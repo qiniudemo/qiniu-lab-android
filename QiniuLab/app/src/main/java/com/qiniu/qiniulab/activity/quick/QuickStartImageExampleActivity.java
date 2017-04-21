@@ -27,17 +27,17 @@ import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
 import com.qiniu.qiniulab.utils.Tools;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class QuickStartImageExampleActivity extends ActionBarActivity {
 
@@ -127,14 +127,14 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                         QiniuLabConfig.QUICK_START_IMAGE_DEMO_PATH)).method("GET", null).build();
                 Response resp = null;
                 try {
-                    resp=httpClient.newCall(req).execute();
+                    resp = httpClient.newCall(req).execute();
                     JSONObject jsonObject = new JSONObject(resp.body().string());
                     String uploadToken = jsonObject.getString("uptoken");
                     String domain = jsonObject.getString("domain");
 
                     upload(uploadToken, domain);
                 } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(
@@ -143,14 +143,10 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-                    Log.e(QiniuLabConfig.LOG_TAG,e.getMessage());
-                }finally {
-                    if(resp!=null){
-                        try {
-                            resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
+                } finally {
+                    if (resp != null) {
+                        resp.body().close();
                     }
                 }
             }
@@ -175,7 +171,7 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
         // prepare status
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 uploadPercentageTextView.setText("0 %");
@@ -191,7 +187,7 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
                         // reset status
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 uploadStatusLayout
@@ -235,7 +231,7 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                             if (response.isSuccessful()) {
                                                 byte[] bytes = response.body().bytes();
                                                 final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                AsyncRun.run(new Runnable() {
+                                                AsyncRun.runInMain(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         imageView.setImageBitmap(bitmap);
@@ -252,14 +248,14 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
                                         context,
                                         context.getString(R.string.qiniu_upload_file_response_parse_error),
                                         Toast.LENGTH_LONG).show();
-                                Log.e(QiniuLabConfig.LOG_TAG,e.getMessage());
+                                Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
                             }
                         } else {
                             Toast.makeText(
                                     context,
                                     context.getString(R.string.qiniu_upload_file_failed),
                                     Toast.LENGTH_LONG).show();
-                            Log.e(QiniuLabConfig.LOG_TAG,respInfo.toString());
+                            Log.e(QiniuLabConfig.LOG_TAG, respInfo.toString());
                         }
                     }
 
@@ -280,7 +276,7 @@ public class QuickStartImageExampleActivity extends ActionBarActivity {
         uploadLastTimePoint = now;
         uploadLastOffset = currentOffset;
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 int progress = (int) (percentage * 100);

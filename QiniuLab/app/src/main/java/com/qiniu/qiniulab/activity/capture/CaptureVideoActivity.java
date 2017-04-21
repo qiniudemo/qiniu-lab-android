@@ -23,13 +23,9 @@ import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
+import com.qiniu.qiniulab.config.FixedMediaType;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +36,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class CaptureVideoActivity extends ActionBarActivity {
@@ -172,7 +173,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
 
                     upload(uploadToken, domain);
                 } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(
@@ -183,11 +184,8 @@ public class CaptureVideoActivity extends ActionBarActivity {
                     });
                 } finally {
                     if (resp != null) {
-                        try {
-                            resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        resp.body().close();
+
                     }
                 }
             }
@@ -213,7 +211,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
         // prepare status
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 //clear old status
@@ -234,7 +232,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
                         // reset status
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 uploadStatusLayout
@@ -250,7 +248,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                                 String fileKey = jsonData.getString("key");
                                 final String persistentId = jsonData.getString("persistentId");
 
-                                AsyncRun.run(new Runnable() {
+                                AsyncRun.runInMain(new Runnable() {
                                     @Override
                                     public void run() {
                                         persistentIdTextView.setText(persistentId);
@@ -298,7 +296,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
         uploadLastTimePoint = now;
         uploadLastOffset = currentOffset;
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 int progress = (int) (percentage * 100);
@@ -317,7 +315,8 @@ public class CaptureVideoActivity extends ActionBarActivity {
         }
 
         final OkHttpClient httpClient = new OkHttpClient();
-        RequestBody requestBody = new FormEncodingBuilder().add("persistentId", persistentId).build();
+        RequestBody requestBody = RequestBody.create(MediaType.parse(FixedMediaType.DefaultMime),
+                "persistentId=" + persistentId);
         final Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
                 QiniuLabConfig.QUERY_PFOP_RESULT_PATH)).method("GET", requestBody).build();
@@ -332,7 +331,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                     final JSONArray keys = jsonObject.getJSONArray("keys");
                     int length = keys.length();
                     if (length == 2) {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 try {
@@ -349,7 +348,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                             }
                         });
                     } else if (length == 1) {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 try {
@@ -363,7 +362,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                             }
                         });
                     } else {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(context, "no results", Toast.LENGTH_LONG).show();
@@ -371,7 +370,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
                         });
                     }
                 } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(context, "pfop query failed", Toast.LENGTH_LONG).show();

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "22.0.1"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.qiniu.qiniulab"
@@ -20,16 +20,14 @@ android {
 }
 
 dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.qiniu:happy-dns:0.2.7'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    compile 'com.squareup.okhttp:okhttp:2.6.0'
-    compile 'com.squareup.okio:okio:1.6.0'
-    compile 'com.qiniu:happy-dns:0.2.3.2'
-    compile 'com.qiniu:qiniu-android-sdk:7.1.+'
     compile files('libs/ijkmediaplayer.jar')
     compile files('libs/pldroid-player-1.1.0.jar')
-
+    compile files('/Users/jemy/AndroidProjects/android-sdk/library/build/libs/library.jar')
 }

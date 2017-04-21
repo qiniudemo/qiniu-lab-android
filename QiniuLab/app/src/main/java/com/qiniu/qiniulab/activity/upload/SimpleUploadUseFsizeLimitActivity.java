@@ -22,15 +22,16 @@ import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
 
@@ -142,7 +143,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                             + uploadToken);
                     upload(uploadToken);
                 } catch (IOException e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(
@@ -163,11 +164,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                     writeLog("Exception:" + e.getMessage());
                 } finally {
                     if (resp != null) {
-                        try {
-                            resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        resp.body().close();
                     }
                 }
             }
@@ -193,7 +190,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 // prepare status
@@ -210,7 +207,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                     @Override
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 // reset status
@@ -239,7 +236,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                                 writeLog("X-Via: " + respInfo.xvia);
                                 writeLog("--------------------------------");
                             } catch (JSONException e) {
-                                AsyncRun.run(new Runnable() {
+                                AsyncRun.runInMain(new Runnable() {
                                     @Override
                                     public void run() {
                                         Toast.makeText(
@@ -257,7 +254,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
                                 writeLog("--------------------------------");
                             }
                         } else {
-                            AsyncRun.run(new Runnable() {
+                            AsyncRun.runInMain(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(
@@ -292,7 +289,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
         uploadLastTimePoint = now;
         uploadLastOffset = currentOffset;
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 int progress = (int) (percentage * 100);
@@ -309,7 +306,7 @@ public class SimpleUploadUseFsizeLimitActivity extends ActionBarActivity {
 
     private void writeLog(final String msg) {
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 uploadLogTextView.append(msg);

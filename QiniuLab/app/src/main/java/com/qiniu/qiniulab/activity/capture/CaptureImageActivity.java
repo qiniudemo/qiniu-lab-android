@@ -28,9 +28,6 @@ import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
 import com.qiniu.qiniulab.utils.Tools;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +37,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class CaptureImageActivity extends ActionBarActivity {
     private CaptureImageActivity context;
@@ -147,7 +148,7 @@ public class CaptureImageActivity extends ActionBarActivity {
 
                     upload(uploadToken, domain);
                 } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(
@@ -159,11 +160,7 @@ public class CaptureImageActivity extends ActionBarActivity {
 
                 } finally {
                     if (resp != null) {
-                        try {
-                            resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        resp.body().close();
                     }
                 }
 
@@ -189,7 +186,7 @@ public class CaptureImageActivity extends ActionBarActivity {
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
         // prepare status
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 uploadPercentageTextView.setText("0 %");
@@ -205,7 +202,7 @@ public class CaptureImageActivity extends ActionBarActivity {
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
                         // reset status
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 uploadStatusLayout
@@ -248,7 +245,7 @@ public class CaptureImageActivity extends ActionBarActivity {
                                             if (response.isSuccessful()) {
                                                 byte[] bytes = response.body().bytes();
                                                 final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                                AsyncRun.run(new Runnable() {
+                                                AsyncRun.runInMain(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         imageView.setImageBitmap(bitmap);
@@ -292,7 +289,7 @@ public class CaptureImageActivity extends ActionBarActivity {
         uploadLastTimePoint = now;
         uploadLastOffset = currentOffset;
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 int progress = (int) (percentage * 100);

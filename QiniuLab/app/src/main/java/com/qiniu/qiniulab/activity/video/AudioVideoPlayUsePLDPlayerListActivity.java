@@ -17,19 +17,18 @@ import android.widget.Toast;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
     private Context context;
@@ -105,7 +104,7 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
                             R.id.simple_video_play_list_item_name_textview,
                             R.id.simple_video_play_list_item_ads_url_textview,
                             R.id.simple_video_play_list_item_video_url_textview});
-            AsyncRun.run(new Runnable() {
+            AsyncRun.runInMain(new Runnable() {
                 @Override
                 public void run() {
                     playlistView.setAdapter(playlistAdapter);
@@ -119,11 +118,7 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
                     Toast.LENGTH_LONG).show();
         } finally {
             if (resp != null) {
-                try {
-                    resp.body().close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                resp.body().close();
             }
         }
     }

@@ -25,19 +25,16 @@ import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class QuickStartVideoExampleActivity extends ActionBarActivity {
@@ -159,7 +156,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
 
                     upload(uploadToken, domain);
                 } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(
@@ -170,11 +167,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                     });
                 } finally {
                     if (resp != null) {
-                        try {
                             resp.body().close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -200,7 +193,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         this.uploadLastTimePoint = startTime;
         this.uploadLastOffset = 0;
         // prepare status
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 //clear old status
@@ -221,7 +214,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                     public void complete(String key, ResponseInfo respInfo,
                                          JSONObject jsonData) {
                         // reset status
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 uploadStatusLayout
@@ -237,7 +230,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                                 String fileKey = jsonData.getString("key");
                                 final String persistentId = jsonData.getString("persistentId");
 
-                                AsyncRun.run(new Runnable() {
+                                AsyncRun.runInMain(new Runnable() {
                                     @Override
                                     public void run() {
                                         persistentIdTextView.setText(persistentId);
@@ -287,7 +280,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         uploadLastTimePoint = now;
         uploadLastOffset = currentOffset;
 
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 int progress = (int) (percentage * 100);
@@ -319,7 +312,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                     final JSONArray keys = jsonObject.getJSONArray("keys");
                     int length = keys.length();
                     if (length == 2) {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 try {
@@ -336,7 +329,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                             }
                         });
                     } else if (length == 1) {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 try {
@@ -350,7 +343,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                             }
                         });
                     } else {
-                        AsyncRun.run(new Runnable() {
+                        AsyncRun.runInMain(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(context, "no results", Toast.LENGTH_LONG).show();
@@ -358,7 +351,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                         });
                     }
                 } catch (Exception e) {
-                    AsyncRun.run(new Runnable() {
+                    AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(context, "pfop query failed", Toast.LENGTH_LONG).show();

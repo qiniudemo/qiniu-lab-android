@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -13,17 +12,11 @@ import android.widget.SimpleAdapter;
 
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
+import com.qiniu.qiniulab.config.FixedMediaType;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
-import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -31,6 +24,12 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SimpleImageViewActivity extends ActionBarActivity {
 
@@ -75,7 +74,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                         @Override
                         public void run() {
                             String reqImageUrl = imageUrl;
-                            Response response=null;
+                            Response response = null;
                             try {
                                 String ip = DomainUtils.getIpByDomain(host);
                                 if (ip != null) {
@@ -90,7 +89,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                                 if (response.isSuccessful()) {
                                     byte[] bytes = response.body().bytes();
                                     final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                    AsyncRun.run(new Runnable() {
+                                    AsyncRun.runInMain(new Runnable() {
                                         @Override
                                         public void run() {
                                             imageView.setImageBitmap(bitmap);
@@ -101,11 +100,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
 
                             } finally {
                                 if (response != null) {
-                                    try {
-                                        response.body().close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                    response.body().close();
                                 }
                             }
                         }
@@ -117,7 +112,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
                 }
             }
         });
-        AsyncRun.run(new Runnable() {
+        AsyncRun.runInMain(new Runnable() {
             @Override
             public void run() {
                 gridView.setAdapter(adapter);
@@ -133,11 +128,12 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
 
 
-        RequestBody requestBody = new FormEncodingBuilder().add("device_width", String.format("%d", dm.widthPixels)).build();
+        RequestBody requestBody = RequestBody.create(MediaType.parse(FixedMediaType.DefaultMime),
+                "device_width=" + String.format("%d", dm.widthPixels));
         Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
                 QiniuLabConfig.PUBLIC_IMAGE_VIEW_LIST_PATH)).method("GET", requestBody).build();
-        Response resp=null;
+        Response resp = null;
         try {
             resp = httpClient.newCall(req).execute();
             if (resp.isSuccessful()) {
@@ -153,11 +149,7 @@ public class SimpleImageViewActivity extends ActionBarActivity {
 
         } finally {
             if (resp != null) {
-                try {
-                    resp.body().close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                resp.body().close();
             }
         }
         return imageUrls;
