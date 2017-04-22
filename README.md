@@ -1,13 +1,13 @@
-#简介
+# 简介
 
 该项目是七牛Android SDK的使用方法演示项目，使用 Android Studio 开发，可以下载到本地，直接导入作为参考。
 
 该项目对应的服务端在[https://github.com/qiniudemo/qiniu-api-server](https://github.com/qiniudemo/qiniu-api-server/tree/master/php-v6)，可以搭建一个简单的PHP环境即可使用。
 
-#体验版本
-[下载 QiniuLab](http://devtools.qiniu.com/qiniulab-v1.2.1.apk)
+# 体验版本
+[下载 QiniuLab](http://devtools.qiniu.com/qiniulab-v1.2.2.apk)
 
-#上传模型
+# 上传模型
 
 ![上传模型](programming-model.png)
 
