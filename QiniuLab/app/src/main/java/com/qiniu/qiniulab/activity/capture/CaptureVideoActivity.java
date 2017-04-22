@@ -23,7 +23,6 @@ import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
-import com.qiniu.qiniulab.config.FixedMediaType;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
 
@@ -36,10 +35,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 
@@ -315,11 +312,9 @@ public class CaptureVideoActivity extends ActionBarActivity {
         }
 
         final OkHttpClient httpClient = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(MediaType.parse(FixedMediaType.DefaultMime),
-                "persistentId=" + persistentId);
         final Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                QiniuLabConfig.QUERY_PFOP_RESULT_PATH)).method("GET", requestBody).build();
+                QiniuLabConfig.QUERY_PFOP_RESULT_PATH) + "?persistentId=" + persistentId).method("GET", null).build();
 
 
         new Thread(new Runnable() {

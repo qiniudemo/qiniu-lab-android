@@ -167,7 +167,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                     });
                 } finally {
                     if (resp != null) {
-                            resp.body().close();
+                        resp.body().close();
                     }
                 }
             }
@@ -252,14 +252,14 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                                         context,
                                         context.getString(R.string.qiniu_upload_file_response_parse_error),
                                         Toast.LENGTH_LONG).show();
-                                Log.e(QiniuLabConfig.LOG_TAG,e.getMessage());
+                                Log.e(QiniuLabConfig.LOG_TAG, e.getMessage());
                             }
                         } else {
                             Toast.makeText(
                                     context,
                                     context.getString(R.string.qiniu_upload_file_failed),
                                     Toast.LENGTH_LONG).show();
-                            Log.e(QiniuLabConfig.LOG_TAG,respInfo.toString());
+                            Log.e(QiniuLabConfig.LOG_TAG, respInfo.toString());
                         }
                     }
 
@@ -299,9 +299,9 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         }
 
         final OkHttpClient httpClient = new OkHttpClient();
-        final Request req = new Request.Builder().url(String.format("%s?persistentId=%s",QiniuLabConfig.makeUrl(
+        final Request req = new Request.Builder().url(String.format("%s?persistentId=%s", QiniuLabConfig.makeUrl(
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                QiniuLabConfig.QUERY_PFOP_RESULT_PATH),persistentId)).method("GET", null).build();
+                QiniuLabConfig.QUERY_PFOP_RESULT_PATH), persistentId)).method("GET", null).build();
 
         new Thread(new Runnable() {
             @Override

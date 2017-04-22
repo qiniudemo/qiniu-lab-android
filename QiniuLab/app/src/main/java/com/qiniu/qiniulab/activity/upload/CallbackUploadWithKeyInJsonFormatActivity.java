@@ -171,7 +171,7 @@ public class CallbackUploadWithKeyInJsonFormatActivity extends
                     writeLog("Exception:" + e.getMessage());
                 } finally {
                     if (resp != null) {
-                            resp.body().close();
+                        resp.body().close();
                     }
                 }
             }

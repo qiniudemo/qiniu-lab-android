@@ -12,7 +12,6 @@ import android.widget.SimpleAdapter;
 
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
-import com.qiniu.qiniulab.config.FixedMediaType;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.DomainUtils;
 
@@ -25,10 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SimpleImageViewActivity extends ActionBarActivity {
@@ -126,13 +123,9 @@ public class SimpleImageViewActivity extends ActionBarActivity {
         //获取设备的分辨率，以从服务器获取合适大小的图片显示
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-
-        RequestBody requestBody = RequestBody.create(MediaType.parse(FixedMediaType.DefaultMime),
-                "device_width=" + String.format("%d", dm.widthPixels));
         Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                 QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                QiniuLabConfig.PUBLIC_IMAGE_VIEW_LIST_PATH)).method("GET", requestBody).build();
+                QiniuLabConfig.PUBLIC_IMAGE_VIEW_LIST_PATH) + "?device_width=" + dm.widthPixels).method("GET", null).build();
         Response resp = null;
         try {
             resp = httpClient.newCall(req).execute();

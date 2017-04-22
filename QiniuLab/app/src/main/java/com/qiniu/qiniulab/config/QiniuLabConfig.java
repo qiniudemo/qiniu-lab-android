@@ -1,7 +1,7 @@
 package com.qiniu.qiniulab.config;
 
 public class QiniuLabConfig {
-    public final static String LOG_TAG="QiniuLab";
+    public final static String LOG_TAG = "QiniuLab";
     public final static String REMOTE_SERVICE_SERVER = "https://api.qiniudemo.com/upload";
 
     //quick start

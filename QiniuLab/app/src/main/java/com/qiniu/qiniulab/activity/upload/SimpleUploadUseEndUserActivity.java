@@ -21,7 +21,6 @@ import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 import com.qiniu.android.utils.AsyncRun;
 import com.qiniu.qiniulab.R;
-import com.qiniu.qiniulab.config.FixedMediaType;
 import com.qiniu.qiniulab.config.QiniuLabConfig;
 import com.qiniu.qiniulab.utils.Tools;
 
@@ -31,10 +30,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
@@ -134,11 +131,10 @@ public class SimpleUploadUseEndUserActivity extends ActionBarActivity {
             @Override
             public void run() {
                 final OkHttpClient httpClient = new OkHttpClient();
-                RequestBody requestBody = RequestBody.create(MediaType.parse(FixedMediaType.DefaultMime),
-                        "endUser=" + getEndUser());
                 Request req = new Request.Builder().url(QiniuLabConfig.makeUrl(
                         QiniuLabConfig.REMOTE_SERVICE_SERVER,
-                        QiniuLabConfig.SIMPLE_UPLOAD_USE_ENDUSER_PATH)).method("GET", requestBody).build();
+                        QiniuLabConfig.SIMPLE_UPLOAD_USE_ENDUSER_PATH) + "?endUser=" + getEndUser())
+                        .method("GET", null).build();
                 Response resp = null;
                 try {
                     resp = httpClient.newCall(req).execute();
