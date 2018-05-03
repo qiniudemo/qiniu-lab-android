@@ -2,7 +2,7 @@ package com.qiniu.qiniulab.config;
 
 public class QiniuLabConfig {
     public final static String LOG_TAG = "QiniuLab";
-    public final static String REMOTE_SERVICE_SERVER = "https://api.qiniudemo.com/upload";
+    public final static String REMOTE_SERVICE_SERVER = "https://qiniulab.pdex-service.com/upload";
 
     //quick start
     public final static String QUICK_START_IMAGE_DEMO_PATH = "/api/quick_start/simple_image_example_token.php";
