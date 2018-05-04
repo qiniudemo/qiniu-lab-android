@@ -58,7 +58,6 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
     private TextView pfopResult2TextView;
     private Button loadPfopVideo1Button;
     private Button loadPfopVideo2Button;
-    private String videoDomain;
 
     public QuickStartVideoExampleActivity() {
         this.context = this;
@@ -244,7 +243,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                                 videoView.setOnPreparedListener(new PLOnPreparedListener() {
                                     @Override
                                     public void onPrepared(int i) {
-
+                                        videoView.start();
                                     }
                                 });
                             } catch (JSONException e) {
@@ -308,8 +307,9 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
             public void run() {
                 try {
                     Response resp = httpClient.newCall(req).execute();
-                    JSONObject jsonObject = new JSONObject(resp.body().toString());
+                    JSONObject jsonObject = new JSONObject(resp.body().string());
                     final JSONArray keys = jsonObject.getJSONArray("keys");
+                    final String videoDomain = jsonObject.getString("domain");
                     int length = keys.length();
                     if (length == 2) {
                         AsyncRun.runInMain(new Runnable() {
@@ -351,6 +351,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                         });
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
@@ -382,7 +383,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         videoView.setOnPreparedListener(new PLOnPreparedListener() {
             @Override
             public void onPrepared(int i) {
-
+                videoView.start();
             }
         });
     }
