@@ -5,7 +5,7 @@
 该项目对应的服务端在[https://github.com/qiniudemo/qiniu-api-server](https://github.com/qiniudemo/qiniu-api-server/tree/master/php-v6)，可以搭建一个简单的PHP环境即可使用。
 
 # 体验版本
-[下载 QiniuLab](http://devtools.qiniu.com/qiniulab-v1.2.2.apk)
+[下载 QiniuLab](http://devtools.qiniu.com/qiniulab-v1.2.3.apk)
 
 # 上传模型
 
