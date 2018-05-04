@@ -133,7 +133,12 @@ public class AudioVideoPlayUseVideoViewListActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.public_video_play_list_refresh_menu_item:
-                this.loadPlaylist();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadPlaylist();
+                    }
+                }).start();
                 break;
         }
         return super.onOptionsItemSelected(item);

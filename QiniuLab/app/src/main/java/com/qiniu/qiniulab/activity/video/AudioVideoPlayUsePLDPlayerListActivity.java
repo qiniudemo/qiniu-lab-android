@@ -112,6 +112,7 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
             });
 
         } catch (Exception e1) {
+            e1.printStackTrace();
             Toast.makeText(
                     context,
                     context.getString(R.string.qiniu_get_public_video_playlist_failed),
@@ -134,7 +135,12 @@ public class AudioVideoPlayUsePLDPlayerListActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.public_video_play_list_refresh_menu_item:
-                this.loadPlaylist();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadPlaylist();
+                    }
+                }).start();
                 break;
         }
         return super.onOptionsItemSelected(item);
