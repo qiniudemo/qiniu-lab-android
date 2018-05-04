@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pili.pldroid.player.PLOnPreparedListener;
+import com.pili.pldroid.player.widget.PLVideoView;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -38,7 +40,6 @@ import java.util.Date;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class CaptureVideoActivity extends ActionBarActivity {
 
@@ -50,7 +51,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
     private TextView uploadFileLengthTextView;
     private TextView uploadPercentageTextView;
     private TextView persistentIdTextView;
-    private com.pili.pldroid.player.widget.VideoView uploadResultVideoView;
+    private PLVideoView uploadResultVideoView;
     private UploadManager uploadManager;
     private long uploadLastTimePoint;
     private long uploadLastOffset;
@@ -83,7 +84,7 @@ public class CaptureVideoActivity extends ActionBarActivity {
         this.uploadPercentageTextView = (TextView) this
                 .findViewById(R.id.capture_video_upload_percentage_textview);
         this.uploadStatusLayout.setVisibility(LinearLayout.INVISIBLE);
-        this.uploadResultVideoView = (com.pili.pldroid.player.widget.VideoView) this.findViewById(R.id.capture_video_play_pldplayer);
+        this.uploadResultVideoView = (PLVideoView) this.findViewById(R.id.capture_video_play_pldplayer);
         this.uploadFileButton = (Button) this.findViewById(R.id.capture_video_upload_button);
         this.uploadFileButton.setEnabled(false);
         this.captureVideoFilePathTextView = (TextView) this.findViewById(R.id.capture_video_file_path_textview);
@@ -252,16 +253,17 @@ public class CaptureVideoActivity extends ActionBarActivity {
                                     }
                                 });
                                 final String videoUrl = domain + "/" + fileKey;
-                                final com.pili.pldroid.player.widget.VideoView videoView = uploadResultVideoView;
+                                final PLVideoView videoView = uploadResultVideoView;
 
                                 videoView.setVideoURI(Uri.parse(videoUrl));
-                                videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
-
+                                videoView.setOnPreparedListener(new PLOnPreparedListener() {
                                     @Override
-                                    public void onPrepared(IMediaPlayer mp) {
-                                        mp.start();
+                                    public void onPrepared(int i) {
+
                                     }
                                 });
+
+
                             } catch (JSONException e) {
                                 Toast.makeText(
                                         context,
@@ -390,13 +392,12 @@ public class CaptureVideoActivity extends ActionBarActivity {
     }
 
     public void loadVideoByUrl(String url) {
-        final com.pili.pldroid.player.widget.VideoView videoView = uploadResultVideoView;
+        final PLVideoView videoView = uploadResultVideoView;
         videoView.setVideoURI(Uri.parse(url));
-        videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
-
+        videoView.setOnPreparedListener(new PLOnPreparedListener() {
             @Override
-            public void onPrepared(IMediaPlayer mp) {
-                mp.start();
+            public void onPrepared(int i) {
+
             }
         });
     }

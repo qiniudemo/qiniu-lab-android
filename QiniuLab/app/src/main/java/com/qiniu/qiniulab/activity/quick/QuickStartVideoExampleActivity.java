@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ipaulpro.afilechooser.utils.FileUtils;
+import com.pili.pldroid.player.PLOnPreparedListener;
+import com.pili.pldroid.player.widget.PLVideoView;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
@@ -35,7 +37,6 @@ import java.io.File;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 public class QuickStartVideoExampleActivity extends ActionBarActivity {
 
@@ -47,7 +48,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
     private TextView uploadFileLengthTextView;
     private TextView uploadPercentageTextView;
     private TextView persistentIdTextView;
-    private com.pili.pldroid.player.widget.VideoView uploadResultVideoView;
+    private PLVideoView uploadResultVideoView;
     private UploadManager uploadManager;
     private long uploadLastTimePoint;
     private long uploadLastOffset;
@@ -80,7 +81,7 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
         this.uploadPercentageTextView = (TextView) this
                 .findViewById(R.id.quick_start_video_upload_percentage_textview);
         this.uploadStatusLayout.setVisibility(LinearLayout.INVISIBLE);
-        this.uploadResultVideoView = (com.pili.pldroid.player.widget.VideoView)
+        this.uploadResultVideoView = (PLVideoView)
                 this.findViewById(R.id.quick_start_video_play_pldplayer);
         this.persistentIdTextView = (TextView) this.findViewById(R.id.quick_start_video_pid_textview);
         this.pfopResult1TextView = (TextView) this.findViewById(R.id.quick_start_video1_textview);
@@ -237,14 +238,13 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
                                     }
                                 });
                                 final String videoUrl = domain + "/" + fileKey;
-                                final com.pili.pldroid.player.widget.VideoView videoView = uploadResultVideoView;
+                                final PLVideoView videoView = uploadResultVideoView;
 
                                 videoView.setVideoURI(Uri.parse(videoUrl));
-                                videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
-
+                                videoView.setOnPreparedListener(new PLOnPreparedListener() {
                                     @Override
-                                    public void onPrepared(IMediaPlayer mp) {
-                                        mp.start();
+                                    public void onPrepared(int i) {
+
                                     }
                                 });
                             } catch (JSONException e) {
@@ -377,13 +377,12 @@ public class QuickStartVideoExampleActivity extends ActionBarActivity {
     }
 
     public void loadVideoByUrl(String url) {
-        final com.pili.pldroid.player.widget.VideoView videoView = uploadResultVideoView;
+        final PLVideoView videoView = uploadResultVideoView;
         videoView.setVideoURI(Uri.parse(url));
-        videoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
-
+        videoView.setOnPreparedListener(new PLOnPreparedListener() {
             @Override
-            public void onPrepared(IMediaPlayer mp) {
-                mp.start();
+            public void onPrepared(int i) {
+
             }
         });
     }
