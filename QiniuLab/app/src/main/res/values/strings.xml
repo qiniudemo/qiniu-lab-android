@@ -4,8 +4,8 @@
     <string name="app_name">七牛实验室</string>
     <string name="about_app">关于</string>
     <string name="version_number">版本: </string>
-    <string name="support_qq">技术支持QQ</string>
-    <string name="support_qq_id">2037014430</string>
+    <string name="support_qq">技术支持QQ群</string>
+    <string name="support_qq_id">343822521</string>
     <string name="github">项目地址</string>
     <string name="github_address">https://github.com/qiniudemo/qiniu-lab-android</string>
     <string name="action_refresh">刷新播放列表</string>
