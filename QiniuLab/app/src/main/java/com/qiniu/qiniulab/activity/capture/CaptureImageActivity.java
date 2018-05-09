@@ -93,6 +93,7 @@ public class CaptureImageActivity extends ActionBarActivity {
             try {
                 picFile = createImageFile();
             } catch (Exception ex) {
+                ex.printStackTrace();
                 Log.e("QiniuLab", "create file " + this.uploadFilePath + " failed");
             }
 
@@ -148,6 +149,7 @@ public class CaptureImageActivity extends ActionBarActivity {
 
                     upload(uploadToken, domain);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     AsyncRun.runInMain(new Runnable() {
                         @Override
                         public void run() {
